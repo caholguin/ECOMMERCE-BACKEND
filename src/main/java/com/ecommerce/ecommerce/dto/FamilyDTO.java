@@ -1,8 +1,12 @@
 package com.ecommerce.ecommerce.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class FamilyDTO {
 
     private Long id;
+
+    @NotBlank()
     private String name;
 
     public Long getId(){

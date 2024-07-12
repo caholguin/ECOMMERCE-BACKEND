@@ -12,15 +12,14 @@ public interface FamilyService {
 
     Page<FamilyDTO> findAll(Pageable pageable);
 
-    //Optional<FamilyDTO> findById(Long id) throws ObjectNotFoundException;
+    Optional<FamilyDTO> findById(Long id) throws ObjectNotFoundException;
 
-    FamilyDTO findById(Long id) throws ObjectNotFoundException;
+    //FamilyDTO findById(Long id) throws ObjectNotFoundException;
 
     FamilyDTO save(FamilyDTO familyDTO);
 
     FamilyDTO update(Long id, FamilyDTO familyDTO);
 
     void delete(FamilyDTO familyDTO);
-
 
 }
