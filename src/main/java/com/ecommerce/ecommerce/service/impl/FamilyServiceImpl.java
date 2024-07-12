@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.entity.Family;
+import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.FamilyMapper;
 import com.ecommerce.ecommerce.repository.FamilyRepository;
 import com.ecommerce.ecommerce.service.FamilyService;
@@ -31,9 +32,24 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public Optional<FamilyDTO> findById(Long id){
-        return Optional.empty();
+    public FamilyDTO findById(Long id) throws ObjectNotFoundException{
+
+        Family family = familyRepository.findById(id).orElseThrow(()->new ObjectNotFoundException("No existe una familia con el id: " + id));
+
+        return familyMapper.toDTO(family);
     }
+
+   /* @Override
+    public <FamilyDTO> findById(Long id) throws ObjectNotFoundException {
+
+        Optional<Family> family = familyRepository.findById(id);
+
+        if (family.isEmpty()) {
+            throw new ObjectNotFoundException("No existe una familia con el id: " + id);
+        }
+
+        return family.map(familyMapper::toDTO);
+    }*/
 
     @Override
     public FamilyDTO save(FamilyDTO familyDTO){

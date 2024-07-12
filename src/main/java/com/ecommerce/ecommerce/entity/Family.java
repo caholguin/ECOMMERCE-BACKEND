@@ -1,8 +1,10 @@
 package com.ecommerce.ecommerce.entity;
 
+import com.ecommerce.ecommerce.dto.FamilyDTO;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "families")
