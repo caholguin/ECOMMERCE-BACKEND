@@ -41,6 +41,19 @@ public class FamilyController {
         return new ResponseEntity<>(family, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<FamilyDTO> update(@PathVariable long id, @RequestBody @Valid FamilyDTO familyDTO) {
+        FamilyDTO familyDto = familyService.update(id,familyDTO);
+        return new ResponseEntity<>(familyDto,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<FamilyDTO> delete(@PathVariable long id) {
+        FamilyDTO family = familyService.delete(id);
+        System.out.println("family = " + family);
+        return new ResponseEntity<>(family,HttpStatus.OK);
+    }
+
 
 
 }

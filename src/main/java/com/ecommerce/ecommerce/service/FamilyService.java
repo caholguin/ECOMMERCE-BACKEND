@@ -20,6 +20,6 @@ public interface FamilyService {
 
     FamilyDTO update(Long id, FamilyDTO familyDTO);
 
-    void delete(FamilyDTO familyDTO);
+    FamilyDTO delete(Long id);
 
 }

@@ -63,11 +63,35 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     public FamilyDTO update(Long id, FamilyDTO familyDTO){
-        return null;
+
+        Optional<Family> optionalFamily = familyRepository.findById(id);
+
+        if (optionalFamily.isEmpty()) {
+            throw new ObjectNotFoundException("No existe una familia con id: " + id);
+        }
+
+        Family existingFamily = optionalFamily.get();
+
+        existingFamily.setName(familyDTO.getName());
+
+        Family updatedFamily = familyRepository.save(existingFamily);
+
+        return familyMapper.toDTO(updatedFamily);
     }
 
     @Override
-    public void delete(FamilyDTO familyDTO){
+    public FamilyDTO delete(Long id){
+        Optional<Family> optionalFamily = familyRepository.findById(id);
 
+        if (optionalFamily.isEmpty()) {
+            throw new ObjectNotFoundException("No existe una familia con id: " + id);
+        }
+
+        Family family = optionalFamily.get();
+        familyRepository.delete(family);
+
+        System.out.println("family = " + family);
+
+        return familyMapper.toDTO(family);
     }
 }
