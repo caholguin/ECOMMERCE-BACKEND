@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -18,6 +19,7 @@ public class Family {
     private String name;
 
     @OneToMany(mappedBy = "family", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Category> categories;
 
     public Family(){
