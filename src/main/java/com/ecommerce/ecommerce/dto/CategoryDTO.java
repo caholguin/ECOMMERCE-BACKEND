@@ -3,6 +3,8 @@ package com.ecommerce.ecommerce.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 public class CategoryDTO {
 
     private Long id;
@@ -15,7 +17,7 @@ public class CategoryDTO {
 
     private FamilyDTO family;
 
-    //private List<Subcategory> subCategories;
+    private List<SubcategoryDTO> subCategories;
 
     public Long getId(){
         return id;
@@ -47,5 +49,13 @@ public class CategoryDTO {
 
     public void setFamily_id(Long family_id){
         this.family_id = family_id;
+    }
+
+    public List<SubcategoryDTO> getSubCategories(){
+        return subCategories;
+    }
+
+    public void setSubCategories(List<SubcategoryDTO> subCategories){
+        this.subCategories = subCategories;
     }
 }

@@ -2,9 +2,14 @@ package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.CategoryDTO;
 import com.ecommerce.ecommerce.dto.FamilyDTO;
+import com.ecommerce.ecommerce.dto.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
+import com.ecommerce.ecommerce.entity.Subcategory;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class CategoryMapper {
@@ -23,6 +28,17 @@ public class CategoryMapper {
             familyDTO.setId(family.getId());
             familyDTO.setName(family.getName());
             categoryDTO.setFamily(familyDTO);
+        }
+
+        if (category.getSubCategories() != null) {
+            List<SubcategoryDTO> subcategoryDTOs = new ArrayList<>();
+            for (Subcategory subcategory : category.getSubCategories()) {
+                SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
+                subcategoryDTO.setId(subcategory.getId());
+                subcategoryDTO.setName(subcategory.getName());
+                subcategoryDTOs.add(subcategoryDTO);
+            }
+            categoryDTO.setSubCategories(subcategoryDTOs);
         }
 
         return categoryDTO;
