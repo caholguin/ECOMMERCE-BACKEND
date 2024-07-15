@@ -1,13 +1,6 @@
 package com.ecommerce.ecommerce.dto;
 
 import com.ecommerce.ecommerce.entity.Family;
-import com.ecommerce.ecommerce.entity.Subcategory;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-
-import java.util.List;
 
 public class CategoryDTO {
 
@@ -15,7 +8,9 @@ public class CategoryDTO {
 
     private String name;
 
-    private Family family;
+    private Long family_id;
+
+    private FamilyDTO family;
 
     //private List<Subcategory> subCategories;
 
@@ -36,11 +31,19 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    public Family getFamily(){
+    public FamilyDTO getFamily(){
         return family;
     }
 
-    public void setFamily(Family family){
+    public void setFamily(FamilyDTO family){
         this.family = family;
+    }
+
+    public Long getFamily_id(){
+        return family_id;
+    }
+
+    public void setFamily_id(Long family_id){
+        this.family_id = family_id;
     }
 }

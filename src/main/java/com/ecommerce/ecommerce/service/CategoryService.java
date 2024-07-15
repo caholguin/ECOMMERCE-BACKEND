@@ -17,8 +17,8 @@ public interface CategoryService {
 
     Optional<CategoryDTO> findById(Long id) throws ObjectNotFoundException;
 
-    FamilyDTO update(Long id, CategoryDTO categoryDTO);
+    CategoryDTO update(Long id, CategoryDTO categoryDTO);
 
-    FamilyDTO delete(Long id);
+    CategoryDTO delete(Long id);
 
 }

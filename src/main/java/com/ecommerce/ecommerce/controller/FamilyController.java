@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/families")
 public class FamilyController {
@@ -26,6 +24,12 @@ public class FamilyController {
         return new ResponseEntity<>(families, HttpStatus.OK);
     }
 
+    @PostMapping()
+    public ResponseEntity<FamilyDTO> create(@RequestBody @Valid FamilyDTO familyDTO) {
+        FamilyDTO family = familyService.save(familyDTO);
+        return new ResponseEntity<>(family, HttpStatus.CREATED);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<FamilyDTO> getById(@PathVariable long id) {
 
@@ -33,12 +37,6 @@ public class FamilyController {
                 .orElseThrow(() -> new ObjectNotFoundException("No existe una familia con id: " + id));
 
         return new ResponseEntity<>(family,HttpStatus.OK);
-    }
-
-    @PostMapping()
-    public ResponseEntity<FamilyDTO> create(@RequestBody @Valid FamilyDTO familyDTO) {
-        FamilyDTO family = familyService.save(familyDTO);
-        return new ResponseEntity<>(family, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

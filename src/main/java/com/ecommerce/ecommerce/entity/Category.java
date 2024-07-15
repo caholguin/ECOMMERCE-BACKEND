@@ -14,8 +14,10 @@ public class Category {
 
     private String name;
 
+    private Long family_id;
+
     @ManyToOne
-    @JoinColumn(name = "family_id")
+    @JoinColumn(name = "family_id", insertable = false, updatable = false)
     private Family family;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
@@ -45,6 +47,14 @@ public class Category {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public Long getFamily_id(){
+        return family_id;
+    }
+
+    public void setFamily_id(Long family_id){
+        this.family_id = family_id;
     }
 
     public Family getFamily(){

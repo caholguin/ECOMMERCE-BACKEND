@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.service.impl;
 import com.ecommerce.ecommerce.dto.CategoryDTO;
 import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.entity.Category;
+import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.repository.CategoryRepository;
@@ -28,13 +29,15 @@ public class CategoryServiceImpl implements CategoryService {
 
         Page<Category> categories = categoryRepository.findAll(pageable);
         return categories.map(categoryMapper::toDTO);
-
     }
 
     @Override
     public CategoryDTO save(CategoryDTO categoryDTO){
 
-        Category category = categoryMapper.toEntity(categoryDTO);
+       Category category = new Category();
+
+       category.setName(categoryDTO.getName());
+       category.setFamily_id(categoryDTO.getFamily_id());
 
         Category categorySave = categoryRepository.save(category);
 
@@ -53,12 +56,34 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public FamilyDTO update(Long id, CategoryDTO categoryDTO){
-        return null;
+    public CategoryDTO update(Long id, CategoryDTO categoryDTO){
+        Optional<Category> category = categoryRepository.findById(id);
+
+        if (category.isEmpty()) {
+            throw new ObjectNotFoundException("No existe una categoria con el id: " + id);
+        }
+
+        Category existingCategory = category.get();
+
+        existingCategory.setName(categoryDTO.getName());
+        existingCategory.setFamily_id(categoryDTO.getFamily_id());
+
+        Category categoryUpdate = categoryRepository.save(existingCategory);
+
+        return categoryMapper.toDTO(categoryUpdate);
     }
 
     @Override
-    public FamilyDTO delete(Long id){
-        return null;
+    public CategoryDTO delete(Long id){
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+
+        if (optionalCategory.isEmpty()) {
+            throw new ObjectNotFoundException("No existe una familia con id: " + id);
+        }
+
+        Category category = optionalCategory.get();
+        categoryRepository.delete(category);
+
+        return categoryMapper.toDTO(category);
     }
 }

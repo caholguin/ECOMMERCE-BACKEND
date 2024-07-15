@@ -87,8 +87,6 @@ public class FamilyServiceImpl implements FamilyService {
         Family family = optionalFamily.get();
         familyRepository.delete(family);
 
-        System.out.println("family = " + family);
-
         return familyMapper.toDTO(family);
     }
 }
