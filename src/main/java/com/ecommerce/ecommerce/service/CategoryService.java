@@ -1,8 +1,6 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.dto.CategoryDTO;
-import com.ecommerce.ecommerce.dto.FamilyDTO;
-import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

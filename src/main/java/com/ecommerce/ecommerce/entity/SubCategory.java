@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "subcategories")
-public class Subcategory {
+public class SubCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,17 +14,20 @@ public class Subcategory {
 
     private String name;
 
+    @Column(name = "category_id",nullable = false)
+    private Long categoryId;
+
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private Category category;
 
     @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL)
     private List<Product> products;
 
-    public Subcategory(){
+    public SubCategory(){
     }
 
-    public Subcategory(Long id, String name, Category category, List<Product> products){
+    public SubCategory(Long id, String name, Category category, List<Product> products){
         this.id = id;
         this.name = name;
         this.category = category;
@@ -63,11 +66,20 @@ public class Subcategory {
         this.products = products;
     }
 
+    public Long getCategoryId(){
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId){
+        this.categoryId = categoryId;
+    }
+
     @Override
     public String toString(){
         return "Subcategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
                 ", category=" + category +
                 ", products=" + products +
                 '}';

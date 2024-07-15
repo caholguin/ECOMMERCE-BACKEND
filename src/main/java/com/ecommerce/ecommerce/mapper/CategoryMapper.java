@@ -5,7 +5,7 @@ import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.dto.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
-import com.ecommerce.ecommerce.entity.Subcategory;
+import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class CategoryMapper {
 
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
-        categoryDTO.setFamily_id(category.getFamily_id());
+        categoryDTO.setFamily_id(category.getFamilyId());
 
         if (category.getFamily() != null){
             Family family = category.getFamily();
@@ -32,7 +32,7 @@ public class CategoryMapper {
 
         if (category.getSubCategories() != null) {
             List<SubcategoryDTO> subcategoryDTOs = new ArrayList<>();
-            for (Subcategory subcategory : category.getSubCategories()) {
+            for (SubCategory subcategory : category.getSubCategories()) {
                 SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
                 subcategoryDTO.setId(subcategory.getId());
                 subcategoryDTO.setName(subcategory.getName());
@@ -50,7 +50,7 @@ public class CategoryMapper {
 
         category.setId(categoryDTO.getId());
         category.setName(categoryDTO.getName());
-        category.setFamily_id(categoryDTO.getFamily().getId());
+        category.setFamilyId(categoryDTO.getFamily().getId());
 
         if (categoryDTO.getFamily() != null){
             FamilyDTO familyDTO = new FamilyDTO();

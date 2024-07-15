@@ -14,19 +14,20 @@ public class Category {
 
     private String name;
 
-    private Long family_id;
+    @Column(name = "family_id",nullable = false)
+    private Long familyId;
 
     @ManyToOne
     @JoinColumn(name = "family_id", insertable = false, updatable = false)
     private Family family;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Subcategory> subCategories;
+    private List<SubCategory> subCategories;
 
     public Category(){
     }
 
-    public Category(Long id, String name, Family family, List<Subcategory> subCategories){
+    public Category(Long id, String name, Family family, List<SubCategory> subCategories){
         this.id = id;
         this.name = name;
         this.family = family;
@@ -49,12 +50,12 @@ public class Category {
         this.name = name;
     }
 
-    public Long getFamily_id(){
-        return family_id;
+    public Long getFamilyId(){
+        return familyId;
     }
 
-    public void setFamily_id(Long family_id){
-        this.family_id = family_id;
+    public void setFamilyId(Long familyId){
+        this.familyId = familyId;
     }
 
     public Family getFamily(){
@@ -65,11 +66,11 @@ public class Category {
         this.family = family;
     }
 
-    public List<Subcategory> getSubCategories(){
+    public List<SubCategory> getSubCategories(){
         return subCategories;
     }
 
-    public void setSubCategories(List<Subcategory> subCategories){
+    public void setSubCategories(List<SubCategory> subCategories){
         this.subCategories = subCategories;
     }
 

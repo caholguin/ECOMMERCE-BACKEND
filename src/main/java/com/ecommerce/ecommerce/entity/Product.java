@@ -24,7 +24,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
-    private Subcategory subCategory;
+    private SubCategory subCategory;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Variant> variants;
@@ -35,7 +35,7 @@ public class Product {
     public Product(){
     }
 
-    public Product(Long id, String name, String detail, String image, Double price, int stock, Subcategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
+    public Product(Long id, String name, String detail, String image, Double price, int stock, SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
         this.id = id;
         this.name = name;
         this.detail = detail;
@@ -95,11 +95,11 @@ public class Product {
         this.stock = stock;
     }
 
-    public Subcategory getSubCategory(){
+    public SubCategory getSubCategory(){
         return subCategory;
     }
 
-    public void setSubCategory(Subcategory subCategory){
+    public void setSubCategory(SubCategory subCategory){
         this.subCategory = subCategory;
     }
 

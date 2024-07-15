@@ -1,9 +1,7 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.CategoryDTO;
-import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.entity.Category;
-import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.repository.CategoryRepository;
@@ -37,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
        Category category = new Category();
 
        category.setName(categoryDTO.getName());
-       category.setFamily_id(categoryDTO.getFamily_id());
+       category.setFamilyId(categoryDTO.getFamily_id());
 
         Category categorySave = categoryRepository.save(category);
 
@@ -66,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category existingCategory = category.get();
 
         existingCategory.setName(categoryDTO.getName());
-        existingCategory.setFamily_id(categoryDTO.getFamily_id());
+        existingCategory.setFamilyId(categoryDTO.getFamily_id());
 
         Category categoryUpdate = categoryRepository.save(existingCategory);
 
