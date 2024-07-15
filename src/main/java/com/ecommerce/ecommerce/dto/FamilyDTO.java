@@ -8,7 +8,7 @@ public class FamilyDTO {
 
     private Long id;
 
-    @NotBlank()
+    @NotBlank(message = "El campo nombre no debe estar vacio")
     private String name;
 
     List<CategoryDTO> categories;

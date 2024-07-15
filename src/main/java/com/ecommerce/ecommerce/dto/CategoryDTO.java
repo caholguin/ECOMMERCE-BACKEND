@@ -1,19 +1,21 @@
 package com.ecommerce.ecommerce.dto;
 
-import com.ecommerce.ecommerce.entity.Family;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CategoryDTO {
 
     private Long id;
 
+    @NotBlank(message = "El campo nombre no debe estar vacio")
     private String name;
 
+    @NotNull(message = "El campo familia no debe estar vacio")
     private Long family_id;
 
     private FamilyDTO family;
 
     //private List<Subcategory> subCategories;
-
 
     public Long getId(){
         return id;
