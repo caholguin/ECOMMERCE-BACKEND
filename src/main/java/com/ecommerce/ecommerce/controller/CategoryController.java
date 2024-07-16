@@ -33,7 +33,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
-        CategoryDTO family = categoryService.findById(id).orElseThrow(() -> new ObjectNotFoundException("No existe una categoria con el id: " + id));
+        CategoryDTO family = categoryService.findById(id).orElseThrow(() -> new ObjectNotFoundException("No existe una categoría con el id: " + id));
 
         return new ResponseEntity<>(family, HttpStatus.OK);
     }

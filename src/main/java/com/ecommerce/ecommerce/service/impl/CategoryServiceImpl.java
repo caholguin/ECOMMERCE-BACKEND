@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
        Category category = new Category();
 
        category.setName(categoryDTO.getName());
-       category.setFamilyId(categoryDTO.getFamily_id());
+       category.setFamilyId(categoryDTO.getFamilyId());
 
         Category categorySave = categoryRepository.save(category);
 
@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> category = categoryRepository.findById(id);
 
         if (category.isEmpty()){
-            throw new ObjectNotFoundException("No existe una categoria con el id: " + id);
+            throw new ObjectNotFoundException("No existe una categoría con el id: " + id);
         }
 
         return category.map(categoryMapper::toDTO);
@@ -55,18 +55,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO update(Long id, CategoryDTO categoryDTO){
-        Optional<Category> category = categoryRepository.findById(id);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
 
-        if (category.isEmpty()) {
-            throw new ObjectNotFoundException("No existe una categoria con el id: " + id);
+        if (optionalCategory.isEmpty()) {
+            throw new ObjectNotFoundException("No existe una categoría con el id: " + id);
         }
 
-        Category existingCategory = category.get();
+        Category category = optionalCategory.get();
 
-        existingCategory.setName(categoryDTO.getName());
-        existingCategory.setFamilyId(categoryDTO.getFamily_id());
+        category.setName(categoryDTO.getName());
+        category.setFamilyId(categoryDTO.getFamilyId());
 
-        Category categoryUpdate = categoryRepository.save(existingCategory);
+        Category categoryUpdate = categoryRepository.save(category);
 
         return categoryMapper.toDTO(categoryUpdate);
     }

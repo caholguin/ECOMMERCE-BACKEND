@@ -20,7 +20,7 @@ public class CategoryMapper {
 
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
-        categoryDTO.setFamily_id(category.getFamilyId());
+        categoryDTO.setFamilyId(category.getFamilyId());
 
         if (category.getFamily() != null){
             Family family = category.getFamily();

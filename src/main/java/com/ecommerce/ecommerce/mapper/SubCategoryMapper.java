@@ -1,17 +1,21 @@
 package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.CategoryDTO;
+import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.dto.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
+import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.entity.SubCategory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SubCategoryMapper {
 
     public SubcategoryDTO toDTO(SubCategory subCategory){
 
         SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
 
-        subcategoryDTO.setId(subcategoryDTO.getId());
+        subcategoryDTO.setId(subCategory.getId());
         subcategoryDTO.setName(subCategory.getName());
         subcategoryDTO.setCategoryId(subCategory.getCategoryId());
 
@@ -20,6 +24,7 @@ public class SubCategoryMapper {
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(category.getId());
             categoryDTO.setName(category.getName());
+            categoryDTO.setFamilyId(category.getFamilyId());
             subcategoryDTO.setCategory(categoryDTO);
         }
         return subcategoryDTO;

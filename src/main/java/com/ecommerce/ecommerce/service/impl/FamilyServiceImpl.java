@@ -37,6 +37,16 @@ public class FamilyServiceImpl implements FamilyService {
     }*/
 
     @Override
+    public FamilyDTO save(FamilyDTO familyDTO){
+
+        Family family = familyMapper.toEntity(familyDTO);
+
+        Family familySave = familyRepository.save(family);
+
+        return familyMapper.toDTO(familySave);
+    }
+
+    @Override
     public Optional<FamilyDTO> findById(Long id) throws ObjectNotFoundException{
         Optional<Family> family = familyRepository.findById(id);
 
@@ -45,17 +55,6 @@ public class FamilyServiceImpl implements FamilyService {
         }
 
         return family.map(familyMapper::toDTO);
-    }
-
-
-    @Override
-    public FamilyDTO save(FamilyDTO familyDTO){
-
-        Family family = familyMapper.toEntity(familyDTO);
-
-        Family familySave = familyRepository.save(family);
-
-        return familyMapper.toDTO(familySave);
     }
 
     @Override
@@ -67,11 +66,10 @@ public class FamilyServiceImpl implements FamilyService {
             throw new ObjectNotFoundException("No existe una familia con id: " + id);
         }
 
-        Family existingFamily = optionalFamily.get();
+        Family family = optionalFamily.get();
+        family.setName(familyDTO.getName());
 
-        existingFamily.setName(familyDTO.getName());
-
-        Family updatedFamily = familyRepository.save(existingFamily);
+        Family updatedFamily = familyRepository.save(family);
 
         return familyMapper.toDTO(updatedFamily);
     }

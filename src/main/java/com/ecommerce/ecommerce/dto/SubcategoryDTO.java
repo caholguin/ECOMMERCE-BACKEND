@@ -7,10 +7,10 @@ public class SubcategoryDTO {
 
     private Long id;
 
-    @NotBlank(message = "El campo nombre no debe estar vacio")
+    @NotBlank(message = "El campo nombre no debe estar vacío")
     private String name;
 
-    @NotNull(message = "El campo familia no debe estar vacio")
+    @NotNull(message = "El campo categoría no debe estar vacío")
     private Long categoryId;
 
     private CategoryDTO category;

@@ -9,11 +9,11 @@ public class CategoryDTO {
 
     private Long id;
 
-    @NotBlank(message = "El campo nombre no debe estar vacio")
+    @NotBlank(message = "El campo nombre no debe estar vacío")
     private String name;
 
-    @NotNull(message = "El campo familia no debe estar vacio")
-    private Long family_id;
+    @NotNull(message = "El campo familia no debe estar vacío")
+    private Long familyId;
 
     private FamilyDTO family;
 
@@ -43,12 +43,12 @@ public class CategoryDTO {
         this.family = family;
     }
 
-    public Long getFamily_id(){
-        return family_id;
+    public Long getFamilyId(){
+        return familyId;
     }
 
-    public void setFamily_id(Long family_id){
-        this.family_id = family_id;
+    public void setFamilyId(Long familyId){
+        this.familyId = familyId;
     }
 
     public List<SubcategoryDTO> getSubCategories(){
