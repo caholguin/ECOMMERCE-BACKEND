@@ -1,10 +1,8 @@
 package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.CategoryDTO;
-import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.dto.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
-import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
 

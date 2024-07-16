@@ -1,7 +1,6 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.CategoryDTO;
-import com.ecommerce.ecommerce.dto.FamilyDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;

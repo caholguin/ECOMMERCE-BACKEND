@@ -20,10 +20,14 @@ public class Product {
 
     private Double price;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
     private int stock;
 
+    @Column(name = "subcategory_id",nullable = false)
+    private Long subCategoryId;
+
     @ManyToOne
-    @JoinColumn(name = "subcategory_id")
+    @JoinColumn(name = "subcategory_id",insertable = false, updatable = false)
     private SubCategory subCategory;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -35,13 +39,14 @@ public class Product {
     public Product(){
     }
 
-    public Product(Long id, String name, String detail, String image, Double price, int stock, SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
+    public Product(Long id, String name, String detail, String image, Double price, int stock, Long subCategoryId, SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
         this.id = id;
         this.name = name;
         this.detail = detail;
         this.image = image;
         this.price = price;
         this.stock = stock;
+        this.subCategoryId = subCategoryId;
         this.subCategory = subCategory;
         this.variants = variants;
         this.optionProducts = optionProducts;
@@ -95,6 +100,14 @@ public class Product {
         this.stock = stock;
     }
 
+    public Long getSubCategoryId(){
+        return subCategoryId;
+    }
+
+    public void setSubCategoryId(Long subCategoryId){
+        this.subCategoryId = subCategoryId;
+    }
+
     public SubCategory getSubCategory(){
         return subCategory;
     }
@@ -128,7 +141,8 @@ public class Product {
                 ", image='" + image + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", subCategory=" + subCategory +
+                ", subCategoryId=" + subCategoryId +
+                ", subCategory=" +  (subCategory != null ? subCategory.getName() : "null") +
                 ", variants=" + variants +
                 ", optionProducts=" + optionProducts +
                 '}';

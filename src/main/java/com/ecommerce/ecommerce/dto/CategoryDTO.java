@@ -9,10 +9,10 @@ public class CategoryDTO {
 
     private Long id;
 
-    @NotBlank(message = "El campo nombre no debe estar vacío")
+    @NotBlank(message = "El campo nombre es obligatorio")
     private String name;
 
-    @NotNull(message = "El campo familia no debe estar vacío")
+    @NotNull(message = "El campo familia es obligatorio")
     private Long familyId;
 
     private FamilyDTO family;
