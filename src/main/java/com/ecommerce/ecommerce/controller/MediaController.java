@@ -2,7 +2,6 @@ package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.FileUploadDTO;
 import com.ecommerce.ecommerce.service.StorageService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
