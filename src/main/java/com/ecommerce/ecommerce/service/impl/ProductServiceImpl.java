@@ -92,4 +92,20 @@ public class ProductServiceImpl implements ProductService {
 
         return productMapper.toDTO(product);
     }
+
+    @Override
+    public String addMedia(Long id, String url){
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (productOptional.isEmpty()) {
+            throw new ObjectNotFoundException("No existe un producto con el id: " + id);
+        }
+
+        Product product = productOptional.get();
+        product.setImage(url);
+
+       productRepository.save(product);
+
+        return url;
+    }
 }

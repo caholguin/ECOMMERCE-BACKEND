@@ -17,4 +17,6 @@ public interface ProductService {
     ProductDTO update(Long id, ProductDTO productDTO);
 
     ProductDTO delete(Long id);
+
+    String addMedia(Long id, String url);
 }
