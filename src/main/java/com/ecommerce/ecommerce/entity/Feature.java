@@ -16,8 +16,11 @@ public class Feature {
 
     private String description;
 
+    @Column(name = "option_id",nullable = false)
+    private Long optionId;
+
     @ManyToOne
-    @JoinColumn(name = "option_id")
+    @JoinColumn(name = "option_id", insertable = false, updatable = false)
     private Option option;
 
     @OneToMany(mappedBy = "feature", cascade = CascadeType.ALL)
@@ -26,10 +29,11 @@ public class Feature {
     public Feature(){
     }
 
-    public Feature(Long id, String value, String description, Option option, List<FeatureVariant> featureVariants){
+    public Feature(Long id, String value, String description, Long optionId, Option option, List<FeatureVariant> featureVariants){
         this.id = id;
         this.value = value;
         this.description = description;
+        this.optionId = optionId;
         this.option = option;
         this.featureVariants = featureVariants;
     }
@@ -56,6 +60,14 @@ public class Feature {
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public Long getOptionId(){
+        return optionId;
+    }
+
+    public void setOptionId(Long optionId){
+        this.optionId = optionId;
     }
 
     public Option getOption(){
