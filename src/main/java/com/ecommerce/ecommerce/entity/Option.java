@@ -14,7 +14,7 @@ public class Option {
 
     private String name;
 
-    private String type;
+    private int type;
 
     @OneToMany(mappedBy = "option", cascade = CascadeType.ALL)
     private List<Feature> features;
@@ -25,7 +25,7 @@ public class Option {
     public Option(){
     }
 
-    public Option(Long id, String name, String type, List<Feature> features, List<OptionProduct> optionProducts){
+    public Option(Long id, String name, int type, List<Feature> features, List<OptionProduct> optionProducts){
         this.id = id;
         this.name = name;
         this.type = type;
@@ -49,11 +49,11 @@ public class Option {
         this.name = name;
     }
 
-    public String getType(){
+    public int getType(){
         return type;
     }
 
-    public void setType(String type){
+    public void setType(int type){
         this.type = type;
     }
 
