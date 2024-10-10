@@ -19,7 +19,7 @@ public class ProductMapper {
         productDTO.setImage(product.getImage());
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
-        productDTO.setSubCategoryId(product.getSubCategoryId());
+
 
         if (product.getSubCategory() != null){
             SubCategory subCategory = product.getSubCategory();
@@ -27,7 +27,6 @@ public class ProductMapper {
 
             subcategoryDTO.setId(subCategory.getId());
             subcategoryDTO.setName(subCategory.getName());
-            subcategoryDTO.setCategoryId(subCategory.getCategoryId());
             productDTO.setSubCategory(subcategoryDTO);
         }
         return productDTO;

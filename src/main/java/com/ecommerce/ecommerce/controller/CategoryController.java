@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @Autowired
+    /*@Autowired
     private CategoryService categoryService;
 
     @GetMapping()
@@ -47,5 +47,5 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> delete(@PathVariable Long id){
         CategoryDTO category = categoryService.delete(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.mapper;
 
-import com.ecommerce.ecommerce.dto.CategoryDTO;
-import com.ecommerce.ecommerce.dto.FamilyDTO;
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
+import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import com.ecommerce.ecommerce.dto.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
@@ -20,14 +20,13 @@ public class CategoryMapper {
 
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
-        categoryDTO.setFamilyId(category.getFamilyId());
 
         if (category.getFamily() != null){
             Family family = category.getFamily();
             FamilyDTO familyDTO = new FamilyDTO();
             familyDTO.setId(family.getId());
             familyDTO.setName(family.getName());
-            categoryDTO.setFamily(familyDTO);
+            //categoryDTO.setFamily(familyDTO);
         }
 
         if (category.getSubCategories() != null) {
@@ -50,7 +49,6 @@ public class CategoryMapper {
 
         category.setId(categoryDTO.getId());
         category.setName(categoryDTO.getName());
-        category.setFamilyId(categoryDTO.getFamily().getId());
 
         if (categoryDTO.getFamily() != null){
             FamilyDTO familyDTO = new FamilyDTO();
@@ -73,4 +71,25 @@ public class CategoryMapper {
 
         return categoryDTO;
     }
+
+
+    public static FamilyDTO.CategoryDTO toGetFamilyCategoryDto(Category category){
+        if (category == null ) return null;
+
+        return new FamilyDTO.CategoryDTO(
+                category.getId(),
+                category.getName()
+        );
+
+    }
+
+
+    public static List<FamilyDTO.CategoryDTO> toGetFamilyCategoriesDTO(List<Category> categories){
+        if (categories == null ) return null;
+
+        return categories.stream()
+                .map(CategoryMapper::toGetFamilyCategoryDto)
+                .toList();
+    }
+
 }

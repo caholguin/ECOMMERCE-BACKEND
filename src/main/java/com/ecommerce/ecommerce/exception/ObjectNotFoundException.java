@@ -2,14 +2,20 @@ package com.ecommerce.ecommerce.exception;
 
 public class ObjectNotFoundException extends RuntimeException {
 
-    public ObjectNotFoundException(){
+    private final String objectNotFoundName;
+
+    public ObjectNotFoundException(String objectNotFoundName){
+        this.objectNotFoundName = objectNotFoundName;
     }
 
-    public ObjectNotFoundException(String message){
-        super(message);
+    @Override
+    public String getMessage(){
+
+        String message = super.getMessage();
+
+        if(message == null) return "";
+
+        return message.concat("object not found").concat(this.objectNotFoundName);
     }
 
-    public ObjectNotFoundException(String message, Throwable cause){
-        super(message, cause);
-    }
 }

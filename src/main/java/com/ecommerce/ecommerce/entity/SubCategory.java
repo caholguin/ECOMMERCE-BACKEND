@@ -14,11 +14,8 @@ public class SubCategory {
 
     private String name;
 
-    @Column(name = "category_id",nullable = false)
-    private Long categoryId;
-
     @ManyToOne
-    @JoinColumn(name = "category_id", insertable = false, updatable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL)
@@ -66,20 +63,11 @@ public class SubCategory {
         this.products = products;
     }
 
-    public Long getCategoryId(){
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId){
-        this.categoryId = categoryId;
-    }
-
     @Override
     public String toString(){
         return "Subcategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
                 ", category=" + category +
                 ", products=" + products +
                 '}';

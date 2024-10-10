@@ -1,28 +1,25 @@
 package com.ecommerce.ecommerce.mapper;
 
-import com.ecommerce.ecommerce.dto.CategoryDTO;
-import com.ecommerce.ecommerce.dto.FamilyDTO;
+
+import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import com.ecommerce.ecommerce.entity.Family;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
+
 
 @Component
 public class FamilyMapper {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
 
-    public FamilyDTO toDTO(Family family){
+    public static FamilyDTO toDTO(Family family){
+
+        if(family == null) return null;
 
         FamilyDTO familyDTO = new FamilyDTO();
 
         familyDTO.setId(family.getId());
         familyDTO.setName(family.getName());
-        if (family.getCategories() != null) {
-            familyDTO.setCategories(family.getCategories().stream().map(categoryMapper::toSimpleDTO).collect(Collectors.toList()));
-        }
+        familyDTO.setCategories(CategoryMapper.toGetFamilyCategoriesDTO(family.getCategories()));
 
         return familyDTO;
     }

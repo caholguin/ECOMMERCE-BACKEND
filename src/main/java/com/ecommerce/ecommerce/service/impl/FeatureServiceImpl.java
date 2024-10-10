@@ -35,7 +35,7 @@ public class FeatureServiceImpl implements FeatureService {
 
         feature.setValue(featureDTO.getValue());
         feature.setDescription(featureDTO.getDescription());
-        feature.setOptionId(featureDTO.getOptionId());
+
 
         Feature featureSaved = featureRepository.save(feature);
 
@@ -64,7 +64,7 @@ public class FeatureServiceImpl implements FeatureService {
         Feature feature = feautureOptional.get();
         feature.setValue(featureDTO.getValue());
         feature.setDescription(featureDTO.getDescription());
-        feature.setOptionId(featureDTO.getOptionId());
+
 
         Feature featureUpdated = featureRepository.save(feature);
 

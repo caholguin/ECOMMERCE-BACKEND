@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDetail(productDTO.getDetail());
         product.setPrice(productDTO.getPrice());
         product.setStock(productDTO.getStock());
-        product.setSubCategoryId(productDTO.getSubCategoryId());
+
 
         Product savedProduct = productRepository.save(product);
 
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDetail(productDTO.getDetail());
         product.setPrice(productDTO.getPrice());
         product.setStock(productDTO.getStock());
-        product.setSubCategoryId(productDTO.getSubCategoryId());
+
 
         Product updatedProduct = productRepository.save(product);
 

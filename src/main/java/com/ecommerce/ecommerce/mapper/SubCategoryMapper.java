@@ -15,14 +15,14 @@ public class SubCategoryMapper {
 
         subcategoryDTO.setId(subCategory.getId());
         subcategoryDTO.setName(subCategory.getName());
-        subcategoryDTO.setCategoryId(subCategory.getCategoryId());
+
 
         if (subCategory.getCategory() != null){
             Category category = subCategory.getCategory();
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setId(category.getId());
             categoryDTO.setName(category.getName());
-            categoryDTO.setFamilyId(category.getFamilyId());
+
             subcategoryDTO.setCategory(categoryDTO);
         }
         return subcategoryDTO;

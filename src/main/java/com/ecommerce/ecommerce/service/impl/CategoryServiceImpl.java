@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl  {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-    @Override
+   /* @Override
     public Page<CategoryDTO> findAll(Pageable pageable){
 
         Page<Category> categories = categoryRepository.findAll(pageable);
@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
        Category category = new Category();
 
        category.setName(categoryDTO.getName());
-       category.setFamilyId(categoryDTO.getFamilyId());
+
 
         Category categorySave = categoryRepository.save(category);
 
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = optionalCategory.get();
 
         category.setName(categoryDTO.getName());
-        category.setFamilyId(categoryDTO.getFamilyId());
+
 
         Category categoryUpdate = categoryRepository.save(category);
 
@@ -83,5 +83,5 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.delete(category);
 
         return categoryMapper.toDTO(category);
-    }
+    }*/
 }

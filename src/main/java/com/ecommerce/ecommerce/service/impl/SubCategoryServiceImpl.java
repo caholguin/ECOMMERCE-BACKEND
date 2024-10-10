@@ -35,7 +35,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         SubCategory subCategory = new SubCategory();
 
         subCategory.setName(subcategoryDTO.getName());
-        subCategory.setCategoryId(subcategoryDTO.getCategoryId());
+
 
         SubCategory saveSubCategory = subCategoryRepository.save(subCategory);
 
@@ -64,7 +64,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
         SubCategory subCategory = subCategoryOptional.get();
         subCategory.setName(subcategoryDTO.getName());
-        subCategory.setCategoryId(subcategoryDTO.getCategoryId());
+
 
         SubCategory subCategoryUpdate = subCategoryRepository.save(subCategory);
 

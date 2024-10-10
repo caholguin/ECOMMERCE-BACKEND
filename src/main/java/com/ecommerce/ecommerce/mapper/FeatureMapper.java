@@ -16,7 +16,6 @@ public class FeatureMapper {
         featureDTO.setId(feature.getId());
         featureDTO.setDescription(feature.getDescription());
         featureDTO.setValue(feature.getValue());
-        featureDTO.setOptionId(feature.getOptionId());
 
         if (feature.getOption() != null){
             Option option = feature.getOption();

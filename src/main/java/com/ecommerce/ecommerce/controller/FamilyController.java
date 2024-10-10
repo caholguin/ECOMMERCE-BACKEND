@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.FamilyDTO;
+import com.ecommerce.ecommerce.dto.request.FamilySearchDTO;
+import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.FamilyService;
 import jakarta.validation.Valid;
@@ -19,12 +20,15 @@ public class FamilyController {
     private FamilyService familyService;
 
     @GetMapping
-    public ResponseEntity<Page<FamilyDTO>> findAll(Pageable pageable) {
-        Page<FamilyDTO> families = familyService.findAll(pageable);
+    public ResponseEntity<Page<FamilyDTO>> findAll(Pageable pageable, @RequestParam(required = false) String name) {
+
+        FamilySearchDTO familySearchDTO = new FamilySearchDTO(name);
+
+        Page<FamilyDTO> families = familyService.findAll(familySearchDTO,pageable);
         return new ResponseEntity<>(families, HttpStatus.OK);
     }
 
-    @PostMapping()
+  /*  @PostMapping()
     public ResponseEntity<FamilyDTO> create(@RequestBody @Valid FamilyDTO familyDTO) {
         FamilyDTO family = familyService.save(familyDTO);
         return new ResponseEntity<>(family, HttpStatus.CREATED);
@@ -51,7 +55,7 @@ public class FamilyController {
         System.out.println("family = " + family);
         return new ResponseEntity<>(family,HttpStatus.OK);
     }
-
+*/
 
 
 }
