@@ -56,7 +56,8 @@ public class FamilyServiceImpl implements FamilyService {
         familyRepository.delete(family);
     }
 
-    private Family findByIdEntity(Long id){
+    @Override
+    public Family findByIdEntity(Long id){
         return familyRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Familia con ID: " + id + " no encontrada"));
     }

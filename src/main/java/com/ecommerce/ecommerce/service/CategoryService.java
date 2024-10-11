@@ -1,6 +1,8 @@
 package com.ecommerce.ecommerce.service;
 
-import com.ecommerce.ecommerce.dto.CategoryDTO;
+
+import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,11 +13,11 @@ public interface CategoryService {
 
     Page<CategoryDTO> findAll(Pageable pageable);
 
-    CategoryDTO save(CategoryDTO categoryDTO);
+    CategoryDTO save(SaveCategoryDTO saveCategoryDTO);
 
-    Optional<CategoryDTO> findById(Long id) throws ObjectNotFoundException;
+    CategoryDTO findById(Long id);
 
-    CategoryDTO update(Long id, CategoryDTO categoryDTO);
+    CategoryDTO update(Long id, SaveCategoryDTO saveCategoryDTO);
 
     CategoryDTO delete(Long id);
 

@@ -1,24 +1,23 @@
-package com.ecommerce.ecommerce.dto;
+package com.ecommerce.ecommerce.dto.request;
 
-import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
+import java.io.Serializable;
 
-public class CategoryDTO {
+
+public class SaveCategoryDTO implements Serializable {
 
     private Long id;
 
     @NotBlank(message = "El campo nombre es obligatorio")
     private String name;
 
+    @NotBlank(message = "El campo icono es obligatorio")
+    private String icon;
+
     @NotNull(message = "El campo familia es obligatorio")
     private Long familyId;
-
-    private FamilyDTO family;
-
-    private List<SubcategoryDTO> subCategories;
 
     public Long getId(){
         return id;
@@ -36,12 +35,12 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    public FamilyDTO getFamily(){
-        return family;
+    public String getIcon(){
+        return icon;
     }
 
-    public void setFamily(FamilyDTO family){
-        this.family = family;
+    public void setIcon(String icon){
+        this.icon = icon;
     }
 
     public Long getFamilyId(){
@@ -50,13 +49,5 @@ public class CategoryDTO {
 
     public void setFamilyId(Long familyId){
         this.familyId = familyId;
-    }
-
-    public List<SubcategoryDTO> getSubCategories(){
-        return subCategories;
-    }
-
-    public void setSubCategories(List<SubcategoryDTO> subCategories){
-        this.subCategories = subCategories;
     }
 }

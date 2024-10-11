@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.CategoryDTO;
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
+import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
@@ -15,8 +16,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    /*@Autowired
+    @Autowired
     private CategoryService categoryService;
+
+    @PostMapping()
+    public ResponseEntity<CategoryDTO> create(@RequestBody @Valid SaveCategoryDTO saveCategoryDTO){
+        CategoryDTO category = categoryService.save(saveCategoryDTO);
+        return new ResponseEntity<>(category, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+        CategoryDTO family = categoryService.findById(id);
+        return new ResponseEntity<>(family, HttpStatus.OK);
+    }
+
+    /*
 
     @GetMapping()
     public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable){
@@ -24,18 +39,7 @@ public class CategoryController {
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<CategoryDTO> create(@RequestBody @Valid CategoryDTO categoryDTO){
-        CategoryDTO category = categoryService.save(categoryDTO);
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
-        CategoryDTO family = categoryService.findById(id).orElseThrow(() -> new ObjectNotFoundException("No existe una categoría con el id: " + id));
-
-        return new ResponseEntity<>(family, HttpStatus.OK);
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO){

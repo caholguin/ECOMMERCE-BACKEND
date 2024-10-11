@@ -1,11 +1,14 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.dto.CategoryDTO;
+import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
+import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.repository.CategoryRepository;
 import com.ecommerce.ecommerce.service.CategoryService;
+import com.ecommerce.ecommerce.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,75 +16,49 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
-public class CategoryServiceImpl  {
+public class CategoryServiceImpl  implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private CategoryMapper categoryMapper;
+    private FamilyService familyService;
 
-   /* @Override
+    @Override
     public Page<CategoryDTO> findAll(Pageable pageable){
-
-        Page<Category> categories = categoryRepository.findAll(pageable);
-        return categories.map(categoryMapper::toDTO);
+        return null;
     }
 
     @Override
-    public CategoryDTO save(CategoryDTO categoryDTO){
+    public CategoryDTO save(SaveCategoryDTO saveCategoryDTO){
 
-       Category category = new Category();
+        Family family = familyService.findByIdEntity(saveCategoryDTO.getFamilyId());
 
-       category.setName(categoryDTO.getName());
+        Category category = CategoryMapper.toEntity(saveCategoryDTO,family);
 
-
-        Category categorySave = categoryRepository.save(category);
-
-        return categoryMapper.toDTO(categorySave);
+        return CategoryMapper.toDto(categoryRepository.save(category));
     }
 
     @Override
-    public Optional<CategoryDTO> findById(Long id) throws ObjectNotFoundException{
-        Optional<Category> category = categoryRepository.findById(id);
-
-        if (category.isEmpty()){
-            throw new ObjectNotFoundException("No existe una categoría con el id: " + id);
-        }
-
-        return category.map(categoryMapper::toDTO);
+    public CategoryDTO findById(Long id){
+        return CategoryMapper.toDto(this.findByIdEntity(id));
     }
 
     @Override
-    public CategoryDTO update(Long id, CategoryDTO categoryDTO){
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-
-        if (optionalCategory.isEmpty()) {
-            throw new ObjectNotFoundException("No existe una categoría con el id: " + id);
-        }
-
-        Category category = optionalCategory.get();
-
-        category.setName(categoryDTO.getName());
-
-
-        Category categoryUpdate = categoryRepository.save(category);
-
-        return categoryMapper.toDTO(categoryUpdate);
+    public CategoryDTO update(Long id, SaveCategoryDTO saveCategoryDTO){
+        return null;
     }
 
     @Override
     public CategoryDTO delete(Long id){
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        return null;
+    }
 
-        if (optionalCategory.isEmpty()) {
-            throw new ObjectNotFoundException("No existe una familia con id: " + id);
-        }
+    private Category findByIdEntity(Long id){
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Categoria con ID: " + id + " no encontrada"));
+    }
 
-        Category category = optionalCategory.get();
-        categoryRepository.delete(category);
-
-        return categoryMapper.toDTO(category);
-    }*/
 }

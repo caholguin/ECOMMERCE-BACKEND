@@ -14,22 +14,14 @@ public class Category {
 
     private String name;
 
+    private String icon;
+
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<SubCategory> subCategories;
-
-    public Category(){
-    }
-
-    public Category(Long id, String name, Family family, List<SubCategory> subCategories){
-        this.id = id;
-        this.name = name;
-        this.family = family;
-        this.subCategories = subCategories;
-    }
 
     public Long getId(){
         return id;
@@ -47,6 +39,13 @@ public class Category {
         this.name = name;
     }
 
+    public String getIcon(){
+        return icon;
+    }
+
+    public void setIcon(String icon){
+        this.icon = icon;
+    }
 
     public Family getFamily(){
         return family;
@@ -62,14 +61,5 @@ public class Category {
 
     public void setSubCategories(List<SubCategory> subCategories){
         this.subCategories = subCategories;
-    }
-
-    @Override
-    public String toString(){
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", subCategories=" + subCategories +
-                '}';
     }
 }

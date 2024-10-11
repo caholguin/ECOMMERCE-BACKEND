@@ -39,10 +39,12 @@ public class FamilyDTO implements Serializable{
     public static class CategoryDTO implements Serializable {
         private Long id;
         private String name;
+        private String icon;
 
-        public CategoryDTO(Long id, String name){
+        public CategoryDTO(Long id, String name, String icon){
             this.id = id;
             this.name = name;
+            this.icon = icon;
         }
 
         public Long getId(){
@@ -59,6 +61,14 @@ public class FamilyDTO implements Serializable{
 
         public void setName(String name){
             this.name = name;
+        }
+
+        public String getIcon(){
+            return icon;
+        }
+
+        public void setIcon(String icon){
+            this.icon = icon;
         }
     }
 }

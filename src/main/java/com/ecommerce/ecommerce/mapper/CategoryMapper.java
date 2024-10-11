@@ -1,94 +1,60 @@
 package com.ecommerce.ecommerce.mapper;
 
+import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.FamilyDTO;
-import com.ecommerce.ecommerce.dto.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
-import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class CategoryMapper {
 
-    public CategoryDTO toDTO(Category category){
+    public static CategoryDTO toDto(Category category){
+
+        if(category == null) return null;
 
         CategoryDTO categoryDTO = new CategoryDTO();
-
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
-
-        if (category.getFamily() != null){
-            Family family = category.getFamily();
-            FamilyDTO familyDTO = new FamilyDTO();
-            familyDTO.setId(family.getId());
-            familyDTO.setName(family.getName());
-            //categoryDTO.setFamily(familyDTO);
-        }
-
-        if (category.getSubCategories() != null) {
-            List<SubcategoryDTO> subcategoryDTOs = new ArrayList<>();
-            for (SubCategory subcategory : category.getSubCategories()) {
-                SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
-                subcategoryDTO.setId(subcategory.getId());
-                subcategoryDTO.setName(subcategory.getName());
-                subcategoryDTOs.add(subcategoryDTO);
-            }
-            categoryDTO.setSubCategories(subcategoryDTOs);
-        }
+        categoryDTO.setIcon(category.getIcon());
+        categoryDTO.setFamily(FamilyMapper.toGetFamilyDto(category.getFamily()));
+        categoryDTO.setSubCategories(null);
 
         return categoryDTO;
     }
 
-    public Category toEntity(CategoryDTO categoryDTO){
+    public static Category toEntity(SaveCategoryDTO saveCategoryDTO, Family family){
+
+        if(saveCategoryDTO == null) return null;
 
         Category category = new Category();
-
-        category.setId(categoryDTO.getId());
-        category.setName(categoryDTO.getName());
-
-        if (categoryDTO.getFamily() != null){
-            FamilyDTO familyDTO = new FamilyDTO();
-            Family family = new Family();
-            family.setId(familyDTO.getId());
-            family.setName(familyDTO.getName());
-            category.setFamily(family);
-        }
-
+        category.setName(saveCategoryDTO.getName());
+        category.setIcon(saveCategoryDTO.getIcon());
+        category.setFamily(family);
 
         return category;
     }
 
-    public CategoryDTO toSimpleDTO(Category category){
-
-        CategoryDTO categoryDTO = new CategoryDTO();
-
-        categoryDTO.setId(category.getId());
-        categoryDTO.setName(category.getName());
-
-        return categoryDTO;
-    }
-
-
-    public static FamilyDTO.CategoryDTO toGetFamilyCategoryDto(Category category){
+    public static FamilyDTO.CategoryDTO toFamilyCategoryDto(Category category){
         if (category == null ) return null;
 
         return new FamilyDTO.CategoryDTO(
                 category.getId(),
-                category.getName()
+                category.getName(),
+                category.getIcon()
         );
 
     }
 
-
-    public static List<FamilyDTO.CategoryDTO> toGetFamilyCategoriesDTO(List<Category> categories){
+    public static List<FamilyDTO.CategoryDTO> toFamilyCategoriesDTO(List<Category> categories){
         if (categories == null ) return null;
 
         return categories.stream()
-                .map(CategoryMapper::toGetFamilyCategoryDto)
+                .map(CategoryMapper::toFamilyCategoryDto)
                 .toList();
     }
 

@@ -1,10 +1,5 @@
 package com.ecommerce.ecommerce.dto.response;
 
-import com.ecommerce.ecommerce.dto.FamilyDTO;
-import com.ecommerce.ecommerce.dto.SubcategoryDTO;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +9,7 @@ public class CategoryDTO implements Serializable {
 
     private String name;
 
-    private Long familyId;
+    private String icon;
 
     private FamilyDTO family;
 
@@ -36,12 +31,12 @@ public class CategoryDTO implements Serializable {
         this.name = name;
     }
 
-    public Long getFamilyId(){
-        return familyId;
+    public String getIcon(){
+        return icon;
     }
 
-    public void setFamilyId(Long familyId){
-        this.familyId = familyId;
+    public void setIcon(String icon){
+        this.icon = icon;
     }
 
     public FamilyDTO getFamily(){
@@ -58,5 +53,32 @@ public class CategoryDTO implements Serializable {
 
     public void setSubCategories(List<SubcategoryDTO> subCategories){
         this.subCategories = subCategories;
+    }
+
+
+    public static class FamilyDTO implements Serializable {
+        private Long id;
+        private String name;
+
+        public FamilyDTO(Long id, String name){
+            this.id = id;
+            this.name = name;
+        }
+
+        public Long getId(){
+            return id;
+        }
+
+        public void setId(Long id){
+            this.id = id;
+        }
+
+        public String getName(){
+            return name;
+        }
+
+        public void setName(String name){
+            this.name = name;
+        }
     }
 }

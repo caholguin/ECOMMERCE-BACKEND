@@ -1,6 +1,8 @@
 package com.ecommerce.ecommerce.mapper;
 import com.ecommerce.ecommerce.dto.request.SaveFamilyDTO;
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.FamilyDTO;
+import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ public class FamilyMapper {
         FamilyDTO familyDTO = new FamilyDTO();
         familyDTO.setId(family.getId());
         familyDTO.setName(family.getName());
-        familyDTO.setCategories(CategoryMapper.toGetFamilyCategoriesDTO(family.getCategories()));
+        familyDTO.setCategories(CategoryMapper.toFamilyCategoriesDTO(family.getCategories()));
 
         return familyDTO;
     }
@@ -37,4 +39,15 @@ public class FamilyMapper {
 
         family.setName(saveFamilyDTO.getName());
     }
+
+    public static CategoryDTO.FamilyDTO toGetFamilyDto(Family family){
+        if (family == null ) return null;
+
+        return new CategoryDTO.FamilyDTO(
+                family.getId(),
+                family.getName()
+        );
+
+    }
+
 }
