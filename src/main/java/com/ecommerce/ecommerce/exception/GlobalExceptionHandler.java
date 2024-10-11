@@ -18,6 +18,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RestControllerAdvice
@@ -30,7 +31,7 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException.class,
             HttpRequestMethodNotSupportedException.class,
             HttpMediaTypeNotSupportedException.class,
-            HttpMessageNotReadableException.class,
+            HttpMessageNotReadableException.class
 
     })
 
@@ -39,8 +40,8 @@ public class GlobalExceptionHandler {
         ZoneId zoneId = ZoneId.of("America/Bogota");
         LocalDateTime timestamp = LocalDateTime.now(zoneId);
 
-        if (exception instanceof ObjectNotFoundException objectoNotFoundException) {
-            return this.handleObjectNotFoundException(objectoNotFoundException, request, response, timestamp);
+        if (exception instanceof ObjectNotFoundException objectNotFoundException) {
+            return this.handleObjectNotFoundException(objectNotFoundException, request, response, timestamp);
         }
 
         if (exception instanceof MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
@@ -68,7 +69,8 @@ public class GlobalExceptionHandler {
     }
 
 
-    private ResponseEntity<ApiErrorDTO> handleObjectNotFoundException(ObjectNotFoundException objectoNotFoundException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+
+    private ResponseEntity<ApiErrorDTO> handleObjectNotFoundException(ObjectNotFoundException objectNotFoundException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
 
         int httpStatus = HttpStatus.NOT_FOUND.value();
 
@@ -76,8 +78,8 @@ public class GlobalExceptionHandler {
         apiErrorDto.setHttpCode(httpStatus);
         apiErrorDto.setUrl(request.getRequestURL().toString());
         apiErrorDto.setHttpMethod(request.getMethod());
-        apiErrorDto.setMessage("I'm sorry, the request information could not be found. Please check the URL or try another search" + objectoNotFoundException.getMessage());
-        apiErrorDto.setBackendMessage(objectoNotFoundException.getMessage());
+        apiErrorDto.setMessage(objectNotFoundException.getMessage());
+        apiErrorDto.setBackendMessage("Lo siento, no se pudo encontrar la información solicitada." + objectNotFoundException.getMessage());
         apiErrorDto.setTimestamp(timestamp);
         apiErrorDto.setDetails(null);
 
@@ -194,7 +196,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(httpStatus).body(apiErrorDto);
 
     }
-
-
 
 }

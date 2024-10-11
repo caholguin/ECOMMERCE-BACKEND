@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.service.impl;
-
 import com.ecommerce.ecommerce.dto.request.FamilySearchDTO;
+import com.ecommerce.ecommerce.dto.request.SaveFamilyDTO;
 import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class FamilyServiceImpl implements FamilyService {
@@ -27,76 +25,40 @@ public class FamilyServiceImpl implements FamilyService {
         FamilySearch familySearch = new FamilySearch(search);
 
         Page<Family> familiesPage = familyRepository.findAll(familySearch,pageable);
-        return familiesPage.map(FamilyMapper::toDTO);
-    }
-
-  /*  @Override
-    public FamilyDTO findById(Long id) throws ObjectNotFoundException{
-
-        Family family = familyRepository.findById(id).orElseThrow(()->new ObjectNotFoundException("No existe una familia con el id: " + id));
-
-        return familyMapper.toDTO(family);
-    }*/
-
-    @Override
-    public FamilyDTO save(FamilyDTO familyDTO){
-
-        return null;
-
-       /* Family family = familyMapper.toEntity(familyDTO);
-
-        Family familySave = familyRepository.save(family);
-
-        return familyMapper.toDTO(familySave);*/
+        return familiesPage.map(FamilyMapper::toDto);
     }
 
     @Override
-    public Optional<FamilyDTO> findById(Long id) throws ObjectNotFoundException{
+    public FamilyDTO save(SaveFamilyDTO saveFamilyDTO){
 
-        return null;
+        Family family = FamilyMapper.toEntity(saveFamilyDTO);
 
+        return FamilyMapper.toDto(familyRepository.save(family));
+    }
 
-      /*  Optional<Family> family = familyRepository.findById(id);
-
-        if (family.isEmpty()) {
-            throw new ObjectNotFoundException("No existe una familia con id: " + id);
-        }
-
-        return family.map(familyMapper::toDTO);*/
+     @Override
+    public FamilyDTO findById(Long id) {
+         return FamilyMapper.toDto(this.findByIdEntity(id));
     }
 
     @Override
-    public FamilyDTO update(Long id, FamilyDTO familyDTO){
+    public FamilyDTO update(Long id, SaveFamilyDTO saveFamilyDTO){
 
-        return null;
+        Family family = this.findByIdEntity(id);
+        FamilyMapper.updateEntity(family, saveFamilyDTO);
 
-       /* Optional<Family> optionalFamily = familyRepository.findById(id);
-
-        if (optionalFamily.isEmpty()) {
-            throw new ObjectNotFoundException("No existe una familia con id: " + id);
-        }
-
-        Family family = optionalFamily.get();
-        family.setName(familyDTO.getName());
-
-        Family updatedFamily = familyRepository.save(family);
-
-        return familyMapper.toDTO(updatedFamily);*/
+        return FamilyMapper.toDto(familyRepository.save(family));
     }
 
     @Override
-    public FamilyDTO delete(Long id){
-
-        return null;
-      /*  Optional<Family> optionalFamily = familyRepository.findById(id);
-
-        if (optionalFamily.isEmpty()) {
-            throw new ObjectNotFoundException("No existe una familia con id: " + id);
-        }
-
-        Family family = optionalFamily.get();
+    public void delete(Long id){
+        Family family = this.findByIdEntity(id);
         familyRepository.delete(family);
-
-        return familyMapper.toDTO(family);*/
     }
+
+    private Family findByIdEntity(Long id){
+        return familyRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Familia con ID: " + id + " no encontrada"));
+    }
+
 }
