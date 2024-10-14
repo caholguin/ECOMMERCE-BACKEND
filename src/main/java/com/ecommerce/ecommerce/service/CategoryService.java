@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.service;
 import com.ecommerce.ecommerce.dto.request.CategorySearchDTO;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
+import com.ecommerce.ecommerce.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +21,6 @@ public interface CategoryService {
 
     void delete(Long id);
 
+
+    Category findByIdEntity(Long id);
 }

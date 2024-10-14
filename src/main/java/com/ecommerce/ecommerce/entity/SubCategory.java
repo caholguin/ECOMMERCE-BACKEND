@@ -63,13 +63,4 @@ public class SubCategory {
         this.products = products;
     }
 
-    @Override
-    public String toString(){
-        return "Subcategory{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category=" + category +
-                ", products=" + products +
-                '}';
-    }
 }

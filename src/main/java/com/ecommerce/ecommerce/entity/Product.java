@@ -121,18 +121,5 @@ public class Product {
         this.optionProducts = optionProducts;
     }
 
-    @Override
-    public String toString(){
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", detail='" + detail + '\'' +
-                ", image='" + image + '\'' +
-                ", price=" + price +
-                ", stock=" + stock +
-                ", subCategory=" +  (subCategory != null ? subCategory.getName() : "null") +
-                ", variants=" + variants +
-                ", optionProducts=" + optionProducts +
-                '}';
-    }
+
 }

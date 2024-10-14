@@ -3,12 +3,12 @@ package com.ecommerce.ecommerce.mapper;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.FamilyDTO;
+import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Locale;
 
 @Component
 public class CategoryMapper {
@@ -22,7 +22,7 @@ public class CategoryMapper {
         categoryDTO.setName(category.getName());
         categoryDTO.setIcon(category.getIcon());
         categoryDTO.setFamily(FamilyMapper.toGetFamilyDto(category.getFamily()));
-        categoryDTO.setSubCategories(null);
+        categoryDTO.setSubCategories(SubCategoryMapper.toSubCategoriesCategoriesDto(category.getSubCategories()));
 
         return categoryDTO;
     }
@@ -39,6 +39,14 @@ public class CategoryMapper {
         return category;
     }
 
+    public static void updateEntity(Category category, SaveCategoryDTO saveCategoryDTO,Family family){
+        if(category == null || saveCategoryDTO == null) return;
+
+        category.setName(saveCategoryDTO.getName());
+        category.setIcon(saveCategoryDTO.getIcon());
+        category.setFamily(family);
+    }
+
     public static FamilyDTO.CategoryDTO toFamilyCategoryDto(Category category){
         if (category == null ) return null;
 
@@ -47,7 +55,6 @@ public class CategoryMapper {
                 category.getName(),
                 category.getIcon()
         );
-
     }
 
     public static List<FamilyDTO.CategoryDTO> toFamilyCategoriesDTO(List<Category> categories){
@@ -58,23 +65,15 @@ public class CategoryMapper {
                 .toList();
     }
 
-    public static void updateEntity(Category category, SaveCategoryDTO saveCategoryDTO,Family family){
-        if(category == null || saveCategoryDTO == null) return;
+    public static SubcategoryDTO.CategoryDTO toSubCategoryDto(Category category){
+        if (category == null ) return null;
 
-        category.setName(saveCategoryDTO.getName());
-        category.setIcon(saveCategoryDTO.getIcon());
-        category.setFamily(family);
+        return new SubcategoryDTO.CategoryDTO(
+                category.getId(),
+                category.getName(),
+                category.getIcon()
+        );
     }
 
 
-    /*
-     public static void updateEntity(Family family, SaveFamilyDTO saveFamilyDTO){
-
-        if (family == null || saveFamilyDTO == null) return;
-
-        family.setName(saveFamilyDTO.getName());
-    }
-
-
-    * */
 }

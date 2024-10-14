@@ -1,21 +1,20 @@
 package com.ecommerce.ecommerce.service;
 
-import com.ecommerce.ecommerce.dto.SubcategoryDTO;
-import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.dto.request.SaveSubcategoryDTO;
+import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
+import com.ecommerce.ecommerce.dto.request.SubcategorySearchDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 public interface SubCategoryService {
 
-    Page<SubcategoryDTO> findAll(Pageable pageable);
+    Page<SubcategoryDTO> findAll(SubcategorySearchDTO subcategorySearchDTO, Pageable pageable);
 
-    SubcategoryDTO save(SubcategoryDTO subcategoryDTO);
+    SubcategoryDTO save(SaveSubcategoryDTO saveSubcategoryDTO);
 
-    Optional<SubcategoryDTO> findById(Long id) throws ObjectNotFoundException;
+    SubcategoryDTO findById(Long id);
 
-    SubcategoryDTO update(Long id, SubcategoryDTO subcategoryDTO);
+    SubcategoryDTO update(Long id, SaveSubcategoryDTO saveSubcategoryDTO);
 
-    SubcategoryDTO delete(Long id);
+    void delete(Long id);
 }

@@ -3,7 +3,6 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.dto.request.CategorySearchDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
-import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

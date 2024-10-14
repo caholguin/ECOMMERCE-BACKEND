@@ -7,19 +7,14 @@ import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.CategoryMapper;
-import com.ecommerce.ecommerce.mapper.FamilyMapper;
 import com.ecommerce.ecommerce.repository.CategoryRepository;
 import com.ecommerce.ecommerce.repository.epecification.CategorySearch;
-import com.ecommerce.ecommerce.repository.epecification.FamilySearch;
 import com.ecommerce.ecommerce.service.CategoryService;
 import com.ecommerce.ecommerce.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-
 
 @Service
 public class CategoryServiceImpl  implements CategoryService {
@@ -70,7 +65,7 @@ public class CategoryServiceImpl  implements CategoryService {
         categoryRepository.delete(category);
     }
 
-    private Category findByIdEntity(Long id){
+    public Category findByIdEntity(Long id){
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Categoria con ID: " + id + " no encontrada"));
 

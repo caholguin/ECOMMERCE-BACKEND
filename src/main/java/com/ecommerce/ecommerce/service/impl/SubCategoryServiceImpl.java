@@ -1,10 +1,16 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.dto.SubcategoryDTO;
+import com.ecommerce.ecommerce.dto.request.SaveSubcategoryDTO;
+import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
+import com.ecommerce.ecommerce.dto.request.SubcategorySearchDTO;
+import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.SubCategoryMapper;
 import com.ecommerce.ecommerce.repository.SubCategoryRepository;
+import com.ecommerce.ecommerce.repository.epecification.SuCategorySearch;
+import com.ecommerce.ecommerce.service.CategoryService;
 import com.ecommerce.ecommerce.service.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,66 +28,52 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Autowired
     private SubCategoryMapper subCategoryMapper;
 
-    @Override
-    public Page<SubcategoryDTO> findAll(Pageable pageable){
-        Page<SubCategory> subCategories = subCategoryRepository.findAll(pageable);
+    @Autowired
+    private CategoryService categoryService;
 
-        return subCategories.map(subCategoryMapper::toDTO);
+
+    @Override
+    public Page<SubcategoryDTO> findAll(SubcategorySearchDTO subcategorySearchDTO, Pageable pageable){
+
+        SuCategorySearch subCategorySearch = new SuCategorySearch(subcategorySearchDTO);
+        Page<SubCategory> subCategories = subCategoryRepository.findAll(subCategorySearch,pageable);
+
+        return subCategories.map(subCategoryMapper::toDto);
     }
 
     @Override
-    public SubcategoryDTO save(SubcategoryDTO subcategoryDTO){
+    public SubcategoryDTO save(SaveSubcategoryDTO saveSubcategoryDTO){
 
-        SubCategory subCategory = new SubCategory();
+        Category category = categoryService.findByIdEntity(saveSubcategoryDTO.getCategoryId());
 
-        subCategory.setName(subcategoryDTO.getName());
+       SubCategory subCategory = subCategoryMapper.toEntity(saveSubcategoryDTO,category);
 
-
-        SubCategory saveSubCategory = subCategoryRepository.save(subCategory);
-
-        return subCategoryMapper.toDTO(saveSubCategory);
+       return subCategoryMapper.toDto(subCategoryRepository.save(subCategory));
     }
 
     @Override
-    public Optional<SubcategoryDTO> findById(Long id) throws ObjectNotFoundException{
-        Optional<SubCategory> subCategory = subCategoryRepository.findById(id);
-
-        if (subCategory.isEmpty()){
-            throw new ObjectNotFoundException("No existe una subcategoría con el id " + id);
-        }
-
-        return subCategory.map(subCategoryMapper::toDTO);
+    public SubcategoryDTO findById(Long id){
+        return subCategoryMapper.toDetailDto(this.findByIdEntity(id));
     }
 
     @Override
-    public SubcategoryDTO update(Long id, SubcategoryDTO subcategoryDTO){
+    public SubcategoryDTO update(Long id, SaveSubcategoryDTO saveSubcategoryDTO){
 
-        Optional<SubCategory> subCategoryOptional = subCategoryRepository.findById(id);
+        Category category = categoryService.findByIdEntity(saveSubcategoryDTO.getCategoryId());
 
-        if (subCategoryOptional.isEmpty()){
-            throw new ObjectNotFoundException("No existe una subcategoría con el id " + id);
-        }
+        SubCategory subCategory = this.findByIdEntity(id);
+        SubCategoryMapper.updateEntity(subCategory,saveSubcategoryDTO,category);
 
-        SubCategory subCategory = subCategoryOptional.get();
-        subCategory.setName(subcategoryDTO.getName());
-
-
-        SubCategory subCategoryUpdate = subCategoryRepository.save(subCategory);
-
-        return subCategoryMapper.toDTO(subCategoryUpdate);
+        return subCategoryMapper.toDto(subCategoryRepository.save(subCategory));
     }
 
     @Override
-    public SubcategoryDTO delete(Long id){
-        Optional<SubCategory> subCategoryOptional = subCategoryRepository.findById(id);
+    public void delete(Long id){
+       SubCategory subCategory = this.findByIdEntity(id);
+       subCategoryRepository.delete(subCategory);
+    }
 
-        if (subCategoryOptional.isEmpty()){
-            throw new ObjectNotFoundException("No existe una subcategoría con el id " + id);
-        }
-
-        SubCategory subCategory = subCategoryOptional.get();
-        subCategoryRepository.delete(subCategory);
-
-        return subCategoryMapper.toDTO(subCategory);
+    public SubCategory findByIdEntity(Long id){
+        return subCategoryRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("SubCategoria con ID: " + id + " no encontrada"));
     }
 }

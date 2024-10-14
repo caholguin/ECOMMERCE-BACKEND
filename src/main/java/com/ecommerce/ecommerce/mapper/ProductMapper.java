@@ -1,10 +1,12 @@
 package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.ProductDTO;
-import com.ecommerce.ecommerce.dto.SubcategoryDTO;
+import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ProductMapper {
@@ -20,15 +22,29 @@ public class ProductMapper {
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
 
-
-        if (product.getSubCategory() != null){
-            SubCategory subCategory = product.getSubCategory();
-            SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
-
-            subcategoryDTO.setId(subCategory.getId());
-            subcategoryDTO.setName(subCategory.getName());
-            productDTO.setSubCategory(subcategoryDTO);
-        }
         return productDTO;
     }
+
+
+    public static SubcategoryDTO.ProductDTO toProductSubCategoryDTO(Product product){
+
+        if (product == null) return null;
+
+        return new SubcategoryDTO.ProductDTO(
+                product.getId(),
+                product.getName(),
+                product.getDetail(),
+                product.getImage(),
+                product.getPrice()
+        );
+    }
+
+    public static List<SubcategoryDTO.ProductDTO> toProductsSubCategoryDTO(List<Product> products){
+        if (products == null) return null;
+
+        return products.stream()
+                .map(ProductMapper::toProductSubCategoryDTO)
+                .toList();
+    }
+
 }
