@@ -10,7 +10,7 @@ public class SaveCategoryDTO implements Serializable {
 
     private Long id;
 
-    @NotBlank(message = "El campo nombre es obligatorio")
+    @NotBlank(message = "El campo name es obligatorio")
     private String name;
 
     @NotBlank(message = "El campo icono es obligatorio")

@@ -58,4 +58,23 @@ public class CategoryMapper {
                 .toList();
     }
 
+    public static void updateEntity(Category category, SaveCategoryDTO saveCategoryDTO,Family family){
+        if(category == null || saveCategoryDTO == null) return;
+
+        category.setName(saveCategoryDTO.getName());
+        category.setIcon(saveCategoryDTO.getIcon());
+        category.setFamily(family);
+    }
+
+
+    /*
+     public static void updateEntity(Family family, SaveFamilyDTO saveFamilyDTO){
+
+        if (family == null || saveFamilyDTO == null) return;
+
+        family.setName(saveFamilyDTO.getName());
+    }
+
+
+    * */
 }

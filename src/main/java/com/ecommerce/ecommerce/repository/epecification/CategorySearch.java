@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.repository.epecification;
 
-import com.ecommerce.ecommerce.dto.request.FamilySearchDTO;
-import com.ecommerce.ecommerce.entity.Family;
+import com.ecommerce.ecommerce.dto.request.CategorySearchDTO;
+import com.ecommerce.ecommerce.entity.Category;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -12,16 +12,16 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FamilySearch implements Specification<Family> {
+public class CategorySearch implements Specification<Category> {
+    
+    private final CategorySearchDTO searchDTO;
 
-    private final FamilySearchDTO searchDTO;
-
-    public FamilySearch(FamilySearchDTO searchDTO){
+    public CategorySearch(CategorySearchDTO searchDTO){
         this.searchDTO = searchDTO;
     }
 
     @Override
-    public Predicate toPredicate(Root<Family> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder){
+    public Predicate toPredicate(Root<Category> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder){
         List<Predicate> predicates = new ArrayList<>();
 
         if (StringUtils.hasText(this.searchDTO.getName())){
@@ -31,6 +31,4 @@ public class FamilySearch implements Specification<Family> {
 
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.controller;
 
+import com.ecommerce.ecommerce.dto.request.CategorySearchDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
@@ -19,6 +20,15 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @GetMapping()
+    public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable, @RequestParam(required = false) String name){
+
+        CategorySearchDTO categorySearchDTO = new CategorySearchDTO(name);
+
+        Page<CategoryDTO> categories = categoryService.findAll(categorySearchDTO,pageable);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
     @PostMapping()
     public ResponseEntity<CategoryDTO> create(@RequestBody @Valid SaveCategoryDTO saveCategoryDTO){
         CategoryDTO category = categoryService.save(saveCategoryDTO);
@@ -31,25 +41,16 @@ public class CategoryController {
         return new ResponseEntity<>(family, HttpStatus.OK);
     }
 
-    /*
-
-    @GetMapping()
-    public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable){
-        Page<CategoryDTO> categories = categoryService.findAll(pageable);
-        return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
-
-
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO){
-        CategoryDTO category = categoryService.update(id, categoryDTO);
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody @Valid SaveCategoryDTO saveCategoryDTO){
+        CategoryDTO category = categoryService.update(id, saveCategoryDTO);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryDTO> delete(@PathVariable Long id){
-        CategoryDTO category = categoryService.delete(id);
-        return new ResponseEntity<>(category, HttpStatus.OK);
-    }*/
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        categoryService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
