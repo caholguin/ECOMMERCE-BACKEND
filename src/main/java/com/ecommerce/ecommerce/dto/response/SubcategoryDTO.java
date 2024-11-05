@@ -10,6 +10,8 @@ public class SubcategoryDTO {
 
     private String name;
 
+    private String icon;
+
     private CategoryDTO category;
 
     private List<ProductDTO> products;
@@ -28,6 +30,14 @@ public class SubcategoryDTO {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public String getIcon(){
+        return icon;
+    }
+
+    public void setIcon(String icon){
+        this.icon = icon;
     }
 
     public CategoryDTO getCategory(){

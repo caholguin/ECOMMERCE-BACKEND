@@ -13,6 +13,9 @@ public class SaveSubcategoryDTO implements Serializable {
     @NotNull(message = "El campo categoria es obligatorio")
     private Long categoryId;
 
+    @NotNull(message = "El campo icono es obligatorio")
+    private String icon;
+
     public String getName(){
         return name;
     }
@@ -27,5 +30,13 @@ public class SaveSubcategoryDTO implements Serializable {
 
     public void setCategoryId(Long categoryId){
         this.categoryId = categoryId;
+    }
+
+    public String getIcon(){
+        return icon;
+    }
+
+    public void setIcon(String icon){
+        this.icon = icon;
     }
 }

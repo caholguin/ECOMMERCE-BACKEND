@@ -9,6 +9,7 @@ public class ProductDTO implements Serializable {
     private String detail;
     private String image;
     private Double price;
+    private int stock;
 
     public Long getId(){
         return id;
@@ -48,5 +49,13 @@ public class ProductDTO implements Serializable {
 
     public void setPrice(Double price){
         this.price = price;
+    }
+
+    public int getStock(){
+        return stock;
+    }
+
+    public void setStock(int stock){
+        this.stock = stock;
     }
 }

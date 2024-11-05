@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.mapper;
 
-import com.ecommerce.ecommerce.dto.ProductDTO;
+import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.entity.SubCategory;
@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class ProductMapper {
 
-    public ProductDTO toDTO(Product product){
+    public ProductDTO toDto(Product product){
 
         ProductDTO productDTO = new ProductDTO();
 

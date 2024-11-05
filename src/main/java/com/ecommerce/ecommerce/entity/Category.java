@@ -14,6 +14,7 @@ public class Category {
 
     private String name;
 
+    @Column(length = 2048)
     private String icon;
 
     @ManyToOne

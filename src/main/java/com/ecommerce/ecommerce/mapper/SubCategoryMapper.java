@@ -20,6 +20,7 @@ public class SubCategoryMapper {
         SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
         subcategoryDTO.setId(subCategory.getId());
         subcategoryDTO.setName(subCategory.getName());
+        subcategoryDTO.setIcon(subCategory.getIcon());
         subcategoryDTO.setCategory(CategoryMapper.toSubCategoryDto(subCategory.getCategory()));
 
         return subcategoryDTO;
@@ -31,6 +32,7 @@ public class SubCategoryMapper {
         SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
         subcategoryDTO.setId(subCategory.getId());
         subcategoryDTO.setName(subCategory.getName());
+        subcategoryDTO.setIcon(subCategory.getIcon());
         subcategoryDTO.setCategory(CategoryMapper.toSubCategoryDto(subCategory.getCategory()));
         subcategoryDTO.setProducts(ProductMapper.toProductsSubCategoryDTO(subCategory.getProducts()));
 
@@ -44,6 +46,7 @@ public class SubCategoryMapper {
 
         SubCategory subCategory = new SubCategory();
         subCategory.setName(saveSubcategoryDTO.getName());
+        subCategory.setIcon(saveSubcategoryDTO.getIcon());
         subCategory.setCategory(category);
 
         return subCategory;
@@ -53,6 +56,7 @@ public class SubCategoryMapper {
         if(subCategory == null || saveSubcategoryDTO == null) return;
 
         subCategory.setName(saveSubcategoryDTO.getName());
+        subCategory.setIcon(saveSubcategoryDTO.getIcon());
         subCategory.setCategory(category);
 
     }

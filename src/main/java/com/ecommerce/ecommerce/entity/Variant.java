@@ -12,6 +12,7 @@ public class Variant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 255)
     private String image;
 
     @ManyToOne
@@ -21,14 +22,18 @@ public class Variant {
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private List<FeatureVariant> featureVariants;
 
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private List<ImageVariant> imagesVariant;
+
     public Variant(){
     }
 
-    public Variant(Long id, String image, Product product, List<FeatureVariant> featureVariants){
+    public Variant(Long id, String image, Product product, List<FeatureVariant> featureVariants, List<ImageVariant> imagesVariant){
         this.id = id;
         this.image = image;
         this.product = product;
         this.featureVariants = featureVariants;
+        this.imagesVariant = imagesVariant;
     }
 
     public Long getId(){
@@ -63,13 +68,11 @@ public class Variant {
         this.featureVariants = featureVariants;
     }
 
-    @Override
-    public String toString(){
-        return "Variant{" +
-                "id=" + id +
-                ", image='" + image + '\'' +
-                ", product=" + product +
-                ", featureVariants=" + featureVariants +
-                '}';
+    public List<ImageVariant> getImagesVariant(){
+        return imagesVariant;
+    }
+
+    public void setImagesVariant(List<ImageVariant> imagesVariant){
+        this.imagesVariant = imagesVariant;
     }
 }

@@ -1,11 +1,12 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.dto.ProductDTO;
+import com.ecommerce.ecommerce.dto.response.ProductDTO;
+import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
 import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.ProductMapper;
-import com.ecommerce.ecommerce.mapper.SubCategoryMapper;
 import com.ecommerce.ecommerce.repository.ProductRepository;
+import com.ecommerce.ecommerce.repository.epecification.ProductSearch;
 import com.ecommerce.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,13 +23,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
-    @Autowired
-    private SubCategoryMapper subCategoryMapper;
+
 
     @Override
-    public Page<ProductDTO> findAll(Pageable pageable){
-        Page<Product> products = productRepository.findAll(pageable);
-        return products.map(productMapper::toDTO);
+    public Page<ProductDTO> findAll(ProductSearchDTO productSearchDTO, Pageable pageable){
+
+        ProductSearch productSearch = new ProductSearch(productSearchDTO);
+
+        Page<Product> products = productRepository.findAll(productSearch,pageable);
+        return products.map(productMapper::toDto);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        return productMapper.toDTO(savedProduct);
+        return productMapper.toDto(savedProduct);
     }
 
     @Override
@@ -56,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ObjectNotFoundException("No existe un producto con el id: " + id);
         }
 
-        return product.map(productMapper::toDTO);
+        return product.map(productMapper::toDto);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product updatedProduct = productRepository.save(product);
 
-        return productMapper.toDTO(updatedProduct);
+        return productMapper.toDto(updatedProduct);
     }
 
     @Override
@@ -90,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productOptional.get();
         productRepository.delete(product);
 
-        return productMapper.toDTO(product);
+        return productMapper.toDto(product);
     }
 
     @Override

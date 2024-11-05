@@ -3,7 +3,6 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.dto.request.SaveSubcategoryDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SubcategorySearchDTO;
-import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.SubCategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/subcategories")
+@CrossOrigin("*")
 public class SubCategoryController {
 
     @Autowired

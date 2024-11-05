@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.ProductDTO;
+import com.ecommerce.ecommerce.dto.response.ProductDTO;
+import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
@@ -19,8 +20,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping()
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-        Page<ProductDTO> products = productService.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable, @RequestParam(required = false) String name, @RequestParam(required = false) String detail) {
+
+        ProductSearchDTO productSearchDTO = new ProductSearchDTO(name,detail);
+
+        Page<ProductDTO> products = productService.findAll(productSearchDTO,pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

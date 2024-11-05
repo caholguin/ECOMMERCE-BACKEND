@@ -14,6 +14,9 @@ public class SubCategory {
 
     private String name;
 
+    @Column(length = 2048)
+    private String icon;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -24,9 +27,10 @@ public class SubCategory {
     public SubCategory(){
     }
 
-    public SubCategory(Long id, String name, Category category, List<Product> products){
+    public SubCategory(Long id, String name, String icon, Category category, List<Product> products){
         this.id = id;
         this.name = name;
+        this.icon = icon;
         this.category = category;
         this.products = products;
     }
@@ -45,6 +49,14 @@ public class SubCategory {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public String getIcon(){
+        return icon;
+    }
+
+    public void setIcon(String icon){
+        this.icon = icon;
     }
 
     public Category getCategory(){
