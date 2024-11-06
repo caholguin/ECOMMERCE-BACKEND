@@ -1,7 +1,6 @@
 package com.ecommerce.ecommerce.mapper;
-
-import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveSubcategoryDTO;
+import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
@@ -15,7 +14,7 @@ public class SubCategoryMapper {
 
     public SubcategoryDTO toDto(SubCategory subCategory){
 
-        if(subCategory == null) return null;
+        if (subCategory == null) return null;
 
         SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
         subcategoryDTO.setId(subCategory.getId());
@@ -27,7 +26,7 @@ public class SubCategoryMapper {
     }
 
     public SubcategoryDTO toDetailDto(SubCategory subCategory){
-        if(subCategory == null) return null;
+        if (subCategory == null) return null;
 
         SubcategoryDTO subcategoryDTO = new SubcategoryDTO();
         subcategoryDTO.setId(subCategory.getId());
@@ -39,10 +38,9 @@ public class SubCategoryMapper {
         return subcategoryDTO;
     }
 
-
     public SubCategory toEntity(SaveSubcategoryDTO saveSubcategoryDTO, Category category){
 
-        if(saveSubcategoryDTO == null) return null;
+        if (saveSubcategoryDTO == null) return null;
 
         SubCategory subCategory = new SubCategory();
         subCategory.setName(saveSubcategoryDTO.getName());
@@ -52,8 +50,8 @@ public class SubCategoryMapper {
         return subCategory;
     }
 
-    public static void updateEntity(SubCategory subCategory,SaveSubcategoryDTO saveSubcategoryDTO,Category category){
-        if(subCategory == null || saveSubcategoryDTO == null) return;
+    public static void updateEntity(SubCategory subCategory, SaveSubcategoryDTO saveSubcategoryDTO, Category category){
+        if (subCategory == null || saveSubcategoryDTO == null) return;
 
         subCategory.setName(saveSubcategoryDTO.getName());
         subCategory.setIcon(saveSubcategoryDTO.getIcon());
@@ -61,9 +59,8 @@ public class SubCategoryMapper {
 
     }
 
-
     public static CategoryDTO.SubcategoryDTO toSubCategoriesCategoryDto(SubCategory subCategory){
-        if (subCategory == null ) return null;
+        if (subCategory == null) return null;
 
         return new CategoryDTO.SubcategoryDTO(
                 subCategory.getId(),
@@ -71,12 +68,21 @@ public class SubCategoryMapper {
         );
     }
 
-
     public static List<CategoryDTO.SubcategoryDTO> toSubCategoriesCategoriesDto(List<SubCategory> subCategories){
-        if (subCategories == null ) return null;
+        if (subCategories == null) return null;
 
         return subCategories.stream()
                 .map(SubCategoryMapper::toSubCategoriesCategoryDto)
                 .toList();
+    }
+
+    public static ProductDTO.SubcategoryDTO toGetSubCategoryDto(SubCategory subCategory){
+        if (subCategory == null) return null;
+
+        return new ProductDTO.SubcategoryDTO(
+                subCategory.getId(),
+                subCategory.getName()
+        );
+
     }
 }

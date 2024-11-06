@@ -13,18 +13,20 @@ public class ProductMapper {
 
     public ProductDTO toDto(Product product){
 
-        ProductDTO productDTO = new ProductDTO();
+        if(product == null) return null;
 
+        ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
         productDTO.setName(product.getName());
         productDTO.setDetail(product.getDetail());
         productDTO.setImage(product.getImage());
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
+        productDTO.setSubcategory(SubCategoryMapper.toGetSubCategoryDto(product.getSubCategory()));
+        productDTO.setVariants(VariantMapper.toVariantsProductDto(product.getVariants()));
 
         return productDTO;
     }
-
 
     public static SubcategoryDTO.ProductDTO toProductSubCategoryDTO(Product product){
 
@@ -46,5 +48,4 @@ public class ProductMapper {
                 .map(ProductMapper::toProductSubCategoryDTO)
                 .toList();
     }
-
 }

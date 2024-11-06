@@ -23,6 +23,9 @@ public class Product {
     @Column(nullable = false, columnDefinition = "int default 0")
     private int stock;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int status;
+
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
@@ -36,13 +39,14 @@ public class Product {
     public Product(){
     }
 
-    public Product(Long id, String name, String detail, String image, Double price, int stock, SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
+    public Product(Long id, String name, String detail, String image, Double price, int stock, int status,SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
         this.id = id;
         this.name = name;
         this.detail = detail;
         this.image = image;
         this.price = price;
         this.stock = stock;
+        this.status = status;
         this.subCategory = subCategory;
         this.variants = variants;
         this.optionProducts = optionProducts;
@@ -90,6 +94,14 @@ public class Product {
 
     public int getStock(){
         return stock;
+    }
+
+    public int getStatus(){
+        return status;
+    }
+
+    public void setStatus(int status){
+        this.status = status;
     }
 
     public void setStock(int stock){
