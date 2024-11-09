@@ -75,4 +75,15 @@ public class Variant {
     public void setImagesVariant(List<ImageVariant> imagesVariant){
         this.imagesVariant = imagesVariant;
     }
+
+    @Override
+    public String toString(){
+        return "Variant{" +
+                "id=" + id +
+                ", image='" + image + '\'' +
+                ", product=" + product +
+                ", featureVariants=" + featureVariants +
+                ", imagesVariant=" + imagesVariant +
+                '}';
+    }
 }

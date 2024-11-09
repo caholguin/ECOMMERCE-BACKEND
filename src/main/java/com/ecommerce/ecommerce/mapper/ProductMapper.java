@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.mapper;
 
+import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Product;
@@ -11,8 +12,9 @@ import java.util.List;
 @Component
 public class ProductMapper {
 
-    public ProductDTO toDto(Product product){
+    public static ProductDTO toDto(Product product){
 
+        System.out.println(product);
         if(product == null) return null;
 
         ProductDTO productDTO = new ProductDTO();
@@ -26,6 +28,22 @@ public class ProductMapper {
         productDTO.setVariants(VariantMapper.toVariantsProductDto(product.getVariants()));
 
         return productDTO;
+    }
+
+    public static Product toEntity(SaveProductDTO saveProductDTO, SubCategory subCategory){
+        if(saveProductDTO == null) return null;
+
+        Product product = new Product();
+        product.setId(saveProductDTO.getId());
+        product.setName(saveProductDTO.getName());
+        product.setDetail(saveProductDTO.getDetail());
+        product.setImage(saveProductDTO.getImage());
+        product.setPrice(saveProductDTO.getPrice());
+        product.setStock(saveProductDTO.getStock());
+        product.setStatus(saveProductDTO.getStatus());
+        product.setSubCategory(subCategory);
+
+        return product;
     }
 
     public static SubcategoryDTO.ProductDTO toProductSubCategoryDTO(Product product){

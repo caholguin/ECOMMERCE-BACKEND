@@ -26,7 +26,7 @@ public class Product {
     @Column(nullable = false, columnDefinition = "int default 0")
     private int status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 

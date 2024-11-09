@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.FeatureDTO;
 import com.ecommerce.ecommerce.entity.Feature;
+import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.FeatureMapper;
 import com.ecommerce.ecommerce.repository.FeatureRepository;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -80,4 +82,13 @@ public class FeatureServiceImpl implements FeatureService {
 
         return feature.get();
     }
+
+    @Override
+    public Feature findByIdEntity(Long id){
+        return featureRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("feature con ID: " + id + " no encontrada"));
+
+    }
+
+
 }

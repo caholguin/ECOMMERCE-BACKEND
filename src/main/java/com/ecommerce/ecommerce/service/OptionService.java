@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.dto.OptionDTO;
+import com.ecommerce.ecommerce.entity.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface OptionService {
     OptionDTO update(Long id, OptionDTO optionDTO);
 
     OptionDTO delete(Long id);
+
+    Option findByIdEntity(Long id);
 }

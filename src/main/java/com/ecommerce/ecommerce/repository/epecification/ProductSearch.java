@@ -34,6 +34,11 @@ public class ProductSearch implements Specification<Product> {
             predicates.add(detail);
         }
 
+        if (this.productSearchDTO.getStatus() != null) {
+            Predicate status = criteriaBuilder.equal(root.get("status"), this.productSearchDTO.getStatus());
+            predicates.add(status);
+        }
+
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 
 

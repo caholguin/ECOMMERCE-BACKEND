@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;
+import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.OptionMapper;
 import com.ecommerce.ecommerce.repository.OptionRepository;
@@ -82,5 +83,11 @@ public class OptionServiceImpl implements OptionService {
         optionRepository.delete(option);
 
         return optionMapper.toDTO(option);
+    }
+
+    public Option findByIdEntity(Long id){
+        return optionRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Opción con ID: " + id + " no encontrada"));
+
     }
 }
