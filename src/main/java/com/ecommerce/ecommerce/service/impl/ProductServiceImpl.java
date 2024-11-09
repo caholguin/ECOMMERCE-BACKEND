@@ -133,11 +133,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<List<Long>> triggerVariants(List<List<Long>> arrays, Long productId) {
 
-        List<List<Long>> combinaciones = generateRecursiveCombinations(arrays, 0, new ArrayList<>());
+        List<List<Long>> combinations = generateRecursiveCombinations(arrays, 0, new ArrayList<>());
 
         Product product = this.findByIdEntity(productId);
 
-        for (List<Long> combination : combinaciones) {
+        for (List<Long> combination : combinations) {
 
             List<Long> existingVariant = filterExistingCombinations(combination, productId);
             // Guardar los feature variants para la nueva variante
@@ -157,7 +157,7 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }
-        return combinaciones;
+        return combinations;
     }
 
     private List<Long> filterExistingCombinations(List<Long> combination, Long productId) {
@@ -182,21 +182,21 @@ public class ProductServiceImpl implements ProductService {
         return combination;
     }
 
-    private List<List<Long>> generateRecursiveCombinations(List<List<Long>> arrays, int indice, List<Long> combinacionActual) {
+    private List<List<Long>> generateRecursiveCombinations(List<List<Long>> arrays, int indice, List<Long> currentCombination) {
         if (indice == arrays.size()) {
             List<List<Long>> resultado = new ArrayList<>();
-            resultado.add(new ArrayList<>(combinacionActual));
+            resultado.add(new ArrayList<>(currentCombination));
             return resultado;
         }
 
-        List<List<Long>> resultado = new ArrayList<>();
+        List<List<Long>> result = new ArrayList<>();
 
         for (Long item : arrays.get(indice)) {
-            combinacionActual.add(item);
-            resultado.addAll(generateRecursiveCombinations(arrays, indice + 1, combinacionActual));
-            combinacionActual.removeLast();
+            currentCombination.add(item);
+            result.addAll(generateRecursiveCombinations(arrays, indice + 1, currentCombination));
+            currentCombination.removeLast();
         }
 
-        return resultado;
+        return result;
     }
 }
