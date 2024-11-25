@@ -2,13 +2,14 @@ package com.ecommerce.ecommerce.mapper;
 import com.ecommerce.ecommerce.dto.response.ImageVariantDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
+import com.ecommerce.ecommerce.entity.FeatureVariant;
 import com.ecommerce.ecommerce.entity.Variant;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class VariantMapper {
 
-    public VariantDTO toDto(Variant variant){
+    public static VariantDTO toDto(Variant variant){
 
         if(variant == null) return null;
 
@@ -28,10 +29,15 @@ public class VariantMapper {
                 .map(ImageVariantMapper::toImageVariantDTO)
                 .collect(Collectors.toList());
 
+        List<ProductDTO.FeatureVariantDTO> featureVariantDTO = variant.getFeatureVariants().stream()
+                .map(FeatureVariantMapper::toFeatureVariantDTO)
+                .collect(Collectors.toList());
+
         return new ProductDTO.VariantDTO(
                 variant.getId(),
                 variant.getImage(),
-                imageDTOs
+                imageDTOs,
+                featureVariantDTO
         );
     }
 

@@ -27,7 +27,7 @@ public class FeatureServiceImpl implements FeatureService {
     @Override
     public Page<FeatureDTO> findAll(Pageable pageable){
         Page<Feature> features = featureRepository.findAll(pageable);
-        return features.map(featureMapper::toDTO);
+        return features.map(FeatureMapper::toDTO);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class FeatureServiceImpl implements FeatureService {
 
         Feature featureSaved = featureRepository.save(feature);
 
-        return featureMapper.toDTO(featureSaved);
+        return FeatureMapper.toDTO(featureSaved);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class FeatureServiceImpl implements FeatureService {
             throw new ObjectNotFoundException("No existe una característica con el id " + id);
         }
 
-        return feautureOptional.map(featureMapper::toDTO);
+        return feautureOptional.map(FeatureMapper::toDTO);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class FeatureServiceImpl implements FeatureService {
 
         Feature featureUpdated = featureRepository.save(feature);
 
-        return featureMapper.toDTO(featureUpdated);
+        return FeatureMapper.toDTO(featureUpdated);
     }
 
     @Override

@@ -14,7 +14,6 @@ public class ProductMapper {
 
     public static ProductDTO toDto(Product product){
 
-        System.out.println(product);
         if(product == null) return null;
 
         ProductDTO productDTO = new ProductDTO();

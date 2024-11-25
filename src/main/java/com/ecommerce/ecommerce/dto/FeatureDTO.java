@@ -14,9 +14,6 @@ public class FeatureDTO {
     @NotBlank(message = "El campo nombre es obligatorio")
     private String description;
 
-    @NotNull(message = "El campo type es obligatorio")
-    private Long optionId;
-
     private OptionDTO option;
 
     public Long getId(){
@@ -41,14 +38,6 @@ public class FeatureDTO {
 
     public void setDescription(String description){
         this.description = description;
-    }
-
-    public Long getOptionId(){
-        return optionId;
-    }
-
-    public void setOptionId(Long optionId){
-        this.optionId = optionId;
     }
 
     public OptionDTO getOption(){

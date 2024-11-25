@@ -1,5 +1,10 @@
 package com.ecommerce.ecommerce.dto.response;
 
+import com.ecommerce.ecommerce.dto.FeatureDTO;
+import com.ecommerce.ecommerce.entity.Feature;
+import com.ecommerce.ecommerce.entity.FeatureVariant;
+import com.ecommerce.ecommerce.entity.Variant;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -117,11 +122,13 @@ public class ProductDTO implements Serializable {
         private Long id;
         private String image;
         private List<ImageVariantDTO> imageVariants;
+        private List<FeatureVariantDTO> featureVariants;
 
-        public VariantDTO(Long id, String image, List<ImageVariantDTO> imageVariants){
+        public VariantDTO(Long id, String image, List<ImageVariantDTO> imageVariants, List<FeatureVariantDTO> featureVariants){
             this.id = id;
             this.image = image;
             this.imageVariants = imageVariants;
+            this.featureVariants = featureVariants;
         }
 
         public Long getId(){
@@ -147,8 +154,46 @@ public class ProductDTO implements Serializable {
         public void setImageVariants(List<ImageVariantDTO> imageVariants){
             this.imageVariants = imageVariants;
         }
+
+        public List<FeatureVariantDTO> getFeatureVariants(){
+            return featureVariants;
+        }
+
+        public void setFeatureVariants(List<FeatureVariantDTO> featureVariants){
+            this.featureVariants = featureVariants;
+        }
     }
 
+    public static class FeatureVariantDTO {
+        private Long id;
+        private FeatureDTO feature;
+
+        public FeatureVariantDTO(Long id,  FeatureDTO feature){
+            this.id = id;
+
+            this.feature = feature;
+        }
+
+
+        public Long getId(){
+            return id;
+        }
+
+        public void setId(Long id){
+            this.id = id;
+        }
+
+
+
+        public FeatureDTO getFeature(){
+            return feature;
+        }
+
+        public void setFeature(FeatureDTO feature){
+            this.feature = feature;
+        }
+    }
+    
     public static class ImageVariantDTO {
         private Long id;
         private String url;
@@ -158,7 +203,8 @@ public class ProductDTO implements Serializable {
             this.id = id;
             this.url = url;
             this.orderItems = orderItems;
-        }
+        }        
+
 
         public Long getId(){
             return id;

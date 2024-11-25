@@ -17,9 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -129,57 +128,56 @@ public class ProductServiceImpl implements ProductService {
         return url;
     }
 
-
     @Override
-    public List<List<Long>> triggerVariants(List<List<Long>> arrays, Long productId) {
+    public List<List<Long>> triggerVariants(List<List<Long>> arrays, Long productId){
 
         List<List<Long>> combinations = generateRecursiveCombinations(arrays, 0, new ArrayList<>());
-
         Product product = this.findByIdEntity(productId);
+
+        List<List<Long>> newCombinations = new ArrayList<>();
 
         for (List<Long> combination : combinations) {
 
-            List<Long> existingVariant = filterExistingCombinations(combination, productId);
-            // Guardar los feature variants para la nueva variante
-            for (Long featureId : existingVariant) {
-                // Crear una nueva variante ya que no existe la combinación exacta
+            if (!isCombinationExisting(combination, productId)) {
+                newCombinations.add(combination);
+
                 Variant variant = new Variant();
                 variant.setProduct(product);
                 variantRepository.save(variant);
 
-                Feature feature = featureService.findByIdEntity(featureId);
-
-                if (feature != null) {
-                    FeatureVariant featureVariant = new FeatureVariant();
-                    featureVariant.setVariant(variant);
-                    featureVariant.setFeature(feature);
-                    featureVariantRepository.save(featureVariant);
+                for (Long featureId : combination) {
+                    Feature feature = featureService.findByIdEntity(featureId);
+                    if (feature != null) {
+                        FeatureVariant featureVariant = new FeatureVariant();
+                        featureVariant.setVariant(variant);
+                        featureVariant.setFeature(feature);
+                        featureVariantRepository.save(featureVariant);
+                    }
                 }
             }
         }
-        return combinations;
+        return newCombinations;
     }
 
-    private List<Long> filterExistingCombinations(List<Long> combination, Long productId) {
-        // Obtener todas las variantes para el producto dado
+    private boolean isCombinationExisting(List<Long> combination, Long productId){
+
         List<Variant> variants = variantService.findByProductoId(productId);
 
-        // Crear una lista para almacenar los featureIds que aún no existen en ninguna variante
-        new ArrayList<>(combination);
-
         for (Variant variant : variants) {
-            // Revisar cada featureId en la combinación
-            combination.removeIf(featureId -> {
-                return featureVariantRepository.existsByVariantIdAndFeatureId(variant.getId(), featureId); // Remueve si ya existe
-            });
+            boolean allFeaturesExist = true;
 
-            // Si ya se removieron todos, terminar el bucle
-            if (combination.isEmpty()) {
-                break;
+            for (Long item : combination) {
+                if (!featureVariantRepository.existsByVariantIdAndFeatureId(variant.getId(), item)) {
+                    allFeaturesExist = false;
+                    break;
+                }
+            }
+
+            if (allFeaturesExist) {
+                return true;
             }
         }
-        // Retornar la lista de combinaciones filtradas (solo con los featureIds que no existen)
-        return combination;
+        return false;
     }
 
     private List<List<Long>> generateRecursiveCombinations(List<List<Long>> arrays, int indice, List<Long> currentCombination) {
@@ -197,6 +195,7 @@ public class ProductServiceImpl implements ProductService {
             currentCombination.removeLast();
         }
 
+        System.out.println("result = " + result);
         return result;
     }
 }
