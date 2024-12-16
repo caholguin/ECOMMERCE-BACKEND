@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.dto.response;
 
-import com.ecommerce.ecommerce.dto.FeatureDTO;
+import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.entity.Feature;
 import com.ecommerce.ecommerce.entity.FeatureVariant;
 import com.ecommerce.ecommerce.entity.Variant;

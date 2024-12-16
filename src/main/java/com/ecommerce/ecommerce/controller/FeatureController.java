@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.FeatureDTO;
+import com.ecommerce.ecommerce.dto.request.FeatureSearchDTO;
+import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.FeatureService;
 import jakarta.validation.Valid;
@@ -11,18 +12,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/features")
+@CrossOrigin("*")
 public class FeatureController {
 
     @Autowired
     private FeatureService featureService;
 
     @GetMapping()
-    public ResponseEntity<Page<FeatureDTO>> findAll(Pageable pageable){
-        Page<FeatureDTO> features = featureService.findAll(pageable);
+    public ResponseEntity<Page<FeatureDTO>> findAll(Pageable pageable, @RequestParam(required = false) String value, @RequestParam(required = false) Long option){
+
+        FeatureSearchDTO featureSearchDTO = new FeatureSearchDTO(value,option);
+
+        Page<FeatureDTO> features = featureService.findAll(featureSearchDTO,pageable);
         return new ResponseEntity<>(features, HttpStatus.OK);
     }
 

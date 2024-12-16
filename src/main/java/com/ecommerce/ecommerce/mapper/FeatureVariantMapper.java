@@ -1,10 +1,9 @@
 package com.ecommerce.ecommerce.mapper;
 
-import com.ecommerce.ecommerce.dto.FeatureDTO;
+import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
 import com.ecommerce.ecommerce.entity.FeatureVariant;
-import com.ecommerce.ecommerce.entity.ImageVariant;
 import com.ecommerce.ecommerce.entity.Variant;
 
 public class FeatureVariantMapper {

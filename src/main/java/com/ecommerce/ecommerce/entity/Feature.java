@@ -12,9 +12,7 @@ public class Feature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String value;
-
-    private String description;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "option_id")
@@ -26,10 +24,9 @@ public class Feature {
     public Feature(){
     }
 
-    public Feature(Long id, String value, String description,Option option, List<FeatureVariant> featureVariants){
+    public Feature(Long id, String name, Option option, List<FeatureVariant> featureVariants){
         this.id = id;
-        this.value = value;
-        this.description = description;
+        this.name = name;
         this.option = option;
         this.featureVariants = featureVariants;
     }
@@ -42,20 +39,12 @@ public class Feature {
         this.id = id;
     }
 
-    public String getValue(){
-        return value;
+    public String getName(){
+        return name;
     }
 
-    public void setValue(String value){
-        this.value = value;
-    }
-
-    public String getDescription(){
-        return description;
-    }
-
-    public void setDescription(String description){
-        this.description = description;
+    public void setName(String name){
+        this.name = name;
     }
 
     public Option getOption(){
@@ -72,16 +61,5 @@ public class Feature {
 
     public void setFeatureVariants(List<FeatureVariant> featureVariants){
         this.featureVariants = featureVariants;
-    }
-
-    @Override
-    public String toString(){
-        return "Feature{" +
-                "id=" + id +
-                ", value='" + value + '\'' +
-                ", description='" + description + '\'' +
-                ", option=" + option +
-                ", featureVariants=" + featureVariants +
-                '}';
     }
 }
