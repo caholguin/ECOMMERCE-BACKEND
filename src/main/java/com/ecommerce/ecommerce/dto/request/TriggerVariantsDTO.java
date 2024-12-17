@@ -2,7 +2,7 @@ package com.ecommerce.ecommerce.dto.request;
 
 import java.util.List;
 
-public class TriggerVarinatsDTO {
+public class TriggerVariantsDTO {
 
     private List<List<Long>> arrays;
 

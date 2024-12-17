@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
-import com.ecommerce.ecommerce.dto.request.TriggerVarinatsDTO;
+import com.ecommerce.ecommerce.dto.request.TriggerVariantsDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
@@ -58,8 +58,8 @@ public class ProductController {
     }
 
     @PostMapping("/combinaciones/{productId}")
-    public ResponseEntity<Void> triggerVariants(@RequestBody TriggerVarinatsDTO triggerVarinatsDTO, @PathVariable Long productId) {
-        productService.triggerVariants(triggerVarinatsDTO.getArrays(),productId);
+    public ResponseEntity<Void> triggerVariants(@RequestBody TriggerVariantsDTO triggerVariantsDTO, @PathVariable Long productId) {
+        productService.triggerVariants(triggerVariantsDTO.getArrays(),productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

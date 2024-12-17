@@ -1,7 +1,10 @@
 package com.ecommerce.ecommerce.service.impl;
 
+import com.ecommerce.ecommerce.dto.response.VariantDTO;
 import com.ecommerce.ecommerce.entity.Feature;
 import com.ecommerce.ecommerce.entity.Variant;
+import com.ecommerce.ecommerce.mapper.CategoryMapper;
+import com.ecommerce.ecommerce.mapper.VariantMapper;
 import com.ecommerce.ecommerce.repository.VariantRepository;
 import com.ecommerce.ecommerce.service.VariantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +21,11 @@ public class VariantServiceImpl implements VariantService {
     @Override
     public List<Variant> findByProductoId(Long productId){
         return variantRepository.findByProductId(productId);
+    }
+
+    @Override
+    public List<VariantDTO> findAll(){
+        List<Variant> variants = variantRepository.findAll();
+        return VariantMapper.toDtoList(variants);
     }
 }

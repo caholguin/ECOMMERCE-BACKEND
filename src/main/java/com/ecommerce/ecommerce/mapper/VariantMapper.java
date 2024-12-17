@@ -21,6 +21,12 @@ public class VariantMapper {
         return variantDTO;
     }
 
+    public static  List<VariantDTO> toDtoList(List<Variant> variants){
+        if(variants == null) return null;
+
+        return variants.stream().map(VariantMapper::toDto).collect(Collectors.toList());
+    }
+
 
     public static ProductDTO.VariantDTO toVariantProductDto(Variant variant){
         if (variant == null ) return null;

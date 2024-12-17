@@ -1,7 +1,6 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
-import com.ecommerce.ecommerce.dto.request.TriggerVarinatsDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
 import org.springframework.data.domain.Page;
