@@ -12,6 +12,8 @@ public class VariantDTO {
 
     private String image;
 
+    private int stock;
+
     private ProductDTO product;
 
     private List<FeatureVariantDTO> featureVariants;
@@ -32,6 +34,14 @@ public class VariantDTO {
 
     public void setImage(String image){
         this.image = image;
+    }
+
+    public int getStock(){
+        return stock;
+    }
+
+    public void setStock(int stock){
+        this.stock = stock;
     }
 
     public ProductDTO getProduct(){

@@ -12,8 +12,11 @@ public class Variant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = true)
     private String image;
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int stock;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -28,9 +31,10 @@ public class Variant {
     public Variant(){
     }
 
-    public Variant(Long id, String image, Product product, List<FeatureVariant> featureVariants, List<ImageVariant> imagesVariant){
+    public Variant(Long id, String image, int stock, Product product, List<FeatureVariant> featureVariants, List<ImageVariant> imagesVariant){
         this.id = id;
         this.image = image;
+        this.stock = stock;
         this.product = product;
         this.featureVariants = featureVariants;
         this.imagesVariant = imagesVariant;
@@ -50,6 +54,14 @@ public class Variant {
 
     public void setImage(String image){
         this.image = image;
+    }
+
+    public int getStock(){
+        return stock;
+    }
+
+    public void setStock(int stock){
+        this.stock = stock;
     }
 
     public Product getProduct(){
@@ -81,6 +93,7 @@ public class Variant {
         return "Variant{" +
                 "id=" + id +
                 ", image='" + image + '\'' +
+                ", stock=" + stock +
                 ", product=" + product +
                 ", featureVariants=" + featureVariants +
                 ", imagesVariant=" + imagesVariant +

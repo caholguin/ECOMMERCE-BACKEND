@@ -16,6 +16,7 @@ public class VariantMapper {
         VariantDTO variantDTO = new VariantDTO();
         variantDTO.setId(variant.getId());
         variantDTO.setImage(variant.getImage());
+        variantDTO.setStock(variant.getStock());
         variantDTO.setImagesVariant(ImageVariantMapper.toImagesVariantDto(variant.getImagesVariant()));
 
         return variantDTO;
