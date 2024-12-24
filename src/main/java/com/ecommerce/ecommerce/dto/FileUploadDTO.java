@@ -2,18 +2,20 @@ package com.ecommerce.ecommerce.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public class FileUploadDTO {
 
-    private MultipartFile file;
+    private List<MultipartFile> files;
     private String type;
     private Long id;
 
-    public MultipartFile getFile(){
-        return file;
+    public List<MultipartFile> getFiles(){
+        return files;
     }
 
-    public void setFile(MultipartFile file){
-        this.file = file;
+    public void setFiles(List<MultipartFile> files){
+        this.files = files;
     }
 
     public String getType(){

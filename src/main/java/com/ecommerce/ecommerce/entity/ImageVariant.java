@@ -13,6 +13,7 @@ public class ImageVariant {
     @Column(length = 255)
     private String url;
 
+    @Column(nullable = true)
     private Integer orderItems;
 
     @ManyToOne

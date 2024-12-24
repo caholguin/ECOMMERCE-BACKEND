@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/media")
+@CrossOrigin("*")
 public class MediaController {
 
     @Autowired
     private StorageService storageService;
 
     @PostMapping("/upload")
-    public Map<String, String> uploadFile(@ModelAttribute FileUploadDTO fileUploadDTO) {
-
-        String url = storageService.store(fileUploadDTO.getFile(), fileUploadDTO.getType(), fileUploadDTO.getId());
-
-        return Map.of("url", url);
+    public Map<String, List<String>> uploadFiles(@ModelAttribute FileUploadDTO fileUploadDTO) {
+        List<String> urls = storageService.store(fileUploadDTO.getFiles(), fileUploadDTO.getType(), fileUploadDTO.getId());
+        return Map.of("urls", urls);
     }
 
     @GetMapping("/{type}/{filename:.+}")

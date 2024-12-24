@@ -11,4 +11,6 @@ public interface VariantService {
     List<Variant> findByProductoId(Long productId);
 
     List<VariantDTO> findAll();
+
+    String addMedia(Long id, String url);
 }

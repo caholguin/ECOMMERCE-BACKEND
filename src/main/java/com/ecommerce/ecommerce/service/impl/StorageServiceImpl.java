@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.service.ProductService;
 import com.ecommerce.ecommerce.service.StorageService;
+import com.ecommerce.ecommerce.service.VariantService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -27,6 +30,9 @@ public class StorageServiceImpl implements StorageService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private VariantService variantService;
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
@@ -58,8 +64,19 @@ public class StorageServiceImpl implements StorageService {
         Files.createDirectories(productPath);
     }
 
+    @Override
+    public List<String> store(List<MultipartFile> files, String type, Long id) {
+        List<String> urls = new ArrayList<>();
+        System.out.println("urls = " + urls);
+        for (MultipartFile file : files) {
+            String url = store(file, type, id);
+            urls.add(url);
+        }
+        return urls;
+    }
 
-   @Override
+
+    @Override
    public String store(MultipartFile file, String type, Long id){
        try {
            if (file.isEmpty()) {
@@ -89,13 +106,25 @@ public class StorageServiceImpl implements StorageService {
        }
    }
 
+    public List<String> storeMultiple(List<MultipartFile> files, String type, Long id){
+        List<String> urls = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            String url = store(file, type, id);
+            urls.add(url);
+        }
+
+        return urls;
+    }
+
+
     private String getUrlAndSave(String basePath, String fileName,Long id,String type){
         String resultPath = basePath + "/" + fileName;
 
         String host = this.getBaseUrl();
         String url = host + contextPath + "/media/" + resultPath;
 
-        productService.addMedia(id,url);
+        variantService.addMedia(id,url);
 
         return url;
     }
