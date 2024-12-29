@@ -23,6 +23,7 @@ public class ProductMapper {
         productDTO.setImage(product.getImage());
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
+        productDTO.setStatus(product.getStatus());
         productDTO.setSubcategory(SubCategoryMapper.toGetSubCategoryDto(product.getSubCategory()));
         productDTO.setVariants(VariantMapper.toVariantsProductDto(product.getVariants()));
 
