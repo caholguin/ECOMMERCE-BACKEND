@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.service;
 
+import com.ecommerce.ecommerce.dto.request.SaveVariantDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
-import com.ecommerce.ecommerce.entity.Feature;
 import com.ecommerce.ecommerce.entity.Variant;
 
 import java.util.List;
@@ -13,4 +13,8 @@ public interface VariantService {
     List<VariantDTO> findAll();
 
     String addMedia(Long id, String url);
+
+    VariantDTO updateStock(Long id, SaveVariantDTO saveVariantDTO);
+
+    Variant findByIdEntity(Long id);
 }

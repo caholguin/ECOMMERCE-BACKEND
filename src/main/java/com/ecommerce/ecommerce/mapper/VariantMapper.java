@@ -1,7 +1,11 @@
 package com.ecommerce.ecommerce.mapper;
+import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
+import com.ecommerce.ecommerce.dto.request.SaveVariantDTO;
 import com.ecommerce.ecommerce.dto.response.ImageVariantDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
+import com.ecommerce.ecommerce.entity.Category;
+import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.entity.FeatureVariant;
 import com.ecommerce.ecommerce.entity.Variant;
 import java.util.List;
@@ -63,6 +67,15 @@ public class VariantMapper {
                 variant.getId(),
                 variant.getImage()
         );
+    }
+
+
+    public static void updateEntity(Variant variant, SaveVariantDTO saveVariantDTO){
+        if(variant == null || saveVariantDTO == null) return;
+
+        variant.setImage(saveVariantDTO.getImage());
+        variant.setStock(saveVariantDTO.getStock());
+
     }
 
 }

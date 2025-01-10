@@ -12,8 +12,6 @@ public class OptionProduct {
 
     private String features;
 
-    private int stock;
-
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
@@ -25,10 +23,9 @@ public class OptionProduct {
     public OptionProduct(){
     }
 
-    public OptionProduct(Long id, String features, int stock, Product product, Option option){
+    public OptionProduct(Long id, String features, Product product, Option option){
         this.id = id;
         this.features = features;
-        this.stock = stock;
         this.product = product;
         this.option = option;
     }
@@ -47,14 +44,6 @@ public class OptionProduct {
 
     public void setFeatures(String features){
         this.features = features;
-    }
-
-    public int getStock(){
-        return stock;
-    }
-
-    public void setStock(int stock){
-        this.stock = stock;
     }
 
     public Product getProduct(){
@@ -78,7 +67,6 @@ public class OptionProduct {
         return "OptionProduct{" +
                 "id=" + id +
                 ", features='" + features + '\'' +
-                ", stock=" + stock +
                 ", product=" + product +
                 ", option=" + option +
                 '}';
