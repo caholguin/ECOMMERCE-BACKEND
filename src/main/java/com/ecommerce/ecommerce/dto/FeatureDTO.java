@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.dto;
 
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

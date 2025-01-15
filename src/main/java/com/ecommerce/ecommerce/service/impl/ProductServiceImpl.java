@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toDto(product);
     }
 
-
+    @Override
     public Product findByIdEntity(Long id){
         return productRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Producto con ID: " + id + " no encontrada"));

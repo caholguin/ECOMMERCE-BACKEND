@@ -2,9 +2,13 @@ package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Feature;
+import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class FeatureMapper {
@@ -34,5 +38,24 @@ public class FeatureMapper {
         categoryDTO.setSubCategories(SubCategoryMapper.toSubCategoriesCategoriesDto(category.getSubCategories()));
 
         return categoryDTO;
+    }
+
+    public static OptionDTO.FeatureDTO toFeaturetoOption(Feature feature){
+
+        if(feature == null) return null;
+
+        return new OptionDTO.FeatureDTO(
+                feature.getId(),
+                feature.getName()
+        );
+
+    }
+
+    public static List<OptionDTO.FeatureDTO> toFeaturestoOption(List<Feature> feature){
+        if (feature == null) return null;
+
+        return feature.stream()
+                .map(FeatureMapper::toFeaturetoOption)
+                .toList();
     }
 }

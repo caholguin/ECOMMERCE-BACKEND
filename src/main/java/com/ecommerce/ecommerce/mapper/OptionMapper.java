@@ -1,20 +1,24 @@
 package com.ecommerce.ecommerce.mapper;
 
-import com.ecommerce.ecommerce.dto.OptionDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
+import com.ecommerce.ecommerce.dto.response.OptionProductDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class OptionMapper {
 
-    public OptionDTO toDTO(Option option){
+    public static OptionDTO toDto(Option option){
 
         OptionDTO optionDTO = new OptionDTO();
 
        optionDTO.setId(option.getId());
        optionDTO.setName(option.getName());
        optionDTO.setType(option.getType());
+       optionDTO.setFeatures(FeatureMapper.toFeaturestoOption(option.getFeatures()));
 
         return optionDTO;
     }
@@ -28,19 +32,12 @@ public class OptionMapper {
         );
     }
 
+    public static OptionProductDTO.OptionDTO toGetOptionProductDTO(Option option){
+        if(option == null) return null;
 
-
-    /*
-    *
-    *
-    * public static CategoryDTO.FamilyDTO toGetFamilyDto(Family family){
-        if (family == null ) return null;
-
-        return new CategoryDTO.FamilyDTO(
-                family.getId(),
-                family.getName()
+        return new OptionProductDTO.OptionDTO(
+                option.getId(),
+                option.getName()
         );
-
     }
-    * */
 }

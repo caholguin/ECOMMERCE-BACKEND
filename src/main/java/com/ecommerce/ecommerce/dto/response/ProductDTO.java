@@ -1,9 +1,6 @@
 package com.ecommerce.ecommerce.dto.response;
 
-import com.ecommerce.ecommerce.dto.response.FeatureDTO;
-import com.ecommerce.ecommerce.entity.Feature;
-import com.ecommerce.ecommerce.entity.FeatureVariant;
-import com.ecommerce.ecommerce.entity.Variant;
+import com.ecommerce.ecommerce.entity.OptionProduct;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,6 +16,7 @@ public class ProductDTO implements Serializable {
     private int status;
     private SubcategoryDTO subcategory;
     private List<VariantDTO> variants;
+    private List<OptionProductDTO> optionsProduct;
 
     public Long getId(){
         return id;
@@ -90,6 +88,14 @@ public class ProductDTO implements Serializable {
 
     public void setVariants(List<VariantDTO> variants){
         this.variants = variants;
+    }
+
+    public List<OptionProductDTO> getOptionsProduct(){
+        return optionsProduct;
+    }
+
+    public void setOptionsProduct(List<OptionProductDTO> optionsProduct){
+        this.optionsProduct = optionsProduct;
     }
 
     public static class SubcategoryDTO implements Serializable {
@@ -164,16 +170,14 @@ public class ProductDTO implements Serializable {
         }
     }
 
-    public static class FeatureVariantDTO {
+    public static class FeatureVariantDTO implements Serializable {
         private Long id;
         private FeatureDTO feature;
 
         public FeatureVariantDTO(Long id,  FeatureDTO feature){
             this.id = id;
-
             this.feature = feature;
         }
-
 
         public Long getId(){
             return id;
@@ -182,8 +186,6 @@ public class ProductDTO implements Serializable {
         public void setId(Long id){
             this.id = id;
         }
-
-
 
         public FeatureDTO getFeature(){
             return feature;
@@ -194,7 +196,7 @@ public class ProductDTO implements Serializable {
         }
     }
     
-    public static class ImageVariantDTO {
+    public static class ImageVariantDTO implements Serializable {
         private Long id;
         private String url;
         private Integer orderItems;
@@ -228,6 +230,43 @@ public class ProductDTO implements Serializable {
 
         public void setOrderItems(Integer orderItems){
             this.orderItems = orderItems;
+        }
+    }
+
+    public static class OptionProductDTO implements Serializable {
+        private Long id;
+        private String features;
+        private OptionDTO option;
+
+
+        public OptionProductDTO(Long id, String features, OptionDTO option){
+            this.id = id;
+            this.features = features;
+            this.option = option;
+        }
+
+        public Long getId(){
+            return id;
+        }
+
+        public void setId(Long id){
+            this.id = id;
+        }
+
+        public String getFeatures(){
+            return features;
+        }
+
+        public void setFeatures(String features){
+            this.features = features;
+        }
+
+        public OptionDTO getOption(){
+            return option;
+        }
+
+        public void setOption(OptionDTO option){
+            this.option = option;
         }
     }
 

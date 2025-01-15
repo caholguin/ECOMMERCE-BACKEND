@@ -1,9 +1,9 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.dto.OptionDTO;
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;
-import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.OptionMapper;
 import com.ecommerce.ecommerce.repository.OptionRepository;
 import com.ecommerce.ecommerce.service.OptionService;
@@ -26,7 +26,7 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public Page<OptionDTO> findAll(Pageable pageable){
         Page<Option> options = optionRepository.findAll(pageable);
-        return options.map(optionMapper::toDTO);
+        return options.map(OptionMapper::toDto);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class OptionServiceImpl implements OptionService {
 
         Option savedOption = optionRepository.save(option);
 
-        return optionMapper.toDTO(savedOption);
+        return OptionMapper.toDto(savedOption);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class OptionServiceImpl implements OptionService {
             throw new ObjectNotFoundException("No existe una opción con el id: " + id);
         }
 
-        return option.map(optionMapper::toDTO);
+        return option.map(OptionMapper::toDto);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class OptionServiceImpl implements OptionService {
 
         Option savedOption = optionRepository.save(option);
 
-        return optionMapper.toDTO(savedOption);
+        return OptionMapper.toDto(savedOption);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class OptionServiceImpl implements OptionService {
         Option option = optionOptional.get();
         optionRepository.delete(option);
 
-        return optionMapper.toDTO(option);
+        return OptionMapper.toDto(option);
     }
 
     public Option findByIdEntity(Long id){

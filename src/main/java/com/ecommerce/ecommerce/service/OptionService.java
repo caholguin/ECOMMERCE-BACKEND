@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.service;
 
-import com.ecommerce.ecommerce.dto.OptionDTO;
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

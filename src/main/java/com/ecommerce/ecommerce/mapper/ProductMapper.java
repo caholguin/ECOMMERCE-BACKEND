@@ -26,6 +26,7 @@ public class ProductMapper {
         productDTO.setStatus(product.getStatus());
         productDTO.setSubcategory(SubCategoryMapper.toGetSubCategoryDto(product.getSubCategory()));
         productDTO.setVariants(VariantMapper.toVariantsProductDto(product.getVariants()));
+        productDTO.setOptionsProduct(OptionProductMapper.toOptionsProductDTO(product.getOptionProducts()));
 
         return productDTO;
     }

@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.OptionDTO;
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.OptionService;
 import jakarta.validation.Valid;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/options")
+@CrossOrigin("*")
 public class OptionController {
 
     @Autowired
