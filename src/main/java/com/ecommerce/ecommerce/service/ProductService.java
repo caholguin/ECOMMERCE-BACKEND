@@ -27,5 +27,5 @@ public interface ProductService {
 
     Product findByIdEntity(Long id);
 
-   List<List<Long>> triggerVariants(List<List<Long>> arrays, Long productId);
+   List<List<Long>> triggerVariants(Long productId);
 }

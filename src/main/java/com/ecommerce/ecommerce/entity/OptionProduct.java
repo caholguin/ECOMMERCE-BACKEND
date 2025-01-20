@@ -1,6 +1,10 @@
 package com.ecommerce.ecommerce.entity;
 
+import com.ecommerce.ecommerce.utils.JsonConverter;
 import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "option_product")
@@ -10,7 +14,8 @@ public class OptionProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String features;
+    @Convert(converter = JsonConverter.class)
+    private List<Map<String, String>> features;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -23,7 +28,7 @@ public class OptionProduct {
     public OptionProduct(){
     }
 
-    public OptionProduct(Long id, String features, Product product, Option option){
+    public OptionProduct(Long id, List<Map<String, String>> features, Product product, Option option){
         this.id = id;
         this.features = features;
         this.product = product;
@@ -38,11 +43,11 @@ public class OptionProduct {
         this.id = id;
     }
 
-    public String getFeatures(){
+    public List<Map<String, String>> getFeatures(){
         return features;
     }
 
-    public void setFeatures(String features){
+    public void setFeatures(List<Map<String, String>> features){
         this.features = features;
     }
 
@@ -60,15 +65,5 @@ public class OptionProduct {
 
     public void setOption(Option option){
         this.option = option;
-    }
-
-    @Override
-    public String toString(){
-        return "OptionProduct{" +
-                "id=" + id +
-                ", features='" + features + '\'' +
-                ", product=" + product +
-                ", option=" + option +
-                '}';
     }
 }

@@ -6,19 +6,15 @@ import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
 import com.ecommerce.ecommerce.entity.*;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.ProductMapper;
-import com.ecommerce.ecommerce.repository.FeatureRepository;
-import com.ecommerce.ecommerce.repository.FeatureVariantRepository;
-import com.ecommerce.ecommerce.repository.ProductRepository;
-import com.ecommerce.ecommerce.repository.VariantRepository;
+import com.ecommerce.ecommerce.repository.*;
 import com.ecommerce.ecommerce.repository.epecification.ProductSearch;
 import com.ecommerce.ecommerce.service.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -40,6 +36,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private VariantService variantService;
+    @Autowired
+    private OptionRepository optionRepository;
+    @Autowired
+    private OptionProductRespository optionProductRespository;
 
     @Override
     public Page<ProductDTO> findAll(ProductSearchDTO productSearchDTO, Pageable pageable){
@@ -129,7 +129,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<List<Long>> triggerVariants(List<List<Long>> arrays, Long productId){
+    @Transactional
+    public List<List<Long>> triggerVariants(Long productId){
+        List<List<Long>> arrays = new ArrayList<>(List.of());
+
+        variantService.deleteByProductId(productId);
+
+        List<OptionProduct> optionsProduct = optionProductRespository.findByProductId(productId);
+
+        for (OptionProduct optionProduct : optionsProduct) {
+
+            List<Map<String, String>> features = optionProduct.getFeatures();
+            List<Long> featureIds = new ArrayList<>();
+
+            for (Map<String, String> feature : features) {
+                if (feature.containsKey("id")) {
+                    featureIds.add(Long.parseLong(feature.get("id")));
+                }
+            }
+            arrays.add(featureIds);
+
+        }
+
 
         List<List<Long>> combinations = generateRecursiveCombinations(arrays, 0, new ArrayList<>());
         Product product = this.findByIdEntity(productId);
@@ -195,7 +216,6 @@ public class ProductServiceImpl implements ProductService {
             currentCombination.removeLast();
         }
 
-        System.out.println("result = " + result);
         return result;
     }
 }

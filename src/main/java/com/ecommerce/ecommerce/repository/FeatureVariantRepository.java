@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface FeatureVariantRepository extends JpaRepository<FeatureVariant, Long> {
 
@@ -12,5 +14,7 @@ public interface FeatureVariantRepository extends JpaRepository<FeatureVariant, 
             "FROM FeatureVariant fv " +
             "WHERE fv.variant.id = :variantId AND fv.feature.id = :featureId")
     boolean existsByVariantIdAndFeatureId(Long variantId, Long featureId);
+
+    List<FeatureVariant> findByVariantId(Long variantId);
 
 }

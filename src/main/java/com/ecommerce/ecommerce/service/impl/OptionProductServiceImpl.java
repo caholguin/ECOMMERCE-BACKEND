@@ -12,6 +12,10 @@ import com.ecommerce.ecommerce.service.OptionService;
 import com.ecommerce.ecommerce.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class OptionProductServiceImpl implements OptionProductService {
 
@@ -35,6 +39,29 @@ public class OptionProductServiceImpl implements OptionProductService {
 
         OptionProduct optionProduct = OptionProductMapper.toEntity(saveOptionProductDTO,option,product);
 
-        return OptionProductMapper.toDto(optionProductRespository.save(optionProduct));
+        OptionProduct savedOptionProduct = optionProductRespository.save(optionProduct);
+
+        productService.triggerVariants(saveOptionProductDTO.getProductId());
+
+        return OptionProductMapper.toDto(optionProductRespository.save(savedOptionProduct));
+    }
+
+    @Override
+    public void delete(Long id, Long featureId) {
+        List<OptionProduct> items = optionProductRespository.findByProductId(id);
+
+        for (OptionProduct item : items) {
+            List<Map<String, String>> features = item.getFeatures();
+
+            features.removeIf(feature -> feature.containsKey("id") &&
+                    Long.parseLong(feature.get("id")) == featureId);
+
+            optionProductRespository.save(item);
+
+            if (features.isEmpty()) {
+                optionProductRespository.delete(item);
+            }
+        }
+        productService.triggerVariants(id);
     }
 }

@@ -8,6 +8,7 @@ import com.ecommerce.ecommerce.mapper.VariantMapper;
 import com.ecommerce.ecommerce.repository.ImageVariantRepository;
 import com.ecommerce.ecommerce.repository.VariantRepository;
 import com.ecommerce.ecommerce.service.VariantService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,13 @@ public class VariantServiceImpl implements VariantService {
     public Variant findByIdEntity(Long id){
         return variantRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Variante con ID: " + id + " no encontrada"));
+    }
+
+    @Override
+    @Transactional
+    public Void deleteByProductId(Long id){
+      variantRepository.deleteByProductId(id);
+      return null;
     }
 
 }

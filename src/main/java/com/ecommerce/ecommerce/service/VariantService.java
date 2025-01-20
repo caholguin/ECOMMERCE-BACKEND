@@ -17,4 +17,6 @@ public interface VariantService {
     VariantDTO updateStock(Long id, SaveVariantDTO saveVariantDTO);
 
     Variant findByIdEntity(Long id);
+
+    Void deleteByProductId(Long id);
 }

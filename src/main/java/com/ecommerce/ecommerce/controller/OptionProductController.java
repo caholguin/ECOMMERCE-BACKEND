@@ -23,4 +23,10 @@ public class OptionProductController {
         OptionProductDTO optionProduct = optionProductService.save(saveOptionProductDTO);
         return new ResponseEntity<>(optionProduct, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}/{featureId}")
+    public ResponseEntity<Void> delete(@PathVariable Long id, @PathVariable Long featureId) {
+        optionProductService.delete(id,featureId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -4,10 +4,12 @@ import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.entity.Product;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 public class OptionProductDTO implements Serializable {
     private Long id;
-    private String features;
+    private List<Map<String, String>> features;
     private ProductDTO product;
     private OptionDTO option;
 
@@ -19,11 +21,11 @@ public class OptionProductDTO implements Serializable {
         this.id = id;
     }
 
-    public String getFeatures(){
+    public List<Map<String, String>> getFeatures(){
         return features;
     }
 
-    public void setFeatures(String features){
+    public void setFeatures(List<Map<String, String>> features){
         this.features = features;
     }
 

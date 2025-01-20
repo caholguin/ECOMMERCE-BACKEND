@@ -1,10 +1,12 @@
 package com.ecommerce.ecommerce.dto.request;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 public class SaveOptionProductDTO implements Serializable {
     private Long id;
-    private String features;
+    private List<Map<String, String>> features;
     private Long productId;
     private Long optionId;
 
@@ -16,11 +18,11 @@ public class SaveOptionProductDTO implements Serializable {
         this.id = id;
     }
 
-    public String getFeatures(){
+    public List<Map<String, String>> getFeatures(){
         return features;
     }
 
-    public void setFeatures(String features){
+    public void setFeatures(List<Map<String, String>> features){
         this.features = features;
     }
 

@@ -11,4 +11,6 @@ public interface VariantRepository extends JpaRepository<Variant, Long> {
 
     List<Variant> findByProductId(Long productId);
 
+    void deleteByProductId(Long productId);
+
 }

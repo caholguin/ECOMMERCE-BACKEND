@@ -7,4 +7,6 @@ public interface OptionProductService {
 
     OptionProductDTO save(SaveOptionProductDTO saveOptionProductDTO);
 
+    void delete(Long id,Long featureId);
+
 }
