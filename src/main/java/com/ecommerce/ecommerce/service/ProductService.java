@@ -17,15 +17,15 @@ public interface ProductService {
 
     ProductDTO save(SaveProductDTO saveProductDTO);
 
-    Optional<ProductDTO> findById(Long id);
+    ProductDTO findById(Long id);
 
-    ProductDTO update(Long id, ProductDTO productDTO);
+    ProductDTO update(Long id, SaveProductDTO saveProductDTO);
 
-    ProductDTO delete(Long id);
+    void delete(Long id);
 
     String addMedia(Long id, String url);
 
     Product findByIdEntity(Long id);
 
-   List<List<Long>> triggerVariants(Long productId);
+    List<List<Long>> triggerVariants(Long productId);
 }

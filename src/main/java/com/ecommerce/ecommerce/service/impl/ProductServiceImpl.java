@@ -10,43 +10,39 @@ import com.ecommerce.ecommerce.repository.*;
 import com.ecommerce.ecommerce.repository.epecification.ProductSearch;
 import com.ecommerce.ecommerce.service.*;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final SubCategoryService subCategoryService;
+    private final VariantRepository variantRepository;
+    private final FeatureVariantRepository featureVariantRepository;
+    private final FeatureService featureService;
+    private final VariantService variantService;
+    private final OptionProductRespository optionProductRespository;
 
-    @Autowired
-    private SubCategoryService subCategoryService;
-
-    @Autowired
-    private VariantRepository variantRepository;
-
-    @Autowired
-    private FeatureVariantRepository featureVariantRepository;
-
-    @Autowired
-    private FeatureService featureService;
-
-    @Autowired
-    private VariantService variantService;
-    @Autowired
-    private OptionRepository optionRepository;
-    @Autowired
-    private OptionProductRespository optionProductRespository;
+    public ProductServiceImpl(ProductRepository productRepository, SubCategoryService subCategoryService, VariantRepository variantRepository, FeatureVariantRepository featureVariantRepository, FeatureService featureService, VariantService variantService, OptionProductRespository optionProductRespository){
+        this.productRepository = productRepository;
+        this.subCategoryService = subCategoryService;
+        this.variantRepository = variantRepository;
+        this.featureVariantRepository = featureVariantRepository;
+        this.featureService = featureService;
+        this.variantService = variantService;
+        this.optionProductRespository = optionProductRespository;
+    }
 
     @Override
     public Page<ProductDTO> findAll(ProductSearchDTO productSearchDTO, Pageable pageable){
 
         ProductSearch productSearch = new ProductSearch(productSearchDTO);
 
-        Page<Product> products = productRepository.findAll(productSearch,pageable);
+        Page<Product> products = productRepository.findAll(productSearch, pageable);
         return products.map(ProductMapper::toDto);
     }
 
@@ -55,61 +51,36 @@ public class ProductServiceImpl implements ProductService {
 
         SubCategory subCategory = subCategoryService.findByIdEntity(saveProductDTO.getSubcategoryId());
 
-        Product product = ProductMapper.toEntity(saveProductDTO,subCategory);
+        Product product = ProductMapper.toEntity(saveProductDTO, subCategory);
         return ProductMapper.toDto(productRepository.save(product));
     }
 
     @Override
-    public Optional<ProductDTO> findById(Long id){
-
-        Optional<Product> product = productRepository.findById(id);
-
-        if (product.isEmpty()) {
-            throw new ObjectNotFoundException("No existe un producto con el id: " + id);
-        }
-
-        return product.map(ProductMapper::toDto);
+    public ProductDTO findById(Long id){
+        return ProductMapper.toDto(this.findByIdEntity(id));
     }
 
     @Override
-    public ProductDTO update(Long id, ProductDTO productDTO){
-        Optional<Product> productOptional = productRepository.findById(id);
+    public ProductDTO update(Long id, SaveProductDTO saveProductDTO){
 
-        if (productOptional.isEmpty()) {
-            throw new ObjectNotFoundException("No existe un producto con el id: " + id);
-        }
+        SubCategory subCategory = subCategoryService.findByIdEntity(saveProductDTO.getSubcategoryId());
 
-        Product product = productOptional.get();
-        product.setName(productDTO.getName());
-        product.setDetail(productDTO.getDetail());
-        product.setPrice(productDTO.getPrice());
-        product.setStock(productDTO.getStock());
-        product.setStatus(productDTO.getStatus());
+        Product product = this.findByIdEntity(id);
+        ProductMapper.updateEntity(product, saveProductDTO, subCategory);
 
-        Product updatedProduct = productRepository.save(product);
-
-        return ProductMapper.toDto(updatedProduct);
+        return ProductMapper.toDto(productRepository.save(product));
     }
 
     @Override
-    public ProductDTO delete(Long id){
-        Optional<Product> productOptional = productRepository.findById(id);
-
-        if (productOptional.isEmpty()) {
-            throw new ObjectNotFoundException("No existe un producto con el id: " + id);
-        }
-
-        Product product = productOptional.get();
+    public void delete(Long id){
+        Product product = this.findByIdEntity(id);
         productRepository.delete(product);
-
-        return ProductMapper.toDto(product);
     }
 
     @Override
     public Product findByIdEntity(Long id){
         return productRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Producto con ID: " + id + " no encontrada"));
-
     }
 
     @Override
@@ -123,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productOptional.get();
         product.setImage(url);
 
-       productRepository.save(product);
+        productRepository.save(product);
 
         return url;
     }
@@ -132,8 +103,6 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public List<List<Long>> triggerVariants(Long productId){
         List<List<Long>> arrays = new ArrayList<>(List.of());
-
-        //variantService.deleteByProductId(productId);
 
         List<OptionProduct> optionsProduct = optionProductRespository.findByProductId(productId);
 
@@ -150,7 +119,6 @@ public class ProductServiceImpl implements ProductService {
             arrays.add(featureIds);
 
         }
-
 
         List<List<Long>> combinations = generateRecursiveCombinations(arrays, 0, new ArrayList<>());
         Product product = this.findByIdEntity(productId);
@@ -205,7 +173,7 @@ public class ProductServiceImpl implements ProductService {
         return false;
     }
 
-    private List<List<Long>> generateRecursiveCombinations(List<List<Long>> arrays, int indice, List<Long> currentCombination) {
+    private List<List<Long>> generateRecursiveCombinations(List<List<Long>> arrays, int indice, List<Long> currentCombination){
         if (indice == arrays.size()) {
             List<List<Long>> resultado = new ArrayList<>();
             resultado.add(new ArrayList<>(currentCombination));
@@ -223,7 +191,7 @@ public class ProductServiceImpl implements ProductService {
         return result;
     }
 
-    public void cleanUnusedVariants(Long productId, List<List<Long>> validCombinations) {
+    public void cleanUnusedVariants(Long productId, List<List<Long>> validCombinations){
         List<Variant> variants = variantService.findByProductoId(productId);
 
         for (Variant variant : variants) {
@@ -238,7 +206,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private boolean isCombinationMatching(Variant variant, List<Long> combination) {
+    private boolean isCombinationMatching(Variant variant, List<Long> combination){
         for (Long featureId : combination) {
             if (!featureVariantRepository.existsByVariantIdAndFeatureId(variant.getId(), featureId)) {
                 return false;
