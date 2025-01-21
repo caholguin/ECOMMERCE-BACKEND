@@ -29,4 +29,10 @@ public class OptionProductController {
         optionProductService.delete(id,featureId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping()
+    public ResponseEntity<OptionProductDTO> update(@RequestBody SaveOptionProductDTO saveOptionProductDTO) {
+        OptionProductDTO optionProduct = optionProductService.update(saveOptionProductDTO);
+        return new ResponseEntity<>(optionProduct,HttpStatus.OK);
+    }
 }

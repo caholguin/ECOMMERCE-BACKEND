@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveOptionProductDTO;
+import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
 import com.ecommerce.ecommerce.dto.response.OptionProductDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.entity.OptionProduct;
@@ -13,7 +14,7 @@ import com.ecommerce.ecommerce.service.ProductService;
 import com.ecommerce.ecommerce.service.VariantService;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,5 +71,34 @@ public class OptionProductServiceImpl implements OptionProductService {
                 variantService.deleteByProductId(id);
         }
         productService.triggerVariants(id);
+    }
+
+    @Override
+    public OptionProductDTO update(SaveOptionProductDTO saveOptionProductDTO){
+
+        OptionProduct optionProduct = optionProductRespository.findByProductIdAndOptionId(saveOptionProductDTO.getProductId(), saveOptionProductDTO.getOptionId());
+
+        List<Map<String, String>> existingFeatures = optionProduct.getFeatures();
+        if (existingFeatures == null) {
+            existingFeatures = new ArrayList<>();
+        }
+
+        for (Map<String, String> newFeature : saveOptionProductDTO.getFeatures()) {
+
+            boolean exists = existingFeatures.stream()
+                    .anyMatch(feature -> feature.get("id").equals(newFeature.get("id")));
+
+            if (!exists) {
+                existingFeatures.add(newFeature);
+            }
+        }
+
+        optionProduct.setFeatures(existingFeatures);
+
+        OptionProduct saved = optionProductRespository.save(optionProduct);
+
+        productService.triggerVariants(saveOptionProductDTO.getProductId());
+
+        return OptionProductMapper.toDto(saved);
     }
 }

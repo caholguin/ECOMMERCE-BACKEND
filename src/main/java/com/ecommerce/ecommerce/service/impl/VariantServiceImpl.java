@@ -63,7 +63,7 @@ public class VariantServiceImpl implements VariantService {
     @Override
     @Transactional
     public Void deleteByProductId(Long id){
-      variantRepository.deleteByProductId(id);
+      variantRepository.deleteByProductId(id);;
       return null;
     }
 
