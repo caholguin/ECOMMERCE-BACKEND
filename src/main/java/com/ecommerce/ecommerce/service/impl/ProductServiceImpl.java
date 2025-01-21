@@ -133,7 +133,7 @@ public class ProductServiceImpl implements ProductService {
     public List<List<Long>> triggerVariants(Long productId){
         List<List<Long>> arrays = new ArrayList<>(List.of());
 
-        variantService.deleteByProductId(productId);
+        //variantService.deleteByProductId(productId);
 
         List<OptionProduct> optionsProduct = optionProductRespository.findByProductId(productId);
 
@@ -159,6 +159,8 @@ public class ProductServiceImpl implements ProductService {
 
         for (List<Long> combination : combinations) {
 
+            System.out.println("combination = " + combination);
+
             if (!isCombinationExisting(combination, productId)) {
                 newCombinations.add(combination);
 
@@ -177,6 +179,8 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }
+
+        cleanUnusedVariants(productId, combinations);
         return newCombinations;
     }
 
@@ -217,5 +221,29 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return result;
+    }
+
+    public void cleanUnusedVariants(Long productId, List<List<Long>> validCombinations) {
+        List<Variant> variants = variantService.findByProductoId(productId);
+
+        for (Variant variant : variants) {
+            boolean isUsed = validCombinations.stream().anyMatch(combination ->
+                    isCombinationMatching(variant, combination)
+            );
+
+            if (!isUsed) {
+                featureVariantRepository.deleteById(variant.getId());
+                variantRepository.delete(variant);
+            }
+        }
+    }
+
+    private boolean isCombinationMatching(Variant variant, List<Long> combination) {
+        for (Long featureId : combination) {
+            if (!featureVariantRepository.existsByVariantIdAndFeatureId(variant.getId(), featureId)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -10,6 +10,7 @@ import com.ecommerce.ecommerce.repository.OptionProductRespository;
 import com.ecommerce.ecommerce.service.OptionProductService;
 import com.ecommerce.ecommerce.service.OptionService;
 import com.ecommerce.ecommerce.service.ProductService;
+import com.ecommerce.ecommerce.service.VariantService;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -22,13 +23,14 @@ public class OptionProductServiceImpl implements OptionProductService {
     private final OptionProductRespository optionProductRespository;
     private final OptionService optionService;
     private final ProductService productService;
+    private final VariantService variantService;
 
-    public OptionProductServiceImpl(OptionProductRespository optionProductRespository, OptionService optionService, ProductService productService){
+    public OptionProductServiceImpl(OptionProductRespository optionProductRespository, OptionService optionService, ProductService productService, VariantService variantService){
 
         this.optionProductRespository = optionProductRespository;
         this.optionService = optionService;
         this.productService = productService;
-
+        this.variantService = variantService;
     }
 
     @Override
@@ -60,7 +62,12 @@ public class OptionProductServiceImpl implements OptionProductService {
 
             if (features.isEmpty()) {
                 optionProductRespository.delete(item);
+                variantService.deleteByProductId(id);
             }
+        }
+
+        if (items.isEmpty()){
+                variantService.deleteByProductId(id);
         }
         productService.triggerVariants(id);
     }
