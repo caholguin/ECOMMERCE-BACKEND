@@ -5,7 +5,6 @@ import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService){
+        this.categoryService = categoryService;
+    }
 
     @GetMapping()
     public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable, @RequestParam(required = false) String name){

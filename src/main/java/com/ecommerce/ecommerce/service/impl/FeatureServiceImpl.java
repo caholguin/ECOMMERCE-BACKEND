@@ -1,14 +1,16 @@
 package com.ecommerce.ecommerce.service.impl;
 
+import com.ecommerce.ecommerce.dto.request.SaveFeatureDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.dto.request.FeatureSearchDTO;
 import com.ecommerce.ecommerce.entity.Feature;
+import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.FeatureMapper;
 import com.ecommerce.ecommerce.repository.FeatureRepository;
 import com.ecommerce.ecommerce.repository.epecification.FeatureSearch;
 import com.ecommerce.ecommerce.service.FeatureService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ecommerce.ecommerce.service.OptionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,69 +20,47 @@ import java.util.Optional;
 @Service
 public class FeatureServiceImpl implements FeatureService {
 
-    @Autowired
-    private FeatureRepository featureRepository;
+    private final FeatureRepository featureRepository;
+    private final OptionService optionService;
 
-    @Autowired
-    private FeatureMapper featureMapper;
+    public FeatureServiceImpl(FeatureRepository featureRepository, OptionService optionService){
+        this.featureRepository = featureRepository;
+        this.optionService = optionService;
+    }
 
     @Override
     public Page<FeatureDTO> findAll(FeatureSearchDTO search, Pageable pageable){
         FeatureSearch featureSearch = new FeatureSearch(search);
-
         Page<Feature> featuresPage = featureRepository.findAll(featureSearch,pageable);
-        return featuresPage.map(FeatureMapper::toDTO);
+        return featuresPage.map(FeatureMapper::toDto);
     }
 
     @Override
-    public FeatureDTO save(FeatureDTO featureDTO){
-
-        Feature feature = new Feature();
-
-
-
-
-        Feature featureSaved = featureRepository.save(feature);
-
-        return FeatureMapper.toDTO(featureSaved);
+    public FeatureDTO save(SaveFeatureDTO saveFeatureDTO){
+        Option option = optionService.findByIdEntity(saveFeatureDTO.getOptionId());
+        Feature feature = FeatureMapper.toEntity(saveFeatureDTO, option);
+        return FeatureMapper.toDto(featureRepository.save(feature));
     }
 
     @Override
-    public Optional<FeatureDTO> findById(Long id){
-        Optional<Feature> feautureOptional = featureRepository.findById(id);
-
-        if(feautureOptional.isEmpty()){
-            throw new ObjectNotFoundException("No existe una característica con el id " + id);
-        }
-
-        return feautureOptional.map(FeatureMapper::toDTO);
+    public FeatureDTO findById(Long id){
+        return FeatureMapper.toDto(this.findByIdEntity(id));
     }
 
     @Override
-    public FeatureDTO update(Long id, FeatureDTO featureDTO){
-        Optional<Feature> feautureOptional = featureRepository.findById(id);
+    public FeatureDTO update(Long id, SaveFeatureDTO saveFeatureDTO){
+       Feature feature = this.findByIdEntity(id);
+       Option option = optionService.findByIdEntity(saveFeatureDTO.getOptionId());
 
-        if(feautureOptional.isEmpty()){
-            throw new ObjectNotFoundException("No existe una característica con el id " + id);
-        }
+       FeatureMapper.updateEntity(feature, saveFeatureDTO, option);
 
-        Feature feature = feautureOptional.get();
-
-
-
-        Feature featureUpdated = featureRepository.save(feature);
-
-        return FeatureMapper.toDTO(featureUpdated);
+       return FeatureMapper.toDto(featureRepository.save(feature));
     }
 
     @Override
-    public FeatureDTO delete(Long id){
-
-        Optional<FeatureDTO> feature = this.findById(id);
-
-        featureRepository.deleteById(id);
-
-        return feature.get();
+    public void delete(Long id){
+       Feature feature = this.findByIdEntity(id);
+        featureRepository.delete(feature);
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.ecommerce.ecommerce.mapper;
 
+import com.ecommerce.ecommerce.dto.request.SaveFeatureDTO;
+import com.ecommerce.ecommerce.dto.request.SaveOptionDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Feature;
+import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +16,7 @@ import java.util.List;
 @Component
 public class FeatureMapper {
 
-    public static FeatureDTO toDTO(Feature feature) {
+    public static FeatureDTO toDto(Feature feature) {
 
         if(feature == null) return null;
 
@@ -25,6 +28,25 @@ public class FeatureMapper {
         return featureDTO;
     }
 
+    public static Feature toEntity(SaveFeatureDTO saveFeatureDTO, Option option) {
+        if(saveFeatureDTO == null) return null;
+
+        Feature feature = new Feature();
+        feature.setId(saveFeatureDTO.getId());
+        feature.setName(saveFeatureDTO.getName());
+        feature.setOption(option);
+
+        return feature;
+    }
+
+
+    public static void updateEntity(Feature feature, SaveFeatureDTO saveFeatureDTO, Option option){
+        if (feature == null || saveFeatureDTO == null) return;
+
+        feature.setName(saveFeatureDTO.getName());
+        feature.setOption(option);
+
+    }
 
     public static CategoryDTO toDto(Category category){
 

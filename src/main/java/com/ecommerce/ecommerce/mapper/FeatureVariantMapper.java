@@ -25,7 +25,7 @@ public class FeatureVariantMapper {
 
         if (featureVariant == null) return null;
 
-        FeatureDTO featureDTO = FeatureMapper.toDTO(featureVariant.getFeature());
+        FeatureDTO featureDTO = FeatureMapper.toDto(featureVariant.getFeature());
 
         return new ProductDTO.FeatureVariantDTO(
                 featureVariant.getId(),

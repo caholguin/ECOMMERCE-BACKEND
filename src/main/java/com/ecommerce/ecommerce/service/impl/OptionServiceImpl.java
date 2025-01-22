@@ -1,11 +1,14 @@
 package com.ecommerce.ecommerce.service.impl;
 
+import com.ecommerce.ecommerce.dto.request.OptionSearchDTO;
+import com.ecommerce.ecommerce.dto.request.SaveOptionDTO;
 import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.OptionMapper;
 import com.ecommerce.ecommerce.repository.OptionRepository;
+import com.ecommerce.ecommerce.repository.epecification.OptionSearch;
 import com.ecommerce.ecommerce.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,72 +20,46 @@ import java.util.Optional;
 @Service
 public class OptionServiceImpl implements OptionService {
 
-    @Autowired
-    private OptionRepository optionRepository;
+    private final OptionRepository optionRepository;
 
-    @Autowired
-    private OptionMapper optionMapper;
+
+    public OptionServiceImpl(OptionRepository optionRepository){
+        this.optionRepository = optionRepository;
+    }
 
     @Override
-    public Page<OptionDTO> findAll(Pageable pageable){
-        Page<Option> options = optionRepository.findAll(pageable);
+    public Page<OptionDTO> findAll(OptionSearchDTO search, Pageable pageable){
+
+        OptionSearch optionSearch = new OptionSearch(search);
+
+        Page<Option> options = optionRepository.findAll(optionSearch,pageable);
         return options.map(OptionMapper::toDto);
     }
 
     @Override
-    public OptionDTO save(OptionDTO optionDTO){
-
-        Option option = new Option();
-
-        option.setName(optionDTO.getName());
-        option.setType(optionDTO.getType());
-
-        Option savedOption = optionRepository.save(option);
-
-        return OptionMapper.toDto(savedOption);
+    public OptionDTO save(SaveOptionDTO saveOptionDTO){
+        Option option = OptionMapper.toEntity(saveOptionDTO);
+        return OptionMapper.toDto(optionRepository.save(option));
     }
 
     @Override
-    public Optional<OptionDTO> findById(Long id){
-
-        Optional<Option> option = optionRepository.findById(id);
-
-        if(option.isEmpty()){
-            throw new ObjectNotFoundException("No existe una opción con el id: " + id);
-        }
-
-        return option.map(OptionMapper::toDto);
+    public OptionDTO findById(Long id){
+        return OptionMapper.toDto(this.findByIdEntity(id));
     }
 
     @Override
-    public OptionDTO update(Long id, OptionDTO optionDTO){
-        Optional<Option> optionOptional = optionRepository.findById(id);
+    public OptionDTO update(Long id, SaveOptionDTO saveOptionDTO){
+        Option option = this.findByIdEntity(id);
 
-        if(optionOptional.isEmpty()){
-            throw new ObjectNotFoundException("No existe una opción con el id: " + id);
-        }
+        OptionMapper.updateEntity(option,saveOptionDTO);
 
-        Option option = optionOptional.get();
-        option.setName(optionDTO.getName());
-        option.setType(optionDTO.getType());
-
-        Option savedOption = optionRepository.save(option);
-
-        return OptionMapper.toDto(savedOption);
+        return OptionMapper.toDto(optionRepository.save(option));
     }
 
     @Override
-    public OptionDTO delete(Long id){
-        Optional<Option> optionOptional = optionRepository.findById(id);
-
-        if(optionOptional.isEmpty()){
-            throw new ObjectNotFoundException("No existe una opción con el id: " + id);
-        }
-
-        Option option = optionOptional.get();
+    public void delete(Long id){
+        Option option = this.findByIdEntity(id);
         optionRepository.delete(option);
-
-        return OptionMapper.toDto(option);
     }
 
     public Option findByIdEntity(Long id){

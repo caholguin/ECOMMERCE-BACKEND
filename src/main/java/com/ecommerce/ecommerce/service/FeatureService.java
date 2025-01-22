@@ -1,23 +1,23 @@
 package com.ecommerce.ecommerce.service;
 
+import com.ecommerce.ecommerce.dto.request.SaveFeatureDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.dto.request.FeatureSearchDTO;
 import com.ecommerce.ecommerce.entity.Feature;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.Optional;
 
 public interface FeatureService {
 
     Page<FeatureDTO> findAll(FeatureSearchDTO featureSearchDTO, Pageable pageable);
 
-    FeatureDTO save(FeatureDTO featureDTO);
+    FeatureDTO save(SaveFeatureDTO saveFeatureDTO);
 
-    Optional<FeatureDTO> findById(Long id);
+    FeatureDTO findById(Long id);
 
-    FeatureDTO update(Long id, FeatureDTO featureDTO);
+    FeatureDTO update(Long id, SaveFeatureDTO saveFeatureDTO);
 
-    FeatureDTO delete(Long id);
+    void delete(Long id);
 
     Feature findByIdEntity(Long id);
 

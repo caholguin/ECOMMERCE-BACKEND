@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.mapper;
 
+import com.ecommerce.ecommerce.dto.request.SaveOptionDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.dto.response.OptionProductDTO;
@@ -13,14 +14,33 @@ public class OptionMapper {
 
     public static OptionDTO toDto(Option option){
 
-        OptionDTO optionDTO = new OptionDTO();
+        if (option == null) return null;
 
-       optionDTO.setId(option.getId());
-       optionDTO.setName(option.getName());
-       optionDTO.setType(option.getType());
-       optionDTO.setFeatures(FeatureMapper.toFeaturestoOption(option.getFeatures()));
+        OptionDTO optionDTO = new OptionDTO();
+        optionDTO.setId(option.getId());
+        optionDTO.setName(option.getName());
+        optionDTO.setType(option.getType());
+        optionDTO.setFeatures(FeatureMapper.toFeaturestoOption(option.getFeatures()));
 
         return optionDTO;
+    }
+
+    public static Option toEntity(SaveOptionDTO saveOptionDTO){
+        if (saveOptionDTO == null) return null;
+
+        Option option = new Option();
+        option.setId(saveOptionDTO.getId());
+        option.setName(saveOptionDTO.getName());
+        option.setType(saveOptionDTO.getType());
+
+        return option;
+    }
+
+    public static void updateEntity(Option option, SaveOptionDTO saveOptionDTO){
+        if (option == null || saveOptionDTO == null) return;
+
+        option.setName(saveOptionDTO.getName());
+
     }
 
     public static FeatureDTO.OptionDTO toGetOptionDTO(Option option){

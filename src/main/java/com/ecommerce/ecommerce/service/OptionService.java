@@ -1,5 +1,7 @@
 package com.ecommerce.ecommerce.service;
 
+import com.ecommerce.ecommerce.dto.request.OptionSearchDTO;
+import com.ecommerce.ecommerce.dto.request.SaveOptionDTO;
 import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import org.springframework.data.domain.Page;
@@ -9,15 +11,15 @@ import java.util.Optional;
 
 public interface OptionService {
 
-    Page<OptionDTO> findAll(Pageable pageable);
+    Page<OptionDTO> findAll(OptionSearchDTO optionSearchDTO,Pageable pageable);
 
-    OptionDTO save(OptionDTO optionDTO);
+    OptionDTO save(SaveOptionDTO saveOptionDTO);
 
-    Optional<OptionDTO> findById(Long id);
+    OptionDTO findById(Long id);
 
-    OptionDTO update(Long id, OptionDTO optionDTO);
+    OptionDTO update(Long id, SaveOptionDTO saveOptionDTO);
 
-    OptionDTO delete(Long id);
+    void delete(Long id);
 
     Option findByIdEntity(Long id);
 }

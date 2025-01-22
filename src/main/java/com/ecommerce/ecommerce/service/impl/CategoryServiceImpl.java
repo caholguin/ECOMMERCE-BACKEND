@@ -11,7 +11,6 @@ import com.ecommerce.ecommerce.repository.CategoryRepository;
 import com.ecommerce.ecommerce.repository.epecification.CategorySearch;
 import com.ecommerce.ecommerce.service.CategoryService;
 import com.ecommerce.ecommerce.service.FamilyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,18 +18,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl  implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final FamilyService familyService;
 
-    @Autowired
-    private FamilyService familyService;
+    public CategoryServiceImpl(CategoryRepository categoryRepository, FamilyService familyService){
+        this.categoryRepository = categoryRepository;
+        this.familyService = familyService;
+    }
 
     @Override
     public Page<CategoryDTO> findAll(CategorySearchDTO search,Pageable pageable){
+
         CategorySearch categorySearch = new CategorySearch(search);
 
-        Page<Category> familiesPage = categoryRepository.findAll(categorySearch,pageable);
-        return familiesPage.map(CategoryMapper::toDto);
+        Page<Category> categories = categoryRepository.findAll(categorySearch,pageable);
+        return categories.map(CategoryMapper::toDto);
     }
 
     @Override
