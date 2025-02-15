@@ -61,4 +61,10 @@ public class ProductController {
         productService.triggerVariants(productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @GetMapping("/subcategory/{subcategoryId}")
+    public ResponseEntity<Page<ProductDTO>> findBySubCategoryId(@PathVariable Long subcategoryId, Pageable pageable) {
+        Page<ProductDTO> products = productService.findBySubCategoryId(subcategoryId,pageable);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

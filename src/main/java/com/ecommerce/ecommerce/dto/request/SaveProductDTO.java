@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class SaveProductDTO implements Serializable {
 
@@ -16,7 +17,7 @@ public class SaveProductDTO implements Serializable {
     private Double price;
     private int stock;
     private int status;
-    @NotNull(message = "El campo subcategoria es obligatorio")
+    @NotNull(message = "El campo subcategoría es obligatorio")
     private Long subcategoryId;
 
     public Long getId(){

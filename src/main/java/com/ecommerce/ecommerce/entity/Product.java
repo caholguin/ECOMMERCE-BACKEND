@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,13 @@ public class Product {
     private String image;
 
     private Double price;
+
+    @Column(nullable = false, columnDefinition = "DOUBLE DEFAULT 0.0")
+    private Double discount = 0.0;
+
+    private LocalDate startDateDiscount;
+
+    private LocalDate endDateDiscount;
 
     @Column(nullable = false, columnDefinition = "int default 0")
     private int stock;
@@ -39,12 +47,15 @@ public class Product {
     public Product(){
     }
 
-    public Product(Long id, String name, String detail, String image, Double price, int stock, int status,SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
+    public Product(Long id, String name, String detail, String image, Double price, Double discount, LocalDate startDateDiscount, LocalDate endDateDiscount, int stock, int status, SubCategory subCategory, List<Variant> variants, List<OptionProduct> optionProducts){
         this.id = id;
         this.name = name;
         this.detail = detail;
         this.image = image;
         this.price = price;
+        this.discount = discount;
+        this.startDateDiscount = startDateDiscount;
+        this.endDateDiscount = endDateDiscount;
         this.stock = stock;
         this.status = status;
         this.subCategory = subCategory;
@@ -108,6 +119,29 @@ public class Product {
         this.stock = stock;
     }
 
+    public Double getDiscount(){
+        return discount;
+    }
+
+    public void setDiscount(Double discount){
+        this.discount = discount;
+    }
+
+    public LocalDate getStartDateDiscount(){
+        return startDateDiscount;
+    }
+
+    public void setStartDateDiscount(LocalDate startDateDiscount){
+        this.startDateDiscount = startDateDiscount;
+    }
+
+    public LocalDate getEndDateDiscount(){
+        return endDateDiscount;
+    }
+
+    public void setEndDateDiscount(LocalDate endDateDiscount){
+        this.endDateDiscount = endDateDiscount;
+    }
 
     public SubCategory getSubCategory(){
         return subCategory;

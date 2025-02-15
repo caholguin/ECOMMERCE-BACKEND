@@ -7,7 +7,7 @@ import com.ecommerce.ecommerce.entity.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface OptionService {
 
@@ -22,4 +22,6 @@ public interface OptionService {
     void delete(Long id);
 
     Option findByIdEntity(Long id);
+
+    List<OptionDTO> findBySubcategory(Long subcategoryId);
 }

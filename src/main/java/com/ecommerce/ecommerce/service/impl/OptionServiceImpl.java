@@ -5,17 +5,15 @@ import com.ecommerce.ecommerce.dto.request.SaveOptionDTO;
 import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
-import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.OptionMapper;
 import com.ecommerce.ecommerce.repository.OptionRepository;
 import com.ecommerce.ecommerce.repository.epecification.OptionSearch;
 import com.ecommerce.ecommerce.service.OptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class OptionServiceImpl implements OptionService {
@@ -66,5 +64,11 @@ public class OptionServiceImpl implements OptionService {
         return optionRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Opción con ID: " + id + " no encontrada"));
 
+    }
+
+    @Override
+    public List<OptionDTO> findBySubcategory(Long subcategoryId){
+        List<Option> options = optionRepository.findDistinctByOptionProductsProductSubCategoryId(subcategoryId);
+        return OptionMapper.toDtoList(options);
     }
 }

@@ -28,4 +28,6 @@ public interface ProductService {
     Product findByIdEntity(Long id);
 
     List<List<Long>> triggerVariants(Long productId);
+
+    Page<ProductDTO> findBySubCategoryId(Long subCategoryId, Pageable pageable);
 }

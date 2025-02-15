@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/options")
 @CrossOrigin("*")
@@ -53,6 +55,12 @@ public class OptionController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         optionService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/subcategory/{subcategoryId}")
+    public ResponseEntity<List<OptionDTO>> findBySubcategory(@PathVariable Long subcategoryId){
+        List<OptionDTO> options = optionService.findBySubcategory(subcategoryId);
+        return new ResponseEntity<>(options, HttpStatus.OK);
     }
 
 }

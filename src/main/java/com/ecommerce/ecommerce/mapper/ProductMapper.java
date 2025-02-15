@@ -1,11 +1,8 @@
 package com.ecommerce.ecommerce.mapper;
 
-import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
-import com.ecommerce.ecommerce.entity.Category;
-import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
@@ -27,6 +24,9 @@ public class ProductMapper {
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
         productDTO.setStatus(product.getStatus());
+        productDTO.setDiscount(product.getDiscount());
+        productDTO.setStartDateDiscount(product.getStartDateDiscount());
+        productDTO.setEndDateDiscount(product.getEndDateDiscount());
         productDTO.setSubcategory(SubCategoryMapper.toGetSubCategoryDto(product.getSubCategory()));
         productDTO.setVariants(VariantMapper.toVariantsProductDto(product.getVariants()));
         productDTO.setOptionsProduct(OptionProductMapper.toOptionsProductDTO(product.getOptionProducts()));

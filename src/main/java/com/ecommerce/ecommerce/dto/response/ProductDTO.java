@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.dto.response;
 import com.ecommerce.ecommerce.entity.OptionProduct;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,9 @@ public class ProductDTO implements Serializable {
     private Double price;
     private int stock;
     private int status;
+    private Double discount;
+    private LocalDate startDateDiscount;
+    private LocalDate endDateDiscount;
     private SubcategoryDTO subcategory;
     private List<VariantDTO> variants;
     private List<OptionProductDTO> optionsProduct;
@@ -73,6 +77,30 @@ public class ProductDTO implements Serializable {
 
     public void setStatus(int status){
         this.status = status;
+    }
+
+    public Double getDiscount(){
+        return discount;
+    }
+
+    public void setDiscount(Double discount){
+        this.discount = discount;
+    }
+
+    public LocalDate getStartDateDiscount(){
+        return startDateDiscount;
+    }
+
+    public void setStartDateDiscount(LocalDate startDateDiscount){
+        this.startDateDiscount = startDateDiscount;
+    }
+
+    public LocalDate getEndDateDiscount(){
+        return endDateDiscount;
+    }
+
+    public void setEndDateDiscount(LocalDate endDateDiscount){
+        this.endDateDiscount = endDateDiscount;
     }
 
     public SubcategoryDTO getSubcategory(){

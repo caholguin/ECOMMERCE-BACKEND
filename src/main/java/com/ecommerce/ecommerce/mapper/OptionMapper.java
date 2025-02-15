@@ -25,6 +25,15 @@ public class OptionMapper {
         return optionDTO;
     }
 
+    public static List<OptionDTO> toDtoList(List<Option> options){
+
+        if (options == null) return null;
+
+        return options.stream()
+                .map(OptionMapper::toDto)
+                .toList();
+    }
+
     public static Option toEntity(SaveOptionDTO saveOptionDTO){
         if (saveOptionDTO == null) return null;
 
