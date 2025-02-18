@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/products")
 @CrossOrigin("*")
@@ -62,9 +64,9 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/subcategory/{subcategoryId}")
-    public ResponseEntity<Page<ProductDTO>> findBySubCategoryId(@PathVariable Long subcategoryId, Pageable pageable) {
-        Page<ProductDTO> products = productService.findBySubCategoryId(subcategoryId,pageable);
+    @GetMapping("/subcategory/{subcategoryId}/status/{status}")
+    public ResponseEntity<List<ProductDTO>> findBySubCategoryId(@PathVariable Long subcategoryId, @PathVariable Integer status) {
+        List<ProductDTO> products = productService.findBySubCategoryId(subcategoryId,status);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

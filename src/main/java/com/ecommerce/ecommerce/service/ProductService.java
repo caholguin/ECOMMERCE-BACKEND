@@ -29,5 +29,5 @@ public interface ProductService {
 
     List<List<Long>> triggerVariants(Long productId);
 
-    Page<ProductDTO> findBySubCategoryId(Long subCategoryId, Pageable pageable);
+    List<ProductDTO> findBySubCategoryId(Long subCategoryId,int status);
 }

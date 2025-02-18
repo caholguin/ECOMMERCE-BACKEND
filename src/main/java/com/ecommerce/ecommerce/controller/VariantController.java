@@ -1,8 +1,6 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveVariantDTO;
-import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
 import com.ecommerce.ecommerce.service.VariantService;
 import jakarta.validation.Valid;
@@ -30,6 +28,12 @@ public class VariantController {
     @PutMapping("/{id}")
     public ResponseEntity<VariantDTO> update(@PathVariable Long id, @RequestBody @Valid SaveVariantDTO saveVariantDTO){
         VariantDTO variant = variantService.updateStock(id, saveVariantDTO);
+        return new ResponseEntity<>(variant, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-features")
+    public ResponseEntity<VariantDTO> getVariant(@RequestParam Long productId, @RequestParam List<Long> featureIds){
+        VariantDTO variant = variantService.findVariantsByFeatures(productId, featureIds);
         return new ResponseEntity<>(variant, HttpStatus.OK);
     }
 

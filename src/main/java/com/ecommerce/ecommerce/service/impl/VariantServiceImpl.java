@@ -18,11 +18,13 @@ import java.util.Optional;
 @Service
 public class VariantServiceImpl implements VariantService {
 
-    @Autowired
-    private VariantRepository variantRepository;
+    private final VariantRepository variantRepository;
+    private final ImageVariantRepository imageVariantRepository;
 
-    @Autowired
-    private ImageVariantRepository imageVariantRepository;
+    public VariantServiceImpl(VariantRepository variantRepository, ImageVariantRepository imageVariantRepository){
+        this.variantRepository = variantRepository;
+        this.imageVariantRepository = imageVariantRepository;
+    }
 
     @Override
     public List<Variant> findByProductoId(Long productId){
@@ -65,6 +67,11 @@ public class VariantServiceImpl implements VariantService {
     public Void deleteByProductId(Long id){
       variantRepository.deleteByProductId(id);;
       return null;
+    }
+
+    @Override
+    public VariantDTO findVariantsByFeatures(Long productId, List<Long> featureIds){
+        return VariantMapper.toDto(variantRepository.findVariantsByExactFeatures(productId, featureIds, (long) featureIds.size()));
     }
 
 }

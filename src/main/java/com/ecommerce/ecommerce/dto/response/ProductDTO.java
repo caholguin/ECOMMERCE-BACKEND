@@ -156,12 +156,14 @@ public class ProductDTO implements Serializable {
     public static class VariantDTO implements Serializable {
         private Long id;
         private String image;
+        private int stock;
         private List<ImageVariantDTO> imageVariants;
         private List<FeatureVariantDTO> featureVariants;
 
-        public VariantDTO(Long id, String image, List<ImageVariantDTO> imageVariants, List<FeatureVariantDTO> featureVariants){
+        public VariantDTO(Long id, String image,int stoc, List<ImageVariantDTO> imageVariants, List<FeatureVariantDTO> featureVariants){
             this.id = id;
             this.image = image;
+            this.stock = stock;
             this.imageVariants = imageVariants;
             this.featureVariants = featureVariants;
         }
@@ -180,6 +182,14 @@ public class ProductDTO implements Serializable {
 
         public void setImage(String image){
             this.image = image;
+        }
+
+        public int getStock(){
+            return stock;
+        }
+
+        public void setStock(int stock){
+            this.stock = stock;
         }
 
         public List<ImageVariantDTO> getImageVariants(){

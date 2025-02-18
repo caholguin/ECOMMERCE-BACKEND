@@ -47,6 +47,7 @@ public class VariantMapper {
         return new ProductDTO.VariantDTO(
                 variant.getId(),
                 variant.getImage(),
+                variant.getStock(),
                 imageDTOs,
                 featureVariantDTO
         );

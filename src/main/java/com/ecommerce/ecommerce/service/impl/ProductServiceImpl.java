@@ -216,8 +216,7 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public Page<ProductDTO> findBySubCategoryId(Long subCategoryId,Pageable pageable){
-        Page<Product> products = productRepository.findBySubCategoryId(subCategoryId,pageable);
-        return products.map(ProductMapper::toDto);
+    public List<ProductDTO> findBySubCategoryId(Long subCategoryId,int status){
+        return ProductMapper.toDtoList(productRepository.findBySubCategoryIdAndStatus(subCategoryId, status));
     }
 }

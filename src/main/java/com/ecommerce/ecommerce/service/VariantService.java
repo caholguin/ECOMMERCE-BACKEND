@@ -19,4 +19,6 @@ public interface VariantService {
     Variant findByIdEntity(Long id);
 
     Void deleteByProductId(Long id);
+
+    VariantDTO findVariantsByFeatures(Long productId,List<Long> featureIds);
 }

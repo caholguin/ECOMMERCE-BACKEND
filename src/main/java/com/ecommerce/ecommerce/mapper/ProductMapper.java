@@ -1,8 +1,10 @@
 package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
+import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
+import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,15 @@ public class ProductMapper {
         productDTO.setOptionsProduct(OptionProductMapper.toOptionsProductDTO(product.getOptionProducts()));
 
         return productDTO;
+    }
+
+    public static List<ProductDTO> toDtoList(List<Product> products){
+
+        if (products == null) return null;
+
+        return products.stream()
+                .map(ProductMapper::toDto)
+                .toList();
     }
 
     public static Product toEntity(SaveProductDTO saveProductDTO, SubCategory subCategory){
