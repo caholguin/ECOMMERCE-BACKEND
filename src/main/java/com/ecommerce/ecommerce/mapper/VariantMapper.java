@@ -1,12 +1,8 @@
 package com.ecommerce.ecommerce.mapper;
-import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SaveVariantDTO;
 import com.ecommerce.ecommerce.dto.response.ImageVariantDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
-import com.ecommerce.ecommerce.entity.Category;
-import com.ecommerce.ecommerce.entity.Family;
-import com.ecommerce.ecommerce.entity.FeatureVariant;
 import com.ecommerce.ecommerce.entity.Variant;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +18,7 @@ public class VariantMapper {
         variantDTO.setImage(variant.getImage());
         variantDTO.setStock(variant.getStock());
         variantDTO.setImagesVariant(ImageVariantMapper.toImagesVariantDto(variant.getImagesVariant()));
+        
 
         return variantDTO;
     }

@@ -1,8 +1,5 @@
 package com.ecommerce.ecommerce.dto.response;
 
-import com.ecommerce.ecommerce.entity.FeatureVariant;
-
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class VariantDTO {
 
     private List<FeatureVariantDTO> featureVariants;
 
-    private List<ImageVariantDTO> imagesVariant;
+    private List<ImageVariantDTO> imageVariants;
 
     public Long getId(){
         return id;
@@ -60,12 +57,12 @@ public class VariantDTO {
         this.featureVariants = featureVariants;
     }
 
-    public List<ImageVariantDTO> getImagesVariant(){
-        return imagesVariant;
+    public List<ImageVariantDTO> getImageVariants(){
+        return imageVariants;
     }
 
-    public void setImagesVariant(List<ImageVariantDTO> imagesVariant){
-        this.imagesVariant = imagesVariant;
+    public void setImagesVariant(List<ImageVariantDTO> imageVariants){
+        this.imageVariants = imageVariants;
     }
 
     public static class ImageVariantDTO implements Serializable {
