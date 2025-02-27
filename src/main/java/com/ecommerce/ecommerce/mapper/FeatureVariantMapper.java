@@ -1,24 +1,25 @@
 package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
+import com.ecommerce.ecommerce.dto.response.FeatureVariantDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
 import com.ecommerce.ecommerce.dto.response.VariantDTO;
 import com.ecommerce.ecommerce.entity.FeatureVariant;
-import com.ecommerce.ecommerce.entity.Variant;
+import com.ecommerce.ecommerce.entity.ImageVariant;
+
+import java.util.List;
 
 public class FeatureVariantMapper {
 
 
-    public VariantDTO toDto(Variant variant){
+    public FeatureVariantDTO toDto(FeatureVariant featureVariant){
 
-        if(variant == null) return null;
+        if(featureVariant == null) return null;
 
-        VariantDTO variantDTO = new VariantDTO();
-        variantDTO.setId(variant.getId());
-        variantDTO.setImage(variant.getImage());
-        variantDTO.setImagesVariant(ImageVariantMapper.toImagesVariantDto(variant.getImagesVariant()));
+        FeatureVariantDTO featureVariantDTO = new FeatureVariantDTO();
+        featureVariantDTO.setFeature(featureVariant.getFeature());
 
-        return variantDTO;
+        return featureVariantDTO;
     }
 
     public static ProductDTO.FeatureVariantDTO toFeatureVariantDTO(FeatureVariant featureVariant) {
@@ -31,5 +32,24 @@ public class FeatureVariantMapper {
                 featureVariant.getId(),
                 featureDTO
         );
+    }
+
+    public static VariantDTO.FeatureVariantDTO toFeaturesVariantDTO(FeatureVariant featureVariant){
+        if (featureVariant == null) return null;
+
+        FeatureDTO featureDTO = FeatureMapper.toDto(featureVariant.getFeature());
+
+        return new VariantDTO.FeatureVariantDTO(
+                featureVariant.getId(),
+                featureDTO
+        );
+    }
+
+    public static List<VariantDTO.FeatureVariantDTO> toFeaturesVariantListDTO(List<FeatureVariant> featuresVariant){
+        if (featuresVariant == null ) return null;
+
+        return featuresVariant.stream()
+                .map(FeatureVariantMapper::toFeaturesVariantDTO)
+                .toList();
     }
 }

@@ -100,4 +100,30 @@ public class VariantDTO {
             this.orderItems = orderItems;
         }
     }
+
+    public static class FeatureVariantDTO implements Serializable {
+        private Long id;
+        private FeatureDTO feature;
+
+        public FeatureVariantDTO(Long id, FeatureDTO feature){
+            this.id = id;
+            this.feature = feature;
+        }
+
+        public Long getId(){
+            return id;
+        }
+
+        public void setId(Long id){
+            this.id = id;
+        }
+
+        public FeatureDTO getFeature(){
+            return feature;
+        }
+
+        public void setFeature(FeatureDTO feature){
+            this.feature = feature;
+        }
+    }
 }

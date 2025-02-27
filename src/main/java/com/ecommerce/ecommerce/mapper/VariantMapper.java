@@ -18,7 +18,7 @@ public class VariantMapper {
         variantDTO.setImage(variant.getImage());
         variantDTO.setStock(variant.getStock());
         variantDTO.setImagesVariant(ImageVariantMapper.toImagesVariantDto(variant.getImagesVariant()));
-        
+        variantDTO.setFeatureVariants(FeatureVariantMapper.toFeaturesVariantListDTO(variant.getFeatureVariants()));
 
         return variantDTO;
     }
