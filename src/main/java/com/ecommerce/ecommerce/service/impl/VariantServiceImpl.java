@@ -38,6 +38,11 @@ public class VariantServiceImpl implements VariantService {
     }
 
     @Override
+    public VariantDTO findById(Long id){
+        return VariantMapper.toDto(this.findByIdEntity(id));
+    }
+
+    @Override
     public String addMedia(Long id, String url) {
         Variant variant = this.findByIdEntity(id);
 

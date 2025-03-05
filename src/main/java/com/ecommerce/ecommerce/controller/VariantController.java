@@ -25,6 +25,12 @@ public class VariantController {
         return new ResponseEntity<>(variants, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<VariantDTO> getById(@PathVariable long id) {
+        VariantDTO variant = variantService.findById(id);
+        return new ResponseEntity<>(variant, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<VariantDTO> update(@PathVariable Long id, @RequestBody @Valid SaveVariantDTO saveVariantDTO){
         VariantDTO variant = variantService.updateStock(id, saveVariantDTO);

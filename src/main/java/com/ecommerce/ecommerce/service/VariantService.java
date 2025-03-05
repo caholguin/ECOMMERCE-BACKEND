@@ -12,6 +12,8 @@ public interface VariantService {
 
     List<VariantDTO> findAll();
 
+    VariantDTO findById(Long id);
+
     String addMedia(Long id, String url);
 
     VariantDTO updateStock(Long id, SaveVariantDTO saveVariantDTO);
