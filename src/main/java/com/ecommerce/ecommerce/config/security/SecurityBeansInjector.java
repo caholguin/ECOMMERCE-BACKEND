@@ -1,14 +1,25 @@
 package com.ecommerce.ecommerce.config.security;
 
+import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.repository.UserRespository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityBeansInjector {
+
+    private final UserRespository userRespository;
+
+    public SecurityBeansInjector(UserRespository userRespository){
+        this.userRespository = userRespository;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
@@ -18,9 +29,22 @@ public class SecurityBeansInjector {
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationStrategy = new DaoAuthenticationProvider();
-        authenticationStrategy.setPasswordEncoder(null);
-        authenticationStrategy.setUserDetailsService(null);
+        authenticationStrategy.setPasswordEncoder(passwordEncoder());
+        authenticationStrategy.setUserDetailsService(userDetailsService());
 
         return authenticationStrategy;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+       return (username) -> {
+         return userRespository.findByUsername(username)
+                 .orElseThrow(() -> new ObjectNotFoundException("Usuario con email" + username+ "no encontrado"));
+       };
     }
 }
