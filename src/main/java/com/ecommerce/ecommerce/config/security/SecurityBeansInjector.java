@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.config.security;
 
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
-import com.ecommerce.ecommerce.repository.UserRespository;
+import com.ecommerce.ecommerce.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityBeansInjector {
 
-    private final UserRespository userRespository;
+    private final UserRepository userRepository;
 
-    public SecurityBeansInjector(UserRespository userRespository){
-        this.userRespository = userRespository;
+    public SecurityBeansInjector(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -42,7 +42,7 @@ public class SecurityBeansInjector {
 
     @Bean
     public UserDetailsService userDetailsService(){
-       return (username) -> userRespository.findByUsername(username)
+       return (username) -> userRepository.findByUsername(username)
                .orElseThrow(() -> new ObjectNotFoundException("Usuario con email" + username+ "no encontrado"));
     }
 }

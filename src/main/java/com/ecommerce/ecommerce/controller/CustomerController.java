@@ -1,5 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
+import com.ecommerce.ecommerce.dto.request.SaveUserDTO;
+import com.ecommerce.ecommerce.dto.response.RegisteredUserDTO;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<RegisterUserDTO> register(@RequestBody @Valid SaveUserDTO saveUserDTO){
-        RegisterUserDTO registerUser = authenticationService.registerCustomer(saveUserDTO);
+    public ResponseEntity<RegisteredUserDTO> register(@RequestBody @Valid SaveUserDTO saveUserDTO){
+        RegisteredUserDTO registerUser = authenticationService.registerCustomer(saveUserDTO);
         return new ResponseEntity<>(registerUser, HttpStatus.CREATED);
     }
 }
