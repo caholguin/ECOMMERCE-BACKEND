@@ -18,6 +18,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
 
     @Column(unique = true)
@@ -83,46 +84,37 @@ public class User implements UserDetails {
                 .map(each -> new SimpleGrantedAuthority(each))
                 .collect(Collectors.toList());
 
-
-              /*  .map(each -> {
-            String permission = each.name();
-            return new SimpleGrantedAuthority(permission);
-        })
-                .collect(Collectors.toList());*/
-
     }
 
     @Override
     public String getPassword(){
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername(){
-        return email;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired(){
-        return true;
+        return UserDetails.super.isAccountNonExpired();
     }
 
     @Override
     public boolean isAccountNonLocked(){
-        // return UserDetails.super.isAccountNonLocked();
-        return true;
+        return UserDetails.super.isAccountNonLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired(){
-        //return UserDetails.super.isCredentialsNonExpired();
-        return true;
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
     public boolean isEnabled(){
-        //return UserDetails.super.isEnabled();
-        return true;
+        return UserDetails.super.isEnabled();
     }
+
 
 }
