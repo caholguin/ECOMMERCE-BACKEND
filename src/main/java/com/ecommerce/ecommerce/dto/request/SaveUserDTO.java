@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 public class SaveUserDTO implements Serializable {
 
+    @Size(min = 3)
+    private String name;
+
     @Size(min = 4)
     private String username;
 
@@ -15,6 +18,14 @@ public class SaveUserDTO implements Serializable {
 
     @Size(min = 8)
     private String repeatedPassword;
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
 
     public String getUsername(){
         return username;

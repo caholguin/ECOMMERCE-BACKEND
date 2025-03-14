@@ -21,7 +21,7 @@ public class CustomerController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<RegisteredUserDTO> register(@RequestBody @Valid SaveUserDTO saveUserDTO){
         RegisteredUserDTO registerUser = authenticationService.registerCustomer(saveUserDTO);
         return new ResponseEntity<>(registerUser, HttpStatus.CREATED);
