@@ -24,10 +24,10 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/validate-token")
     public ResponseEntity<Boolean> validate(@RequestParam String jwt){
         boolean isTokenValid = authenticationService.validateToken(jwt);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(isTokenValid,HttpStatus.OK);
     }
 
 }

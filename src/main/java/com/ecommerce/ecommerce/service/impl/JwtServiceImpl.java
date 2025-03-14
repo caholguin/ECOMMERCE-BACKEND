@@ -23,18 +23,20 @@ public class JwtServiceImpl implements JwtService {
     private String SECRET_KEY;
 
     @Override
-    public String generateToken(UserDetails user,Map<String, Object> extractClaims){
+    public String generateToken(UserDetails user, Map<String, Object> extractClaims){
 
-        Date issuedtAt = new Date(System.currentTimeMillis());
-        Date expiration = new Date((EXPIRATION_IN_MINUTES * 60 * 1000) + issuedtAt.getTime());
+        Date issuedAt = new Date(System.currentTimeMillis());
+        Date expiration = new Date((EXPIRATION_IN_MINUTES * 60 * 1000) + issuedAt.getTime());
 
         String jwt = Jwts.builder()
-                .header().add("typ", "JWT").and()
-                .claims(extractClaims)
+                .header()
+                .type("JWT")
+                .and()
                 .subject(user.getUsername())
-                .issuedAt(issuedtAt)
+                .issuedAt(issuedAt)
                 .expiration(expiration)
-                .signWith(generateKey())
+                .claims(extractClaims)
+                .signWith(generateKey(), Jwts.SIG.HS256)
                 .compact();
 
         return jwt;
@@ -50,13 +52,11 @@ public class JwtServiceImpl implements JwtService {
         return extractAllClaims(jwt).getSubject();
     }
 
-    public Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String jwt){
         return Jwts.parser()
                 .verifyWith(generateKey())
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(jwt)
                 .getPayload();
     }
-
-
 }

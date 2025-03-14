@@ -28,11 +28,9 @@ public class UserServiceImpl implements UserService {
     public User registerCustomer(SaveUserDTO saveUserDTO){
 
         validatePassword(saveUserDTO);
-
         User user = new User();
         user.setName(saveUserDTO.getUsername());
         user.setUsername(saveUserDTO.getUsername());
-        user.setEmail(saveUserDTO.getEmail());
         user.setPassword(passwordEncoder.encode(saveUserDTO.getPassword()));
         user.setRole(Role.ROLE_CUSTOMER);
 

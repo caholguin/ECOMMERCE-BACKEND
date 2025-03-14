@@ -41,7 +41,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         registeredUserDTO.setId(user.getId());
         registeredUserDTO.setName(user.getName());
         registeredUserDTO.setUsername(user.getUsername());
-        registeredUserDTO.setEmail(user.getEmail());
         registeredUserDTO.setRole(user.getRole().name());
 
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
@@ -81,12 +80,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public boolean validateToken(String jwt){
-
-        try{
-        jwtService.extractUsername(jwt);
-        return true;
-        } catch (Exception e){
-            System.out.println("e.getMessage() = " + e.getMessage());
+        try {
+            jwtService.extractUsername(jwt);
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }

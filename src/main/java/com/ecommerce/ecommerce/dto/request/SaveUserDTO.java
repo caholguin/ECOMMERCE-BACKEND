@@ -7,12 +7,8 @@ import java.io.Serializable;
 
 public class SaveUserDTO implements Serializable {
 
-
     @Size(min = 4)
     private String username;
-
-    @Email
-    private String email;
 
     @Size(min = 8)
     private String password;
@@ -26,14 +22,6 @@ public class SaveUserDTO implements Serializable {
 
     public void setUsername(String username){
         this.username = username;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
     }
 
     public String getPassword(){
