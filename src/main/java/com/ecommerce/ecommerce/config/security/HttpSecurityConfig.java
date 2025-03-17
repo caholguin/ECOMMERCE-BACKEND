@@ -1,26 +1,36 @@
 package com.ecommerce.ecommerce.config.security;
 
 import com.ecommerce.ecommerce.config.security.filter.JwtAuthenticationFilter;
+import com.ecommerce.ecommerce.config.security.handler.CustomAccessDeniedHandler;
+import com.ecommerce.ecommerce.config.security.handler.CustomAuthenticationEntryPoint;
+import com.ecommerce.ecommerce.util.RolePermission;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+//@EnableMethodSecurity(prePostEnabled = true)
 public class HttpSecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    public HttpSecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthenticationFilter){
+    public HttpSecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthenticationFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDeniedHandler customAccessDeniedHandler){
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
     }
 
     @Bean
@@ -31,12 +41,38 @@ public class HttpSecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authReqConfig -> {
+                    buildRequestMatchers(authReqConfig);
+                })
+                .exceptionHandling(exceptionConfig -> {
+                    exceptionConfig.authenticationEntryPoint(customAuthenticationEntryPoint);
+                    exceptionConfig.accessDeniedHandler(customAccessDeniedHandler);
+                })
+                .build();
+    }
 
-                    authReqConfig.requestMatchers(HttpMethod.POST, "/customers").permitAll();
-                    authReqConfig.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
-                    authReqConfig.requestMatchers(HttpMethod.GET, "/auth/validate-token").permitAll();
+    private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig){
 
-                    authReqConfig.anyRequest().authenticated();
-                }).build();
+        //Autorización Familias
+        authReqConfig.requestMatchers(HttpMethod.GET, "/families").hasAuthority(RolePermission.READ_FAMILIES.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/families/{id}").hasAuthority(RolePermission.READ_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/families").hasAuthority(RolePermission.CREATE_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/families/{id}").hasAuthority(RolePermission.UPDATE_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/families/{id}").hasAuthority(RolePermission.DELETE_FAMILY.name());
+        //Autorización Categorias
+        authReqConfig.requestMatchers(HttpMethod.GET, "/categories").hasAuthority(RolePermission.READ_CATEGORIES.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/categories/{id}").hasAuthority(RolePermission.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/categories").hasAuthority(RolePermission.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/categories/{id}").hasAuthority(RolePermission.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/categories/{id}").hasAuthority(RolePermission.DELETE_CATEGORY.name());
+
+        authReqConfig.requestMatchers(HttpMethod.GET, "/auth/profile").hasAuthority(RolePermission.READ_MY_PROFILE.name());
+
+        //Autorizacion enpoint publicos
+        authReqConfig.requestMatchers(HttpMethod.POST, "/customers").permitAll();
+        authReqConfig.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+        authReqConfig.requestMatchers(HttpMethod.GET, "/auth/validate-token").permitAll();
+
+
+        authReqConfig.anyRequest().authenticated();
     }
 }

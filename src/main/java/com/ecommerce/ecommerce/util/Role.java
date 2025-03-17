@@ -35,16 +35,8 @@ public enum Role {
 
     ROLE_CUSTOMER(Arrays.asList(
             RolePermission.READ_FAMILIES,
-            RolePermission.READ_FAMILY,
-            RolePermission.CREATE_FAMILY,
-            RolePermission.UPDATE_FAMILY,
-            RolePermission.DELETE_FAMILY,
-
             RolePermission.READ_CATEGORIES,
-            RolePermission.READ_CATEGORY,
-            RolePermission.CREATE_CATEGORY,
-            RolePermission.UPDATE_CATEGORY,
-            RolePermission.DELETE_CATEGORY
+            RolePermission.READ_MY_PROFILE
     ));
 
     private List<RolePermission> permissions;
