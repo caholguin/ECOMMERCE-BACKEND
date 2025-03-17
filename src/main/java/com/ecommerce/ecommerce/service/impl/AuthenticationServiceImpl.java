@@ -44,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         registeredUserDTO.setId(user.getId());
         registeredUserDTO.setName(user.getName());
         registeredUserDTO.setUsername(user.getUsername());
-        registeredUserDTO.setRole(user.getRole().name());
+        registeredUserDTO.setRole(user.getRole().getName());
 
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
         registeredUserDTO.setJwt(jwt);
@@ -57,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Map<String, Object> extraClaims = new HashMap<>();
 
         extraClaims.put("name", user.getName());
-        extraClaims.put("role", user.getRole().name());
+        extraClaims.put("role", user.getRole().getName());
         extraClaims.put("authorities", user.getAuthorities());
 
         return extraClaims;
@@ -102,7 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
         userDTO.setName(user.getName());
-        userDTO.setRole(user.getRole().name());
+        userDTO.setRole(user.getRole().getName());
 
         return userDTO;
     }

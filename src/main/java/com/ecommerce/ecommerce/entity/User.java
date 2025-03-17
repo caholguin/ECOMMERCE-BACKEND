@@ -1,13 +1,12 @@
 package com.ecommerce.ecommerce.entity;
 
-import com.ecommerce.ecommerce.util.Role;
+import com.ecommerce.ecommerce.util.RoleEnum;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
@@ -25,7 +24,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public Long getId(){
@@ -60,8 +60,6 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-
-    //UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         if (role == null) return null;
@@ -69,8 +67,8 @@ public class User implements UserDetails {
         if (role.getPermissions() == null) return null;
 
         return role.getPermissions().stream()
-                .map(each -> each.name())
-                .map(each -> new SimpleGrantedAuthority(each))
+                .map(each -> each.getOperation().getName())
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
     }
@@ -104,6 +102,4 @@ public class User implements UserDetails {
     public boolean isEnabled(){
         return UserDetails.super.isEnabled();
     }
-
-
 }

@@ -3,12 +3,11 @@ package com.ecommerce.ecommerce.config.security;
 import com.ecommerce.ecommerce.config.security.filter.JwtAuthenticationFilter;
 import com.ecommerce.ecommerce.config.security.handler.CustomAccessDeniedHandler;
 import com.ecommerce.ecommerce.config.security.handler.CustomAuthenticationEntryPoint;
-import com.ecommerce.ecommerce.util.RolePermission;
+import com.ecommerce.ecommerce.util.RolePermissionEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -53,19 +52,19 @@ public class HttpSecurityConfig {
     private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig){
 
         //Autorización Familias
-        authReqConfig.requestMatchers(HttpMethod.GET, "/families").hasAuthority(RolePermission.READ_FAMILIES.name());
-        authReqConfig.requestMatchers(HttpMethod.GET, "/families/{id}").hasAuthority(RolePermission.READ_FAMILY.name());
-        authReqConfig.requestMatchers(HttpMethod.POST, "/families").hasAuthority(RolePermission.CREATE_FAMILY.name());
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/families/{id}").hasAuthority(RolePermission.UPDATE_FAMILY.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/families/{id}").hasAuthority(RolePermission.DELETE_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/families").hasAuthority(RolePermissionEnum.READ_FAMILIES.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/families/{id}").hasAuthority(RolePermissionEnum.READ_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/families").hasAuthority(RolePermissionEnum.CREATE_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/families/{id}").hasAuthority(RolePermissionEnum.UPDATE_FAMILY.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/families/{id}").hasAuthority(RolePermissionEnum.DELETE_FAMILY.name());
         //Autorización Categorias
-        authReqConfig.requestMatchers(HttpMethod.GET, "/categories").hasAuthority(RolePermission.READ_CATEGORIES.name());
-        authReqConfig.requestMatchers(HttpMethod.GET, "/categories/{id}").hasAuthority(RolePermission.DELETE_CATEGORY.name());
-        authReqConfig.requestMatchers(HttpMethod.POST, "/categories").hasAuthority(RolePermission.DELETE_CATEGORY.name());
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/categories/{id}").hasAuthority(RolePermission.DELETE_CATEGORY.name());
-        authReqConfig.requestMatchers(HttpMethod.DELETE, "/categories/{id}").hasAuthority(RolePermission.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/categories").hasAuthority(RolePermissionEnum.READ_CATEGORIES.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/categories/{id}").hasAuthority(RolePermissionEnum.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.POST, "/categories").hasAuthority(RolePermissionEnum.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.PUT, "/categories/{id}").hasAuthority(RolePermissionEnum.DELETE_CATEGORY.name());
+        authReqConfig.requestMatchers(HttpMethod.DELETE, "/categories/{id}").hasAuthority(RolePermissionEnum.DELETE_CATEGORY.name());
 
-        authReqConfig.requestMatchers(HttpMethod.GET, "/auth/profile").hasAuthority(RolePermission.READ_MY_PROFILE.name());
+        authReqConfig.requestMatchers(HttpMethod.GET, "/auth/profile").hasAuthority(RolePermissionEnum.READ_MY_PROFILE.name());
 
         //Autorizacion enpoint publicos
         authReqConfig.requestMatchers(HttpMethod.POST, "/customers").permitAll();

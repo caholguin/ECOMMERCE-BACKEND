@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.util;
 
-public enum RolePermission {
+public enum RolePermissionEnum {
 
     READ_FAMILIES,
     READ_FAMILY,
