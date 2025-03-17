@@ -4,13 +4,16 @@ import com.ecommerce.ecommerce.dto.request.LoginRequestDTO;
 import com.ecommerce.ecommerce.dto.request.SaveUserDTO;
 import com.ecommerce.ecommerce.dto.response.LoginResponseDTO;
 import com.ecommerce.ecommerce.dto.response.RegisteredUserDTO;
+import com.ecommerce.ecommerce.dto.response.UserDTO;
 import com.ecommerce.ecommerce.entity.User;
+import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import com.ecommerce.ecommerce.service.JwtService;
 import com.ecommerce.ecommerce.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -86,5 +89,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public UserDTO findLoggedInUser(){
+        Authentication auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        String username = (String) auth.getPrincipal();
+
+        User user = userService.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(user.getUsername());
+        userDTO.setName(user.getName());
+        userDTO.setRole(user.getRole().name());
+
+        return userDTO;
     }
 }
