@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/subcategories")
-@CrossOrigin("*")
 public class SubCategoryController {
 
     @Autowired

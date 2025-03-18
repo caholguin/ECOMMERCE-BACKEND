@@ -6,6 +6,7 @@ import com.ecommerce.ecommerce.dto.response.LoginResponseDTO;
 import com.ecommerce.ecommerce.dto.response.RegisteredUserDTO;
 import com.ecommerce.ecommerce.dto.response.UserDTO;
 import com.ecommerce.ecommerce.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 public interface AuthenticationService {
@@ -17,4 +18,8 @@ public interface AuthenticationService {
     boolean validateToken(String jwt);
 
     UserDTO findLoggedInUser();
+
+    void logout(HttpServletRequest request);
+
+    LoginResponseDTO refreshToken(String jwt);
 }

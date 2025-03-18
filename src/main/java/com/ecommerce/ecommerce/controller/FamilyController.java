@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/families")
-@CrossOrigin("*")
 public class FamilyController {
 
     @Autowired
