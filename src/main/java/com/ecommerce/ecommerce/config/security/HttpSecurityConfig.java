@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.config.security;
 
+import com.ecommerce.ecommerce.config.security.authorization.CustomAuthorizationManager;
 import com.ecommerce.ecommerce.config.security.filter.JwtAuthenticationFilter;
 import com.ecommerce.ecommerce.config.security.handler.CustomAccessDeniedHandler;
 import com.ecommerce.ecommerce.config.security.handler.CustomAuthenticationEntryPoint;
@@ -13,23 +14,25 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity(prePostEnabled = true)
 public class HttpSecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthorizationManager authorizationManager;
 
-    public HttpSecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthenticationFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDeniedHandler customAccessDeniedHandler){
+    public HttpSecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthenticationFilter, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDeniedHandler customAccessDeniedHandler,CustomAuthorizationManager authorizationManager){
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
+        this.authorizationManager = authorizationManager;
     }
 
     @Bean
@@ -40,7 +43,8 @@ public class HttpSecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authReqConfig -> {
-                    buildRequestMatchers(authReqConfig);
+                    authReqConfig.anyRequest().access(authorizationManager);
+                    //buildRequestMatchers(authReqConfig);
                 })
                 .exceptionHandling(exceptionConfig -> {
                     exceptionConfig.authenticationEntryPoint(customAuthenticationEntryPoint);
