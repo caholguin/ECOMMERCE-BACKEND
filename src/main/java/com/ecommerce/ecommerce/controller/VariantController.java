@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("variants")
-@CrossOrigin("*")
+@RequestMapping("/variants")
 public class VariantController {
 
     @Autowired

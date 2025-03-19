@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/options")
-@CrossOrigin("*")
 public class OptionController {
 
     private final OptionService optionService;

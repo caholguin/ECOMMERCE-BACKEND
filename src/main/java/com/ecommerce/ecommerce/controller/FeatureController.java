@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/features")
-@CrossOrigin("*")
 public class FeatureController {
 
     private final FeatureService featureService;

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/option-product")
-@CrossOrigin("*")
 public class OptionProductController {
 
     private final OptionProductService optionProductService;

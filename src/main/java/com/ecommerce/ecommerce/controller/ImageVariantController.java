@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/imagevariant")
-@CrossOrigin("*")
 public class ImageVariantController {
 
     @Autowired
