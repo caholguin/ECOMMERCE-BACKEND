@@ -1,12 +1,14 @@
 package com.ecommerce.ecommerce.dto.response;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDTO implements Serializable {
 
     private String username;
     private String name;
     private String role;
+    private List<String> authorities;
 
     public String getUsername(){
         return username;
@@ -30,5 +32,13 @@ public class UserDTO implements Serializable {
 
     public void setRole(String role){
         this.role = role;
+    }
+
+    public List<String> getAuthorities(){
+        return authorities;
+    }
+
+    public void setAuthorities(List<String> authorities){
+        this.authorities = authorities;
     }
 }

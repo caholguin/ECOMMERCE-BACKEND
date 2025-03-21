@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 public interface AuthenticationService {
 
-    RegisteredUserDTO registerCustomer(SaveUserDTO saveUserDTO);
+    LoginResponseDTO registerCustomer(SaveUserDTO saveUserDTO);
 
     LoginResponseDTO login(LoginRequestDTO loginRequestDTO);
 

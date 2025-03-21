@@ -9,6 +9,8 @@ import com.ecommerce.ecommerce.dto.response.UserDTO;
 import com.ecommerce.ecommerce.entity.JwtToken;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.CategoryMapper;
+import com.ecommerce.ecommerce.mapper.LoginMapper;
 import com.ecommerce.ecommerce.repository.epecification.JwtTokenRepository;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import com.ecommerce.ecommerce.service.JwtService;
@@ -45,21 +47,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public RegisteredUserDTO registerCustomer(SaveUserDTO saveUserDTO){
+    public LoginResponseDTO registerCustomer(SaveUserDTO saveUserDTO){
 
         User user = userService.registerCustomer(saveUserDTO);
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
 
         saveUserToken(user,jwt);
 
-        RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO();
-        registeredUserDTO.setId(user.getId());
-        registeredUserDTO.setName(user.getName());
-        registeredUserDTO.setUsername(user.getUsername());
-        registeredUserDTO.setRole(user.getRole().getName());
-        registeredUserDTO.setJwt(jwt);
 
-        return registeredUserDTO;
+        return LoginMapper.toDto(user,jwt);
+
+        //return registeredUserDTO;
     }
 
     private Map<String, Object> generateExtraClaims(User user){
@@ -85,11 +83,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String jwt = jwtService.generateToken(user,generateExtraClaims((User) user));
         saveUserToken((User) user,jwt);
 
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-
-        loginResponseDTO.setJwt(jwt);
-
-        return loginResponseDTO;
+        return LoginMapper.toDto((User) user,jwt);
     }
 
 
@@ -161,11 +155,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             token.get().setValid(false);
             jwtRepository.save(token.get());
 
-            LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-
-            loginResponseDTO.setJwt(newJwt);
-
-            return loginResponseDTO;
+            return LoginMapper.toDto((User) user,jwt);
         }
 
         throw new ObjectNotFoundException("El token proporcionado no pertenece a un usuario o es invalido");
