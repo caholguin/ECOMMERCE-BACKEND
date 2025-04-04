@@ -11,6 +11,7 @@ import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.LoginMapper;
+import com.ecommerce.ecommerce.mapper.UserMapper;
 import com.ecommerce.ecommerce.repository.epecification.JwtTokenRepository;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import com.ecommerce.ecommerce.service.JwtService;
@@ -105,12 +106,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = userService.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(user.getUsername());
-        userDTO.setName(user.getName());
-        userDTO.setRole(user.getRole().getName());
 
-        return userDTO;
+        return UserMapper.toDto(user);
     }
 
     @Override

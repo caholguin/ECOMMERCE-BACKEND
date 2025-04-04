@@ -1,0 +1,68 @@
+package com.ecommerce.ecommerce.service.impl;
+
+import com.ecommerce.ecommerce.dto.request.SaveAddressDTO;
+import com.ecommerce.ecommerce.dto.response.AddressDTO;
+import com.ecommerce.ecommerce.entity.*;
+import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.AddressMapper;
+import com.ecommerce.ecommerce.repository.AddressRepository;
+import com.ecommerce.ecommerce.service.AddressService;
+import com.ecommerce.ecommerce.service.CityService;
+import com.ecommerce.ecommerce.service.UserService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class AddressServiceImpl implements AddressService {
+
+    private final AddressRepository addressRepository;
+
+    private final UserService userService;
+
+    private final CityService cityService;
+
+    public AddressServiceImpl(AddressRepository addressRepository, UserService userService, CityService cityService){
+        this.addressRepository = addressRepository;
+        this.userService = userService;
+        this.cityService = cityService;
+    }
+
+    @Override
+    public AddressDTO create(SaveAddressDTO saveAddressDTO){
+        User user =  userService.findByIdEntity(saveAddressDTO.getUserId());
+        City city = cityService.findByEntity(saveAddressDTO.getCityId());
+
+        Address address = AddressMapper.toEntity(saveAddressDTO,city,user);
+
+        return AddressMapper.toDto(addressRepository.save(address));
+    }
+
+    @Override
+    public AddressDTO findById(Long id){
+        return AddressMapper.toDto(this.findByIdEntity(id));
+    }
+
+    @Override
+    public AddressDTO update(Long id, SaveAddressDTO saveAddressDTO){
+        User user =  userService.findByIdEntity(saveAddressDTO.getUserId());
+        City city = cityService.findByEntity(saveAddressDTO.getCityId());
+
+        Address address = this.findByIdEntity(id);
+        AddressMapper.updateEntity(address,saveAddressDTO,city,user);
+
+        return AddressMapper.toDto(addressRepository.save(address));
+    }
+
+    @Override
+    public Address findByIdEntity(Long id){
+        return addressRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Dirección con ID: " + id + " no encontrada"));
+    }
+
+    @Override
+    public AddressDTO findByUser(Long userId){
+        return AddressMapper.toDto(addressRepository.findByUserId(userId));
+    }
+
+}

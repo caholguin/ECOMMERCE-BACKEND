@@ -10,7 +10,7 @@ public class SaveSubcategoryDTO implements Serializable {
     @NotBlank(message = "El campo nombre es obligatorio")
     private String name;
 
-    @NotNull(message = "El campo categoria es obligatorio")
+    @NotNull(message = "El campo categoría es obligatorio")
     private Long categoryId;
 
     @NotNull(message = "El campo icono es obligatorio")
