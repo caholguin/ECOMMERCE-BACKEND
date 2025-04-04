@@ -2,6 +2,8 @@ package com.ecommerce.ecommerce.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "cities")
 public class City {
@@ -14,8 +16,8 @@ public class City {
 
     private int price;
 
-    @OneToOne(mappedBy = "city")
-    private Address address;
+    @OneToMany(mappedBy = "city")
+    private List<Address> addresses;
 
     public Long getId(){
         return id;
@@ -41,11 +43,11 @@ public class City {
         this.price = price;
     }
 
-    public Address getAddress(){
-        return address;
+    public List<Address> getAddresses(){
+        return addresses;
     }
 
-    public void setAddress(Address address){
-        this.address = address;
+    public void setAddresses(List<Address> addresses){
+        this.addresses = addresses;
     }
 }

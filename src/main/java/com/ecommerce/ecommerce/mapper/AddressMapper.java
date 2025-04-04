@@ -37,7 +37,7 @@ public class AddressMapper {
     public static void updateEntity(Address address, SaveAddressDTO saveAddressDTO, City city,User user){
         if(address == null || saveAddressDTO == null) return;
 
-        address.setDescription(address.getDescription());
+        address.setDescription(saveAddressDTO.getDescription());
         address.setCity(city);
         address.setUser(user);
     }
