@@ -17,6 +17,12 @@ public class SaveAddressDTO implements Serializable {
     private Long cityId;
     @NotNull(message = "El campo usuario es obligatorio")
     private Long userId;
+    @NotNull(message = "El campo nombre es obligatorio")
+    private String fullName;
+    @NotNull(message = "El campo barrio es obligatorio")
+    private String neighborhood;
+    @NotNull(message = "El campo teléfono es obligatorio")
+    private String phone;
 
     public String getDescription(){
         return description;
@@ -48,5 +54,29 @@ public class SaveAddressDTO implements Serializable {
 
     public void setUserId(Long userId){
         this.userId = userId;
+    }
+
+    public String getFullName(){
+        return fullName;
+    }
+
+    public void setFullName(String fullName){
+        this.fullName = fullName;
+    }
+
+    public String getNeighborhood(){
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood){
+        this.neighborhood = neighborhood;
+    }
+
+    public String getPhone(){
+        return phone;
+    }
+
+    public void setPhone(String phone){
+        this.phone = phone;
     }
 }

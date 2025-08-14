@@ -19,6 +19,9 @@ public class AddressMapper {
         addressDTO.setId(address.getId());
         addressDTO.setDescription(address.getDescription());
         addressDTO.setDefault(address.isDefault());
+        addressDTO.setFullName(address.getFullName());
+        addressDTO.setNeighborhood(address.getNeighborhood());
+        addressDTO.setPhone(address.getPhone());
         addressDTO.setCity(CityMapper.toGetCityDto(address.getCity()));
 
         return addressDTO;
@@ -43,6 +46,9 @@ public class AddressMapper {
         address.setDefault(saveAddressDTO.isDefault());
         address.setCity(city);
         address.setUser(user);
+        address.setFullName(saveAddressDTO.getFullName());
+        address.setNeighborhood(saveAddressDTO.getNeighborhood());
+        address.setPhone(saveAddressDTO.getPhone());
     }
 
     public static List<AddressDTO> toDtoList(List<Address> addresses){

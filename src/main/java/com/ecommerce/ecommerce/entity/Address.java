@@ -14,6 +14,12 @@ public class Address {
 
     private boolean isDefault;
 
+    private String fullName;
+
+    private String neighborhood;
+
+    private String phone;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -60,5 +66,29 @@ public class Address {
 
     public void setCity(City city){
         this.city = city;
+    }
+
+    public String getFullName(){
+        return fullName;
+    }
+
+    public void setFullName(String fullName){
+        this.fullName = fullName;
+    }
+
+    public String getNeighborhood(){
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood){
+        this.neighborhood = neighborhood;
+    }
+
+    public String getPhone(){
+        return phone;
+    }
+
+    public void setPhone(String phone){
+        this.phone = phone;
     }
 }

@@ -8,6 +8,10 @@ public class AddressDTO implements Serializable{
     private String description;
     private CityDTO city;
     private boolean isDefault;
+    private String fullName;
+    private String neighborhood;
+    private String phone;
+
 
     public Long getId(){
         return id;
@@ -39,6 +43,30 @@ public class AddressDTO implements Serializable{
 
     public void setCity(CityDTO city){
         this.city = city;
+    }
+
+    public String getFullName(){
+        return fullName;
+    }
+
+    public void setFullName(String fullName){
+        this.fullName = fullName;
+    }
+
+    public String getNeighborhood(){
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood){
+        this.neighborhood = neighborhood;
+    }
+
+    public String getPhone(){
+        return phone;
+    }
+
+    public void setPhone(String phone){
+        this.phone = phone;
     }
 
     public static class CityDTO implements Serializable {
