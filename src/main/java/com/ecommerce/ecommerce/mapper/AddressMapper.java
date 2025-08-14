@@ -18,6 +18,7 @@ public class AddressMapper {
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setId(address.getId());
         addressDTO.setDescription(address.getDescription());
+        addressDTO.setDefault(address.isDefault());
         addressDTO.setCity(CityMapper.toGetCityDto(address.getCity()));
 
         return addressDTO;
@@ -28,6 +29,7 @@ public class AddressMapper {
 
         Address address = new Address();
         address.setDescription(saveAddressDTO.getDescription());
+        address.setDefault(saveAddressDTO.isDefault());
         address.setCity(city);
         address.setUser(user);
 
@@ -38,6 +40,7 @@ public class AddressMapper {
         if(address == null || saveAddressDTO == null) return;
 
         address.setDescription(saveAddressDTO.getDescription());
+        address.setDefault(saveAddressDTO.isDefault());
         address.setCity(city);
         address.setUser(user);
     }

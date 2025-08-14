@@ -61,8 +61,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDTO findByUser(Long userId){
-        return AddressMapper.toDto(addressRepository.findByUserId(userId));
+    public List<AddressDTO> findByUser(Long userId){
+        List<Address> addresses = addressRepository.findByUserId(userId);
+        return AddressMapper.toDtoList(addresses);
     }
 
 }

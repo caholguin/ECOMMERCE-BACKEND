@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/address")
 public class AddressController {
@@ -25,8 +27,8 @@ public class AddressController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<AddressDTO> findByUser(@PathVariable Long userId){
-        AddressDTO address = addressService.findByUser(userId);
+    public ResponseEntity<List<AddressDTO>> findByUser(@PathVariable Long userId){
+        List<AddressDTO> address = addressService.findByUser(userId);
         return new ResponseEntity<>(address,HttpStatus.OK);
     }
 

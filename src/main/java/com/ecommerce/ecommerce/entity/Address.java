@@ -12,6 +12,8 @@ public class Address {
 
     private String description;
 
+    private boolean isDefault;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -34,6 +36,14 @@ public class Address {
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public boolean isDefault(){
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault){
+        isDefault = aDefault;
     }
 
     public User getUser(){

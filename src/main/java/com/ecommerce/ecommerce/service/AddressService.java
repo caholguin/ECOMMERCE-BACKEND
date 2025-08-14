@@ -16,5 +16,5 @@ public interface AddressService {
 
     Address findByIdEntity(Long id);
 
-   AddressDTO findByUser(Long userId);
+    List<AddressDTO> findByUser(Long userId);
 }

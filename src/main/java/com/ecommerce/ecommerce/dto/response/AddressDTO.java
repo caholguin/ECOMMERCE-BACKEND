@@ -7,6 +7,7 @@ public class AddressDTO implements Serializable{
     private Long id;
     private String description;
     private CityDTO city;
+    private boolean isDefault;
 
     public Long getId(){
         return id;
@@ -22,6 +23,14 @@ public class AddressDTO implements Serializable{
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public boolean isDefault(){
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault){
+        isDefault = aDefault;
     }
 
     public CityDTO getCity(){

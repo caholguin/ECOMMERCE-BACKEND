@@ -41,10 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
                                     PaymentPayerRequest.builder()
                                             .email(paymentDTO.getPayer().getEmail())
                                             .identification(
-                                                    IdentificationRequest.builder()
-                                                            .type(paymentDTO.getPayer().getIdentification().getType())
-                                                            .number(paymentDTO.getPayer().getIdentification().getNumber())
-                                                            .build())
+                                                    IdentificationRequest.builder().build())
                                             .build())
                             .build();
 

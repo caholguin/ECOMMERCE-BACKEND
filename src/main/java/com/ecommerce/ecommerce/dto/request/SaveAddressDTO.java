@@ -10,6 +10,9 @@ public class SaveAddressDTO implements Serializable {
 
     @NotBlank(message = "El campo nombre es obligatorio")
     private String description;
+
+    private boolean isDefault;
+
     @NotNull(message = "El campo ciudad es obligatorio")
     private Long cityId;
     @NotNull(message = "El campo usuario es obligatorio")
@@ -21,6 +24,14 @@ public class SaveAddressDTO implements Serializable {
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public boolean isDefault(){
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault){
+        isDefault = aDefault;
     }
 
     public Long getCityId(){
