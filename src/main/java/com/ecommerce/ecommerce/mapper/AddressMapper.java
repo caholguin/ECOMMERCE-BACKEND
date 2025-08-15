@@ -23,6 +23,7 @@ public class AddressMapper {
         addressDTO.setNeighborhood(address.getNeighborhood());
         addressDTO.setPhone(address.getPhone());
         addressDTO.setCity(CityMapper.toGetCityDto(address.getCity()));
+        addressDTO.setUserId(address.getUser().getId());
 
         return addressDTO;
     }

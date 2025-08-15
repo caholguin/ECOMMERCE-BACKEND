@@ -11,6 +11,7 @@ public class AddressDTO implements Serializable{
     private String fullName;
     private String neighborhood;
     private String phone;
+    private Long userId;
 
 
     public Long getId(){
@@ -67,6 +68,14 @@ public class AddressDTO implements Serializable{
 
     public void setPhone(String phone){
         this.phone = phone;
+    }
+
+    public Long getUserId(){
+        return userId;
+    }
+
+    public void setUserId(Long userId){
+        this.userId = userId;
     }
 
     public static class CityDTO implements Serializable {

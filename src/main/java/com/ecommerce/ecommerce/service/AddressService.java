@@ -17,4 +17,6 @@ public interface AddressService {
     Address findByIdEntity(Long id);
 
     List<AddressDTO> findByUser(Long userId);
+
+    AddressDTO updateCurrentAddress(Long id);
 }

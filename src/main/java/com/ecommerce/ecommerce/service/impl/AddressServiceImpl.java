@@ -9,6 +9,7 @@ import com.ecommerce.ecommerce.repository.AddressRepository;
 import com.ecommerce.ecommerce.service.AddressService;
 import com.ecommerce.ecommerce.service.CityService;
 import com.ecommerce.ecommerce.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,6 +65,29 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressDTO> findByUser(Long userId){
         List<Address> addresses = addressRepository.findByUserId(userId);
         return AddressMapper.toDtoList(addresses);
+    }
+
+    @Override
+    @Transactional
+    public AddressDTO updateCurrentAddress(Long id){
+        AddressDTO addressDTO = this.findById(id);
+        Long userId = addressDTO.getUserId();
+
+        List<Address> addresses = addressRepository.findByUserId(userId);
+
+        for (Address a : addresses) {
+            a.setDefault(false);
+        }
+
+        Address selected = addresses.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ObjectNotFoundException("Dirección no encontrada"));
+        selected.setDefault(true);
+
+        addressRepository.saveAll(addresses);
+
+        return AddressMapper.toDto(selected);
     }
 
 }
