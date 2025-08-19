@@ -34,6 +34,9 @@ public class AddressMapper {
         Address address = new Address();
         address.setDescription(saveAddressDTO.getDescription());
         address.setDefault(saveAddressDTO.isDefault());
+        address.setFullName(saveAddressDTO.getFullName());
+        address.setNeighborhood(saveAddressDTO.getNeighborhood());
+        address.setPhone(saveAddressDTO.getPhone());
         address.setCity(city);
         address.setUser(user);
 

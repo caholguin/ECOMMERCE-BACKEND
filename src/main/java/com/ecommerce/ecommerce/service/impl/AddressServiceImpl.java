@@ -30,14 +30,19 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDTO create(SaveAddressDTO saveAddressDTO){
-        User user =  userService.findByIdEntity(saveAddressDTO.getUserId());
+    @Transactional
+    public AddressDTO create(SaveAddressDTO saveAddressDTO) {
+        User user = userService.findByIdEntity(saveAddressDTO.getUserId());
         City city = cityService.findByEntity(saveAddressDTO.getCityId());
 
-        Address address = AddressMapper.toEntity(saveAddressDTO,city,user);
+        addressRepository.unsetDefaultAddresses(user.getId());
+
+        Address address = AddressMapper.toEntity(saveAddressDTO, city, user);
+        address.setDefault(true);
 
         return AddressMapper.toDto(addressRepository.save(address));
     }
+
 
     @Override
     public AddressDTO findById(Long id){
