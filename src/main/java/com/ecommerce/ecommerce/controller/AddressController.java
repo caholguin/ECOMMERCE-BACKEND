@@ -26,6 +26,12 @@ public class AddressController {
         return new ResponseEntity<>(address, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AddressDTO> findById(@PathVariable Long id){
+        AddressDTO addres = addressService.findById(id);
+        return new ResponseEntity<>(addres,HttpStatus.OK);
+    }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AddressDTO>> findByUser(@PathVariable Long userId){
         List<AddressDTO> address = addressService.findByUser(userId);

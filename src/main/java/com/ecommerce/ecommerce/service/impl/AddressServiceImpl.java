@@ -50,12 +50,17 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
     public AddressDTO update(Long id, SaveAddressDTO saveAddressDTO){
         User user =  userService.findByIdEntity(saveAddressDTO.getUserId());
         City city = cityService.findByEntity(saveAddressDTO.getCityId());
 
+        addressRepository.unsetDefaultAddresses(user.getId());
+
         Address address = this.findByIdEntity(id);
         AddressMapper.updateEntity(address,saveAddressDTO,city,user);
+
+        address.setDefault(true);
 
         return AddressMapper.toDto(addressRepository.save(address));
     }
