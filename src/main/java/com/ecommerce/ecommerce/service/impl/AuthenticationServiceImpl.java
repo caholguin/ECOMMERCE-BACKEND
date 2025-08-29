@@ -1,18 +1,15 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.LoginRequestDTO;
-import com.ecommerce.ecommerce.dto.request.RefreshTokenDTO;
 import com.ecommerce.ecommerce.dto.request.SaveUserDTO;
 import com.ecommerce.ecommerce.dto.response.LoginResponseDTO;
-import com.ecommerce.ecommerce.dto.response.RegisteredUserDTO;
 import com.ecommerce.ecommerce.dto.response.UserDTO;
 import com.ecommerce.ecommerce.entity.JwtToken;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
-import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.LoginMapper;
 import com.ecommerce.ecommerce.mapper.UserMapper;
-import com.ecommerce.ecommerce.repository.epecification.JwtTokenRepository;
+import com.ecommerce.ecommerce.repository.JwtTokenRepository;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import com.ecommerce.ecommerce.service.JwtService;
 import com.ecommerce.ecommerce.service.UserService;

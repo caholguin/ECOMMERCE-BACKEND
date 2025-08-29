@@ -3,7 +3,7 @@ package com.ecommerce.ecommerce.config.security.filter;
 import com.ecommerce.ecommerce.entity.JwtToken;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
-import com.ecommerce.ecommerce.repository.epecification.JwtTokenRepository;
+import com.ecommerce.ecommerce.repository.JwtTokenRepository;
 import com.ecommerce.ecommerce.service.JwtService;
 import com.ecommerce.ecommerce.service.UserService;
 import jakarta.servlet.FilterChain;

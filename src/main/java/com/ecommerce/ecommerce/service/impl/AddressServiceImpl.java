@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService {
     @Transactional
     public AddressDTO create(SaveAddressDTO saveAddressDTO) {
         User user = userService.findByIdEntity(saveAddressDTO.getUserId());
-        City city = cityService.findByEntity(saveAddressDTO.getCityId());
+        City city = cityService.findByIdEntity(saveAddressDTO.getCityId());
 
         addressRepository.unsetDefaultAddresses(user.getId());
 
@@ -53,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
     @Transactional
     public AddressDTO update(Long id, SaveAddressDTO saveAddressDTO){
         User user =  userService.findByIdEntity(saveAddressDTO.getUserId());
-        City city = cityService.findByEntity(saveAddressDTO.getCityId());
+        City city = cityService.findByIdEntity(saveAddressDTO.getCityId());
 
         addressRepository.unsetDefaultAddresses(user.getId());
 
