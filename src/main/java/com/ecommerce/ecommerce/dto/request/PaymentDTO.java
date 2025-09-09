@@ -11,7 +11,6 @@ public class PaymentDTO {
 
     private String issuerId;
 
-
     private String paymentMethodId;
 
     @NotNull
