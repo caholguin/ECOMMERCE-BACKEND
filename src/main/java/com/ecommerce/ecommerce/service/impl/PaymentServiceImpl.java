@@ -39,6 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
                                     PaymentPayerRequest.builder()
                                             .email(paymentDTO.getPayer().getEmail())
                                             .build())
+                            .externalReference(String.valueOf(paymentDTO.getOrderId()))
                             .build();
 
             Payment createdPayment = paymentClient.create(paymentCreateRequest);
@@ -46,7 +47,9 @@ public class PaymentServiceImpl implements PaymentService {
             return new PaymentResponseDTO(
                     createdPayment.getId(),
                     String.valueOf(createdPayment.getStatus()),
-                    createdPayment.getStatusDetail());
+                    createdPayment.getStatusDetail(),
+                    createdPayment.getExternalReference()
+            );
 
         } catch (MPApiException apiException) {
             System.out.println(apiException.getApiResponse().getContent());

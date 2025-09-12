@@ -26,6 +26,9 @@ public class PaymentDTO {
     @NotNull
     private PayerDTO payer;
 
+    @NotNull
+    private Long orderId;
+
     public PaymentDTO() {
     }
 
@@ -83,5 +86,13 @@ public class PaymentDTO {
 
     public void setPayer(PayerDTO payer) {
         this.payer = payer;
+    }
+
+    public Long getOrderId(){
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId){
+        this.orderId = orderId;
     }
 }

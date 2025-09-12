@@ -32,6 +32,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addresses;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
+
     public Long getId(){
         return id;
     }
@@ -70,6 +73,14 @@ public class User implements UserDetails {
 
     public void setAddresses(List<Address> addresses){
         this.addresses = addresses;
+    }
+
+    public List<Order> getOrders(){
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders){
+        this.orders = orders;
     }
 
     @Override
