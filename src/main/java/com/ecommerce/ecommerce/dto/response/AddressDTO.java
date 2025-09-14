@@ -1,5 +1,7 @@
 package com.ecommerce.ecommerce.dto.response;
 
+import com.ecommerce.ecommerce.entity.City;
+
 import java.io.Serializable;
 
 public class AddressDTO implements Serializable{
@@ -12,7 +14,6 @@ public class AddressDTO implements Serializable{
     private String neighborhood;
     private String phone;
     private Long userId;
-
 
     public Long getId(){
         return id;

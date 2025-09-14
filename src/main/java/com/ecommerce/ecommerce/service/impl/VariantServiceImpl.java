@@ -79,4 +79,19 @@ public class VariantServiceImpl implements VariantService {
         return VariantMapper.toDto(variantRepository.findVariantsByExactFeatures(productId, featureIds, (long) featureIds.size()));
     }
 
+    @Override
+    public VariantDTO discountStock(Long id, int quantity) {
+        Variant variant = this.findByIdEntity(id);
+
+        if (variant.getStock() < quantity) {
+            throw new RuntimeException("No hay suficiente stock para la variante id" + id);
+        }
+
+        variant.setStock(variant.getStock() - quantity);
+        Variant updatedVariant = variantRepository.save(variant);
+
+        return VariantMapper.toDto(updatedVariant);
+    }
+
+
 }

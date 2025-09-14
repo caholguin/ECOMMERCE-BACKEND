@@ -5,6 +5,7 @@ import com.ecommerce.ecommerce.dto.response.AddressDTO;
 import com.ecommerce.ecommerce.entity.Address;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AddressService {
 
@@ -19,4 +20,6 @@ public interface AddressService {
     List<AddressDTO> findByUser(Long userId);
 
     AddressDTO updateCurrentAddress(Long id);
+
+    Optional<AddressDTO> findByUserIdAndIsDefaultTrue(Long userId);
 }

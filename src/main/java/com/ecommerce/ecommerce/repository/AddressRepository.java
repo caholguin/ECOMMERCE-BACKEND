@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.repository;
 
+import com.ecommerce.ecommerce.dto.response.AddressDTO;
 import com.ecommerce.ecommerce.entity.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AddressRepository extends JpaRepository<Address,Long> {
 
@@ -16,5 +18,6 @@ public interface AddressRepository extends JpaRepository<Address,Long> {
     @Query("UPDATE Address a SET a.isDefault = false WHERE a.user.id = :userId")
     void unsetDefaultAddresses(Long userId);
 
+    Optional<Address> findByUserIdAndIsDefaultTrue(Long userId);
 
 }

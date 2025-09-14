@@ -23,4 +23,6 @@ public interface VariantService {
     Void deleteByProductId(Long id);
 
     VariantDTO findVariantsByFeatures(Long productId,List<Long> featureIds);
+
+    VariantDTO discountStock(Long id, int quantity);
 }

@@ -3,13 +3,11 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.dto.request.SaveOrderDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.service.OrderService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -21,8 +19,24 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<OrderDTO> create(@RequestBody @Valid SaveOrderDTO saveOrderDTO){
-        OrderDTO address = orderService.create(saveOrderDTO);
-        return new ResponseEntity<>(address, HttpStatus.CREATED);
+    public ResponseEntity<OrderDTO> create(@RequestBody @Valid SaveOrderDTO saveOrderDTO) throws JsonProcessingException{
+        OrderDTO order = orderService.create(saveOrderDTO);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
+
+    @GetMapping("/update-status-for-paid/{id}")
+    public ResponseEntity<OrderDTO> updateStatusForPaid(@PathVariable Long id){
+        OrderDTO order = orderService.updateStatusForPaid(id);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
+        OrderDTO order = orderService.findById(id);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+
+    }
+
+
 }

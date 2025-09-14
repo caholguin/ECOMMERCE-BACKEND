@@ -13,9 +13,11 @@ public class Order {
     private String pdfPath;
 
     @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String address;
 
     private Integer paymentMethod;
