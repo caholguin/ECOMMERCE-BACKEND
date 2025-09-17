@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.dto.request.SaveOrderDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
+import com.ecommerce.ecommerce.entity.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface OrderService {
@@ -10,7 +11,7 @@ public interface OrderService {
 
     OrderDTO findById(Long id);
 
-    OrderDTO updateStatus(Long id, int status);
+    void updateOrderStatus(Long id, int status);
 
-    OrderDTO updateStatusForPaid(Long id);
+    Order findByIdEntity(Long id);
 }

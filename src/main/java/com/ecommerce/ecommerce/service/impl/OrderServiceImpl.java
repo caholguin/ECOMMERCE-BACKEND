@@ -4,21 +4,16 @@ import com.ecommerce.ecommerce.dto.request.SaveOrderDTO;
 import com.ecommerce.ecommerce.dto.response.AddressDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
-import com.ecommerce.ecommerce.dto.response.VariantDTO;
-import com.ecommerce.ecommerce.entity.City;
 import com.ecommerce.ecommerce.entity.Order;
 import com.ecommerce.ecommerce.entity.User;
-import com.ecommerce.ecommerce.enums.OrderStatus;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.OrderMapper;
 import com.ecommerce.ecommerce.repository.OrderRepository;
 import com.ecommerce.ecommerce.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,13 +38,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO create(SaveOrderDTO saveOrderDTO) throws JsonProcessingException{
         final double[] total = {0.0};
-        //en principio esta parte solo va a afectar si el pago se realiza pero por ahora sera solo para descontar stocks
-        saveOrderDTO.getContent().forEach(item -> {
-       /*     System.out.println("variantId = " + item.getVariantId());
-            System.out.println("productId = " + item.getProductId());
-            System.out.println("amount = " + item.getAmount());
-            System.out.println("unitPrice = " + item.getUnitPrice());*/
 
+        saveOrderDTO.getContent().forEach(item -> {
             ProductDTO product = this.productService.findById(item.getProductId());
             //VariantDTO variantDTO = this.variantService.findById(item.getVariantId());
 
@@ -76,9 +66,6 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .orElse(null);
 
-        System.out.println("contentJson = " + contentJson);
-        System.out.println("addressJson = " + addressJson);
-
         Order order = new Order();
         order.setAddress(addressJson);
         order.setContent(contentJson);
@@ -97,37 +84,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO updateStatus(Long id, int status){
-        return null;
+    public void updateOrderStatus(Long id, int status){
+        Order order = this.findByIdEntity(id);
+
+        order.setStatus(status);
+        this.orderRepository.save(order);
     }
 
     @Override
-    public OrderDTO updateStatusForPaid(Long id){
-
-        Order order = this.findByIdEntity(id);
-
-        try {
-            List<OrderDTO.CartItemDTO> items = objectMapper.readValue(
-                    order.getContent(),
-                    new TypeReference<List<OrderDTO.CartItemDTO>>() {}
-            );
-
-            items.forEach(item -> {
-                this.variantService.discountStock(item.getVariantId(),item.getAmount());
-            });
-
-            order.setStatus(2);
-            orderRepository.save(order);
-
-            return OrderMapper.toDto(order);
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error al deserializar el contenido de la orden", e);
-        }
+    public Order findByIdEntity(Long id){
+        return orderRepository.findById(id) .orElseThrow(() -> new ObjectNotFoundException("Orden con ID: " + id + " no encontrada"));
     }
 
-    private Order findByIdEntity(Long id){
-        return orderRepository.findById(id) .orElseThrow(() -> new ObjectNotFoundException("Ciudad con ID: " + id + " no encontrada"));
-    }
+
 
 }

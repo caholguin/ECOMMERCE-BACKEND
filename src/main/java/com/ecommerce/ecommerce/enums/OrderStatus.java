@@ -23,7 +23,6 @@ public enum OrderStatus {
     DELIVERED(9, "Entregada"),
     COMPLETED(10, "Completada (orden cerrada)");
 
-
     private final int code;
     private final String description;
 
@@ -48,11 +47,28 @@ public enum OrderStatus {
     }
 
     public static Optional<OrderStatus> fromMercadoPago(String mpStatus) {
-        try {
-            return Optional.of(OrderStatus.valueOf(mpStatus.toUpperCase()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+        if (mpStatus == null || mpStatus.trim().isEmpty()) {
             return Optional.empty();
         }
-    }
 
+        // Mapeo explícito MercadoPago -> OrderStatus
+        return switch (mpStatus.toLowerCase().trim()) {
+            // Estados pendientes - todos van a PENDING
+            case "pending", "pending_contingency", "pending_review_manual", "pending_waiting_transfer",
+                 "pending_waiting_payment" -> Optional.of(PENDING);
+            case "in_process" -> Optional.of(IN_PROCESS);
+            case "in_mediation" -> Optional.of(IN_MEDIATION);
+            case "approved" -> Optional.of(APPROVED);
+            case "authorized" -> Optional.of(AUTHORIZED);
+
+            // Reembolsos
+            case "refunded" -> Optional.of(REFUNDED);
+            case "partially_refunded" -> Optional.of(PARTIALLY_REFUNDED);
+
+            // Fallos
+            case "rejected" -> Optional.of(REJECTED);
+            case "cancelled" -> Optional.of(CANCELLED);
+            default -> Optional.empty();
+        };
+    }
 }

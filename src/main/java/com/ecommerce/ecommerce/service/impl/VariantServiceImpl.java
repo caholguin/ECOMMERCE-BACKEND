@@ -80,7 +80,7 @@ public class VariantServiceImpl implements VariantService {
     }
 
     @Override
-    public VariantDTO discountStock(Long id, int quantity) {
+    public void discountStock(Long id, int quantity) {
         Variant variant = this.findByIdEntity(id);
 
         if (variant.getStock() < quantity) {
@@ -89,8 +89,18 @@ public class VariantServiceImpl implements VariantService {
 
         variant.setStock(variant.getStock() - quantity);
         Variant updatedVariant = variantRepository.save(variant);
+    }
 
-        return VariantMapper.toDto(updatedVariant);
+    @Override
+    public void increaseStock(Long id, int quantity){
+        Variant variant = this.findByIdEntity(id);
+
+        if (variant.getStock() < quantity) {
+            throw new RuntimeException("No hay suficiente stock para la variante id" + id);
+        }
+
+        variant.setStock(variant.getStock() + quantity);
+        Variant updatedVariant = variantRepository.save(variant);
     }
 
 

@@ -24,5 +24,7 @@ public interface VariantService {
 
     VariantDTO findVariantsByFeatures(Long productId,List<Long> featureIds);
 
-    VariantDTO discountStock(Long id, int quantity);
+    void discountStock(Long id, int quantity);
+
+    void increaseStock(Long id, int quantity);
 }

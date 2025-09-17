@@ -24,13 +24,6 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
-    @GetMapping("/update-status-for-paid/{id}")
-    public ResponseEntity<OrderDTO> updateStatusForPaid(@PathVariable Long id){
-        OrderDTO order = orderService.updateStatusForPaid(id);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-
-    }
-
     @GetMapping("{id}")
     public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
         OrderDTO order = orderService.findById(id);
