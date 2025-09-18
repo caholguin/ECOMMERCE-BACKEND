@@ -41,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
 
         saveOrderDTO.getContent().forEach(item -> {
             ProductDTO product = this.productService.findById(item.getProductId());
-            //VariantDTO variantDTO = this.variantService.findById(item.getVariantId());
 
             Double priceWithDiscount = product.getPrice() - (product.getPrice() * product.getDiscount() / 100);
 
@@ -49,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
 
             total[0] += subtotal;
         });
+
 
         String contentJson = objectMapper.writeValueAsString(saveOrderDTO.getContent());
 
@@ -66,16 +66,18 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .orElse(null);
 
+        total[0] += address.get().getCity().getPrice();
+
         Order order = new Order();
         order.setAddress(addressJson);
         order.setContent(contentJson);
-        order.setPaymentId(saveOrderDTO.getPaymentId());
+        order.setPaymentId("");
         order.setPaymentMethod(1);
         order.setTotal(total[0]);
         order.setUser(user);
 
         Order saveOrder = orderRepository.save(order);
-        return null;
+        return OrderMapper.toDto(saveOrder);
     }
 
     @Override
@@ -84,10 +86,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(Long id, int status){
+    public void updateOrderStatus(Long id, int status, Long paymentId){
         Order order = this.findByIdEntity(id);
 
         order.setStatus(status);
+        order.setPaymentId(String.valueOf(paymentId));
         this.orderRepository.save(order);
     }
 

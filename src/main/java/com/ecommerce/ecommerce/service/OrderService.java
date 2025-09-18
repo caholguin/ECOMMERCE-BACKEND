@@ -11,7 +11,7 @@ public interface OrderService {
 
     OrderDTO findById(Long id);
 
-    void updateOrderStatus(Long id, int status);
+    void updateOrderStatus(Long id, int status, Long paymentId);
 
     Order findByIdEntity(Long id);
 }

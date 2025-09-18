@@ -8,22 +8,16 @@ import java.util.List;
 public class SaveOrderDTO implements Serializable {
     private String pdfPath;
     private List<CartItemDTO> content;
-    private String address;
     private Integer paymentMethod;
-    private String paymentId;
-    private Double total;
     private Long userId;
 
     public SaveOrderDTO(){
     }
 
-    public SaveOrderDTO(String pdfPath, List<CartItemDTO> content, String address, Integer paymentMethod, String paymentId, Double total, Long userId){
+    public SaveOrderDTO(String pdfPath, List<CartItemDTO> content, Integer paymentMethod, Long userId){
         this.pdfPath = pdfPath;
         this.content = content;
-        this.address = address;
         this.paymentMethod = paymentMethod;
-        this.paymentId = paymentId;
-        this.total = total;
         this.userId = userId;
     }
 
@@ -43,36 +37,12 @@ public class SaveOrderDTO implements Serializable {
         this.content = content;
     }
 
-    public String getAddress(){
-        return address;
-    }
-
-    public void setAddress(String address){
-        this.address = address;
-    }
-
     public Integer getPaymentMethod(){
         return paymentMethod;
     }
 
     public void setPaymentMethod(Integer paymentMethod){
         this.paymentMethod = paymentMethod;
-    }
-
-    public String getPaymentId(){
-        return paymentId;
-    }
-
-    public void setPaymentId(String paymentId){
-        this.paymentId = paymentId;
-    }
-
-    public Double getTotal(){
-        return total;
-    }
-
-    public void setTotal(Double total){
-        this.total = total;
     }
 
     public Long getUserId(){

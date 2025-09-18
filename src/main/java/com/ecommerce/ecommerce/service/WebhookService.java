@@ -18,11 +18,13 @@ public class WebhookService {
     private final MercadoPagoService mercadoPagoService;
     private final OrderService orderService;
     private final PaymentStatusProcessorFactory processorFactory;
+    private final PaymentNotificationService orderNotificationService;
 
-    public WebhookService(MercadoPagoService mercadoPagoService, OrderService orderService, PaymentStatusProcessorFactory processorFactory){
+    public WebhookService(MercadoPagoService mercadoPagoService, OrderService orderService, PaymentStatusProcessorFactory processorFactory, PaymentNotificationService orderNotificationService){
         this.mercadoPagoService = mercadoPagoService;
         this.orderService = orderService;
         this.processorFactory = processorFactory;
+        this.orderNotificationService = orderNotificationService;
     }
 
 
@@ -47,7 +49,10 @@ public class WebhookService {
             String statusStr = payment.getStatus();
 
             OrderStatus.fromMercadoPago(statusStr).ifPresent(orderStatus -> {
-                orderService.updateOrderStatus(Long.valueOf(orderReference), orderStatus.getCode());
+                orderService.updateOrderStatus(Long.valueOf(orderReference), orderStatus.getCode(),paymentId);
+
+                // Notificar por websocket
+                orderNotificationService.processPaymentNotification(Long.valueOf(orderReference), orderStatus.getCode());
 
                 PaymentStatusProcessor processor = processorFactory.getProcessor(orderStatus);
                 processor.process(orderReference);

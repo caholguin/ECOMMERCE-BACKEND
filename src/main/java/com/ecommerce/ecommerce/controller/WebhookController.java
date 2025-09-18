@@ -18,7 +18,7 @@ public class WebhookController {
     }
 
     //metodo para simular envios de mercado pago
-   /* @PostMapping()
+/*   @PostMapping()
     public ResponseEntity<String> simulateMercadoPagoWebhook(
             @RequestParam Long orderId,
             @RequestParam String status) {
