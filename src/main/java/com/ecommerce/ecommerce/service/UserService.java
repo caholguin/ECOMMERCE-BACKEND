@@ -9,4 +9,6 @@ public interface UserService {
     User registerCustomer(SaveUserDTO saveUserDTO);
 
     Optional<User> findByUsername(String username);
+
+    User findByIdEntity(Long id);
 }

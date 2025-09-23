@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.repository.epecification;
+package com.ecommerce.ecommerce.repository;
 
 import com.ecommerce.ecommerce.entity.JwtToken;
 import org.springframework.data.jpa.repository.JpaRepository;

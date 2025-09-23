@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
@@ -27,6 +28,12 @@ public class User implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 
     public Long getId(){
         return id;
@@ -58,6 +65,22 @@ public class User implements UserDetails {
 
     public void setRole(Role role){
         this.role = role;
+    }
+
+    public List<Address> getAddresses(){
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses){
+        this.addresses = addresses;
+    }
+
+    public List<Order> getOrders(){
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders){
+        this.orders = orders;
     }
 
     @Override

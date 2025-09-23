@@ -5,10 +5,19 @@ import java.util.List;
 
 public class UserDTO implements Serializable {
 
+    private Long id;
     private String username;
     private String name;
     private String role;
     private List<String> authorities;
+
+    public Long getId(){
+        return id;
+    }
+
+    public void setId(Long id){
+        this.id = id;
+    }
 
     public String getUsername(){
         return username;

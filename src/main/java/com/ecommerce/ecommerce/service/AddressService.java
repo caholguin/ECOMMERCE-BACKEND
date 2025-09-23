@@ -1,0 +1,25 @@
+package com.ecommerce.ecommerce.service;
+
+import com.ecommerce.ecommerce.dto.request.SaveAddressDTO;
+import com.ecommerce.ecommerce.dto.response.AddressDTO;
+import com.ecommerce.ecommerce.entity.Address;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface AddressService {
+
+    AddressDTO create(SaveAddressDTO saveAddressDTO);
+
+    AddressDTO findById(Long id);
+
+    AddressDTO update(Long id, SaveAddressDTO saveAddressDTO);
+
+    Address findByIdEntity(Long id);
+
+    List<AddressDTO> findByUser(Long userId);
+
+    AddressDTO updateCurrentAddress(Long id);
+
+    Optional<AddressDTO> findByUserIdAndIsDefaultTrue(Long userId);
+}

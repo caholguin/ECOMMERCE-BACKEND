@@ -1,6 +1,9 @@
 package com.ecommerce.ecommerce.mapper;
 
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
+import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.dto.response.UserDTO;
+import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,7 @@ public class UserMapper {
         if(user == null) return null;
 
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setUsername(user.getUsername());
         userDTO.setRole(user.getRole().getName());
@@ -23,5 +27,16 @@ public class UserMapper {
                 .collect(Collectors.toList()));
 
         return userDTO;
+    }
+
+
+    public static OrderDTO.UserDTO toGetUserDto(User user){
+        if (user == null ) return null;
+
+        return new OrderDTO.UserDTO(
+                user.getId(),
+                user.getName()
+        );
+
     }
 }
