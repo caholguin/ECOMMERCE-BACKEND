@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -31,5 +33,10 @@ public class OrderController {
 
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<OrderDTO>> findByUserId(@PathVariable Long id){
+        List<OrderDTO> order = orderService.findByUserId(id);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
 
 }

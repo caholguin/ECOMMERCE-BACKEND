@@ -1,7 +1,9 @@
 package com.ecommerce.ecommerce.mapper;
 
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
+import com.ecommerce.ecommerce.dto.response.AddressDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
+import com.ecommerce.ecommerce.entity.Address;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.entity.Order;
@@ -69,5 +71,14 @@ public class OrderMapper {
         category.setName(saveCategoryDTO.getName());
         category.setIcon(saveCategoryDTO.getIcon());
         category.setFamily(family);
+    }
+
+    public static List<OrderDTO> toDtoList(List<Order> orders){
+
+        if (orders == null) return null;
+
+        return orders.stream()
+                .map(OrderMapper::toDto)
+                .toList();
     }
 }

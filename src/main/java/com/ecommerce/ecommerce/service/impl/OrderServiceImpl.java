@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,15 +25,13 @@ public class OrderServiceImpl implements OrderService {
     private final AddressService addressService;
     private final UserService userService;
     private final ProductService productService;
-    private final VariantService variantService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ObjectMapper objectMapper, AddressService addressService, UserService userService, ProductService productService, VariantService variantService){
+    public OrderServiceImpl(OrderRepository orderRepository, ObjectMapper objectMapper, AddressService addressService, UserService userService, ProductService productService){
         this.orderRepository = orderRepository;
         this.objectMapper = objectMapper;
         this.addressService = addressService;
         this.userService = userService;
         this.productService = productService;
-        this.variantService = variantService;
     }
 
     @Override
@@ -96,9 +95,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findByIdEntity(Long id){
-        return orderRepository.findById(id) .orElseThrow(() -> new ObjectNotFoundException("Orden con ID: " + id + " no encontrada"));
+        return orderRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Orden con ID: " + id + " no encontrada"));
     }
 
+    @Override
+    public List<OrderDTO> findByUserId(Long id){
+        List<Order> orders = orderRepository.findByUserIdOrderByIdDesc(id);
+        return OrderMapper.toDtoList(orders);
+    }
 
 
 }

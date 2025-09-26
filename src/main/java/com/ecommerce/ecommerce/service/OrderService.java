@@ -5,6 +5,8 @@ import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.entity.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.util.List;
+
 public interface OrderService {
 
     OrderDTO create(SaveOrderDTO saveOrderDTO) throws JsonProcessingException;
@@ -14,4 +16,6 @@ public interface OrderService {
     void updateOrderStatus(Long id, int status, Long paymentId);
 
     Order findByIdEntity(Long id);
+
+    List<OrderDTO> findByUserId(Long id);
 }
