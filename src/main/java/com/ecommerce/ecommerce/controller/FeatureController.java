@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.request.FeatureSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.FeatureSearchDTO;
 import com.ecommerce.ecommerce.dto.request.SaveFeatureDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
 import com.ecommerce.ecommerce.service.FeatureService;

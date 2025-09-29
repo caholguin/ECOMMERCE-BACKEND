@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.service;
 
-import com.ecommerce.ecommerce.dto.request.OptionSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.OptionSearchDTO;
 import com.ecommerce.ecommerce.dto.request.SaveOptionDTO;
 import com.ecommerce.ecommerce.dto.response.OptionDTO;
 import com.ecommerce.ecommerce.entity.Option;

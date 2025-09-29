@@ -143,5 +143,24 @@ public class SaveOrderDTO implements Serializable {
         }
     }
 
+    public static class updateStatus implements Serializable{
+        private int status;
+
+        public updateStatus(){
+        }
+
+        public updateStatus(int status){
+            this.status = status;
+        }
+
+        public int getStatus(){
+            return status;
+        }
+
+        public void setStatus(int status){
+            this.status = status;
+        }
+    }
+
 
 }

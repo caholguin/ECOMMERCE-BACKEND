@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.dto.request.CategorySearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.CategorySearchDTO;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;

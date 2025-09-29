@@ -1,10 +1,12 @@
 package com.ecommerce.ecommerce.controller;
-
 import com.ecommerce.ecommerce.dto.request.SaveOrderDTO;
+import com.ecommerce.ecommerce.dto.request.search.OrderSearchDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,16 @@ public class OrderController {
 
     public OrderController(OrderService orderService){
         this.orderService = orderService;
+    }
+
+
+    @GetMapping()
+    public ResponseEntity<Page<OrderDTO>> findAll(Pageable pageable, @RequestParam(required = false) Long id){
+
+        OrderSearchDTO orderSearchDTO = new OrderSearchDTO(id);
+
+        Page<OrderDTO> categories = orderService.findAll(orderSearchDTO,pageable);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -39,4 +51,9 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
+    @PatchMapping("update-status/{id}")
+    public ResponseEntity<OrderDTO> updateStatus(@PathVariable Long id, @RequestBody @Valid SaveOrderDTO.updateStatus updateStatus){
+        OrderDTO order = orderService.updateStatus(id,updateStatus.getStatus());
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
 }

@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.dto.request.CitySearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.CitySearchDTO;
 import com.ecommerce.ecommerce.dto.response.CityDTO;
 import com.ecommerce.ecommerce.entity.Address;
 import com.ecommerce.ecommerce.entity.City;

@@ -1,12 +1,12 @@
-package com.ecommerce.ecommerce.dto.request;
+package com.ecommerce.ecommerce.dto.request.search;
 
 import java.io.Serializable;
 
-public class OptionSearchDTO implements Serializable {
+public class CitySearchDTO implements Serializable {
 
     private String name;
 
-    public OptionSearchDTO(String name){
+    public CitySearchDTO(String name){
         this.name = name;
     }
 

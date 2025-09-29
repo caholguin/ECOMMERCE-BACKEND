@@ -2,7 +2,7 @@ package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
-import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.ProductSearchDTO;
 import com.ecommerce.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

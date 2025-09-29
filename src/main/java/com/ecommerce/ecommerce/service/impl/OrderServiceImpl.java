@@ -1,17 +1,24 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveOrderDTO;
+import com.ecommerce.ecommerce.dto.request.search.OrderSearchDTO;
 import com.ecommerce.ecommerce.dto.response.AddressDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
+import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Order;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.OrderMapper;
 import com.ecommerce.ecommerce.repository.OrderRepository;
+import com.ecommerce.ecommerce.repository.epecification.CategorySearch;
+import com.ecommerce.ecommerce.repository.epecification.OrderSearch;
 import com.ecommerce.ecommerce.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -104,5 +111,20 @@ public class OrderServiceImpl implements OrderService {
         return OrderMapper.toDtoList(orders);
     }
 
+    @Override
+    public Page<OrderDTO> findAll(OrderSearchDTO search, Pageable pageable){
+        OrderSearch orderSearch = new OrderSearch(search);
 
+        Page<Order> orders = orderRepository.findAll(orderSearch,pageable);
+        return orders.map(OrderMapper::toDto);
+    }
+
+    @Override
+    public OrderDTO updateStatus(Long id, int status){
+        Order order = this.findByIdEntity(id);
+
+        order.setStatus(status);
+        Order orderSave = this.orderRepository.save(order);
+        return OrderMapper.toDto(orderSave);
+    }
 }

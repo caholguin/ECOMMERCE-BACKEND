@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.dto.request;
+package com.ecommerce.ecommerce.dto.request.search;
 
 import java.io.Serializable;
 
