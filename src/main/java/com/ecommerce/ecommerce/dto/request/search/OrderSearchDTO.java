@@ -6,8 +6,11 @@ public class OrderSearchDTO implements Serializable {
 
     private Long id;
 
-    public OrderSearchDTO(Long id){
+    private Long status;
+
+    public OrderSearchDTO(Long id, Long status){
         this.id = id;
+        this.status = status;
     }
 
     public Long getId(){
@@ -16,5 +19,13 @@ public class OrderSearchDTO implements Serializable {
 
     public void setId(Long id){
         this.id = id;
+    }
+
+    public Long getStatus(){
+        return status;
+    }
+
+    public void setStatus(Long status){
+        this.status = status;
     }
 }

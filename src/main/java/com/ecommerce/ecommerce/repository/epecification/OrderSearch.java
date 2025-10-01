@@ -28,6 +28,11 @@ public class OrderSearch implements Specification<Order> {
             predicates.add(id);
         }
 
+        if (this.searchDTO.getStatus() != null) {
+            Predicate status = criteriaBuilder.equal(root.get("status"), this.searchDTO.getStatus());
+            predicates.add(status);
+        }
+
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }
 }

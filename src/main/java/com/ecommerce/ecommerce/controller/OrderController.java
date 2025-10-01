@@ -24,9 +24,9 @@ public class OrderController {
 
 
     @GetMapping()
-    public ResponseEntity<Page<OrderDTO>> findAll(Pageable pageable, @RequestParam(required = false) Long id){
+    public ResponseEntity<Page<OrderDTO>> findAll(Pageable pageable, @RequestParam(required = false) Long id, @RequestParam(required = false) Long status){
 
-        OrderSearchDTO orderSearchDTO = new OrderSearchDTO(id);
+        OrderSearchDTO orderSearchDTO = new OrderSearchDTO(id,status);
 
         Page<OrderDTO> categories = orderService.findAll(orderSearchDTO,pageable);
         return new ResponseEntity<>(categories, HttpStatus.OK);
