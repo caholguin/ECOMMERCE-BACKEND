@@ -2,7 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveFeatureDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
-import com.ecommerce.ecommerce.dto.request.FeatureSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.FeatureSearchDTO;
 import com.ecommerce.ecommerce.entity.Feature;
 import com.ecommerce.ecommerce.entity.Option;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
@@ -14,8 +14,6 @@ import com.ecommerce.ecommerce.service.OptionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class FeatureServiceImpl implements FeatureService {

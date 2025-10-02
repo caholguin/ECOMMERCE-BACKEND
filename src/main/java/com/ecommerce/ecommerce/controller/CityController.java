@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.controller;
 
-import com.ecommerce.ecommerce.dto.request.CitySearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.CitySearchDTO;
 import com.ecommerce.ecommerce.dto.response.CityDTO;
 import com.ecommerce.ecommerce.service.CityService;
 import org.springframework.data.domain.Page;

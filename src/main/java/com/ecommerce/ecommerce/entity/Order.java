@@ -32,16 +32,6 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    /**
-     * Estados posibles:
-     * 1 = pendiente
-     * 2 = pagada
-     * 3 = preparación
-     * 4 = envío
-     * 5 = completado
-     * 6 = failed
-     * 7 = refunded
-     */
 
     public Long getId(){
         return id;

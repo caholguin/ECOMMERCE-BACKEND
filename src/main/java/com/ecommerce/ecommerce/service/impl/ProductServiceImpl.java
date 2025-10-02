@@ -2,7 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveProductDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
-import com.ecommerce.ecommerce.dto.request.ProductSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.ProductSearchDTO;
 import com.ecommerce.ecommerce.entity.*;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.ProductMapper;

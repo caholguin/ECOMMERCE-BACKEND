@@ -1,19 +1,27 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveOrderDTO;
+import com.ecommerce.ecommerce.dto.request.search.OrderSearchDTO;
 import com.ecommerce.ecommerce.dto.response.AddressDTO;
 import com.ecommerce.ecommerce.dto.response.OrderDTO;
 import com.ecommerce.ecommerce.dto.response.ProductDTO;
+import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Order;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.OrderMapper;
 import com.ecommerce.ecommerce.repository.OrderRepository;
+import com.ecommerce.ecommerce.repository.epecification.CategorySearch;
+import com.ecommerce.ecommerce.repository.epecification.OrderSearch;
 import com.ecommerce.ecommerce.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,15 +32,13 @@ public class OrderServiceImpl implements OrderService {
     private final AddressService addressService;
     private final UserService userService;
     private final ProductService productService;
-    private final VariantService variantService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ObjectMapper objectMapper, AddressService addressService, UserService userService, ProductService productService, VariantService variantService){
+    public OrderServiceImpl(OrderRepository orderRepository, ObjectMapper objectMapper, AddressService addressService, UserService userService, ProductService productService){
         this.orderRepository = orderRepository;
         this.objectMapper = objectMapper;
         this.addressService = addressService;
         this.userService = userService;
         this.productService = productService;
-        this.variantService = variantService;
     }
 
     @Override
@@ -96,9 +102,29 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findByIdEntity(Long id){
-        return orderRepository.findById(id) .orElseThrow(() -> new ObjectNotFoundException("Orden con ID: " + id + " no encontrada"));
+        return orderRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Orden con ID: " + id + " no encontrada"));
     }
 
+    @Override
+    public List<OrderDTO> findByUserId(Long id){
+        List<Order> orders = orderRepository.findByUserIdOrderByIdDesc(id);
+        return OrderMapper.toDtoList(orders);
+    }
 
+    @Override
+    public Page<OrderDTO> findAll(OrderSearchDTO search, Pageable pageable){
+        OrderSearch orderSearch = new OrderSearch(search);
 
+        Page<Order> orders = orderRepository.findAll(orderSearch,pageable);
+        return orders.map(OrderMapper::toDto);
+    }
+
+    @Override
+    public OrderDTO updateStatus(Long id, int status){
+        Order order = this.findByIdEntity(id);
+
+        order.setStatus(status);
+        Order orderSave = this.orderRepository.save(order);
+        return OrderMapper.toDto(orderSave);
+    }
 }

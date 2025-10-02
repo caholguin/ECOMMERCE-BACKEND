@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.repository.epecification;
 
-import com.ecommerce.ecommerce.dto.request.OptionSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.OptionSearchDTO;
 import com.ecommerce.ecommerce.entity.Option;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

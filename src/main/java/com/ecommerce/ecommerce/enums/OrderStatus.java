@@ -18,10 +18,10 @@ public enum OrderStatus {
     CANCELLED(6,"Cancelado"),
 
     // Estados de logística / fulfilment
-    PROCESSING(7, "Procesando"),
-    SHIPPED(8, "Enviada"),
-    DELIVERED(9, "Entregada"),
-    COMPLETED(10, "Completada (orden cerrada)");
+    PROCESSING(7, "Preparación"),
+    SHIPPED(8, "Enviado"),
+    DELIVERED(9, "En reparto"),
+    COMPLETED(10, "Entregado");
 
     private final int code;
     private final String description;

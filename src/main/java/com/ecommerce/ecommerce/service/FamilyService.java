@@ -1,5 +1,5 @@
 package com.ecommerce.ecommerce.service;
-import com.ecommerce.ecommerce.dto.request.FamilySearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.FamilySearchDTO;
 import com.ecommerce.ecommerce.dto.request.SaveFamilyDTO;
 import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import com.ecommerce.ecommerce.entity.Family;

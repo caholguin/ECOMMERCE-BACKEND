@@ -2,7 +2,7 @@ package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.dto.request.SaveFeatureDTO;
 import com.ecommerce.ecommerce.dto.response.FeatureDTO;
-import com.ecommerce.ecommerce.dto.request.FeatureSearchDTO;
+import com.ecommerce.ecommerce.dto.request.search.FeatureSearchDTO;
 import com.ecommerce.ecommerce.entity.Feature;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
