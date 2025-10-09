@@ -1,7 +1,6 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveUserDTO;
-import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Role;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.InvalidPasswordException;
@@ -9,7 +8,6 @@ import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.repository.UserRepository;
 import com.ecommerce.ecommerce.service.RoleService;
 import com.ecommerce.ecommerce.service.UserService;
-import com.ecommerce.ecommerce.util.RoleEnum;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

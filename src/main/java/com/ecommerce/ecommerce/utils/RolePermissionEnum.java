@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.util;
+package com.ecommerce.ecommerce.utils;
 
 public enum RolePermissionEnum {
 

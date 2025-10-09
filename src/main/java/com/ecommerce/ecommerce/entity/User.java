@@ -1,6 +1,5 @@
 package com.ecommerce.ecommerce.entity;
 
-import com.ecommerce.ecommerce.util.RoleEnum;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

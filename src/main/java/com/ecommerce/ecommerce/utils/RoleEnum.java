@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.util;
+package com.ecommerce.ecommerce.utils;
 
 import java.util.Arrays;
 import java.util.List;
