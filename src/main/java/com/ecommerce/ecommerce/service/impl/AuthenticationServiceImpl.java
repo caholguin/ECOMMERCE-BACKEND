@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         extraClaims.put("name", user.getName());
         extraClaims.put("role", user.getRole().getName());
-        extraClaims.put("authorities", user.getAuthorities());
+        //extraClaims.put("authorities", user.getAuthorities());
 
         return extraClaims;
     }
@@ -153,7 +153,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         throw new ObjectNotFoundException("El token proporcionado no pertenece a un usuario o es invalido");
-
     }
 
 }
