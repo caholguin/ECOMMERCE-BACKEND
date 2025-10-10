@@ -31,7 +31,7 @@ public class RoleMapper {
         if (role.getPermissions() != null) {
             operationDTOs = role.getPermissions().stream()
                     .map(Permission::getOperation)
-                    .map(OperationMapper::toDTO)
+                    .map(OperationMapper::toDto)
                     .collect(Collectors.toList());
         } else {
             operationDTOs = new ArrayList<>();

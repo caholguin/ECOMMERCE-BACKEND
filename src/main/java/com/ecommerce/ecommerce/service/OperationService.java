@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OperationService {
 
-    List<OperationDTO> getOperations();
+    List<OperationDTO> findAll();
 }

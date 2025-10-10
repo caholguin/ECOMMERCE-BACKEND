@@ -1,5 +1,7 @@
 package com.ecommerce.ecommerce.dto;
 
+import com.ecommerce.ecommerce.dto.response.ModuleDTO;
+
 import java.io.Serializable;
 
 public class OperationDTO implements Serializable {
@@ -14,15 +16,18 @@ public class OperationDTO implements Serializable {
 
     private boolean permitAll;
 
+    private ModuleDTO module;
+
     public OperationDTO(){
     }
 
-    public OperationDTO(Long id, String name, String path, String httpMethod, boolean permitAll){
+    public OperationDTO(Long id, String name, String path, String httpMethod, boolean permitAll, ModuleDTO module){
         this.id = id;
         this.name = name;
         this.path = path;
         this.httpMethod = httpMethod;
         this.permitAll = permitAll;
+        this.module = module;
     }
 
     public Long getId(){
@@ -63,5 +68,13 @@ public class OperationDTO implements Serializable {
 
     public void setPermitAll(boolean permitAll){
         this.permitAll = permitAll;
+    }
+
+    public ModuleDTO getModule(){
+        return module;
+    }
+
+    public void setModule(ModuleDTO module){
+        this.module = module;
     }
 }

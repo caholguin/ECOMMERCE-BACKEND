@@ -14,6 +14,15 @@ public class Module {
 
     private String basePath;
 
+    public Module(){
+    }
+
+    public Module(Long id, String name, String basePath){
+        this.id = id;
+        this.name = name;
+        this.basePath = basePath;
+    }
+
     public Long getId(){
         return id;
     }
