@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -18,21 +20,21 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
+            BadCredentialsException.class,
             Exception.class,
             ObjectNotFoundException.class,
             MethodArgumentTypeMismatchException.class,
             MethodArgumentNotValidException.class,
             HttpRequestMethodNotSupportedException.class,
             HttpMediaTypeNotSupportedException.class,
-            HttpMessageNotReadableException.class
-
+            HttpMessageNotReadableException.class,
+            UsernameNotFoundException.class
     })
 
     public ResponseEntity<ApiErrorDTO> handleAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
@@ -64,11 +66,17 @@ public class GlobalExceptionHandler {
             return this.handleHttpMessageNotReadableException(httpMessageNotReadableException, request, response, timestamp);
         }
 
+        if (exception instanceof BadCredentialsException badCredentialsException) {
+            return this.handleBadCredentialsException(badCredentialsException, request, response, timestamp);
+        }
+
+        if (exception instanceof UsernameNotFoundException usernameNotFoundException) {
+            return this.handleUsernameNotFoundException(usernameNotFoundException, request, response, timestamp);
+        }
+
         return this.handleException(exception, request, response, timestamp);
 
     }
-
-
 
     private ResponseEntity<ApiErrorDTO> handleObjectNotFoundException(ObjectNotFoundException objectNotFoundException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
 
@@ -78,8 +86,8 @@ public class GlobalExceptionHandler {
         apiErrorDto.setHttpCode(httpStatus);
         apiErrorDto.setUrl(request.getRequestURL().toString());
         apiErrorDto.setHttpMethod(request.getMethod());
-        apiErrorDto.setMessage(objectNotFoundException.getMessage());
-        apiErrorDto.setBackendMessage("Lo siento, no se pudo encontrar la información solicitada." + objectNotFoundException.getMessage());
+        apiErrorDto.setMessage("Lo sentimos, no se pudo encontrar la información solicitada.");
+        apiErrorDto.setBackendMessage(objectNotFoundException.getMessage());
         apiErrorDto.setTimestamp(timestamp);
         apiErrorDto.setDetails(null);
 
@@ -195,6 +203,39 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(httpStatus).body(apiErrorDto);
 
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleBadCredentialsException(BadCredentialsException badCredentialsException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+
+        int httpStatus = HttpStatus.UNAUTHORIZED.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Usuario o contraseña incorrectos");
+        apiErrorDto.setBackendMessage(badCredentialsException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
+
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleUsernameNotFoundException(UsernameNotFoundException usernameNotFoundException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+
+        int httpStatus = HttpStatus.UNAUTHORIZED.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Usuario o contraseña incorrectos");
+        apiErrorDto.setBackendMessage(usernameNotFoundException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
     }
 
 }
