@@ -1,20 +1,11 @@
-package com.ecommerce.ecommerce.dto.response;
+package com.ecommerce.ecommerce.dto.request;
 
 import java.io.Serializable;
 
-public class CityDTO implements Serializable {
+public class SaveCityDTO implements Serializable {
 
-    private Long id;
     private String name;
     private int price;
-
-    public Long getId(){
-        return id;
-    }
-
-    public void setId(Long id){
-        this.id = id;
-    }
 
     public String getName(){
         return name;

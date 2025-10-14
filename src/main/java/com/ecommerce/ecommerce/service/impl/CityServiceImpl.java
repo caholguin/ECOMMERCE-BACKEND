@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.service.impl;
 
+import com.ecommerce.ecommerce.dto.request.SaveCityDTO;
 import com.ecommerce.ecommerce.dto.request.search.CitySearchDTO;
 import com.ecommerce.ecommerce.dto.response.CityDTO;
 import com.ecommerce.ecommerce.entity.Address;
@@ -34,8 +35,32 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public CityDTO create(SaveCityDTO saveCityDTO){
+
+        City city = CityMapper.toEntity(saveCityDTO);
+
+        return CityMapper.toDto(cityRepository.save(city));
+    }
+
+    @Override
     public CityDTO findById(Long id){
         return CityMapper.toDto(this.findByIdEntity(id));
+    }
+
+    @Override
+    public CityDTO update(Long id, SaveCityDTO saveCityDTO){
+        City city = this.findByIdEntity(id);
+
+        CityMapper.updateEntity(city,saveCityDTO);
+
+        return CityMapper.toDto(cityRepository.save(city));
+    }
+
+    @Override
+    public void delete(Long id){
+        City city = this.findByIdEntity(id);
+        cityRepository.delete(city);
+
     }
 
     @Override

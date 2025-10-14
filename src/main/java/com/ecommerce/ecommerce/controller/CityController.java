@@ -1,8 +1,10 @@
 package com.ecommerce.ecommerce.controller;
 
+import com.ecommerce.ecommerce.dto.request.SaveCityDTO;
 import com.ecommerce.ecommerce.dto.request.search.CitySearchDTO;
 import com.ecommerce.ecommerce.dto.response.CityDTO;
 import com.ecommerce.ecommerce.service.CityService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,10 +30,28 @@ public class CityController {
 
     }
 
+    @PostMapping
+    public ResponseEntity<CityDTO> create(@RequestBody @Valid SaveCityDTO saveCityDTO){
+        CityDTO city = cityService.create(saveCityDTO);
+        return new ResponseEntity<>(city,HttpStatus.CREATED);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CityDTO> findById(@PathVariable Long id){
         CityDTO city = cityService.findById(id);
         return new ResponseEntity<>(city, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CityDTO> update(@PathVariable Long id,@RequestBody @Valid SaveCityDTO saveCityDTO){
+        CityDTO city = cityService.update(id,saveCityDTO);
+        return new ResponseEntity<>(city,HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        cityService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
    @GetMapping("address/{id}")
