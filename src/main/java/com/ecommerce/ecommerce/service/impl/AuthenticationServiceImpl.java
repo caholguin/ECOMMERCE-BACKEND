@@ -6,10 +6,12 @@ import com.ecommerce.ecommerce.dto.response.LoginResponseDTO;
 import com.ecommerce.ecommerce.dto.response.UserDTO;
 import com.ecommerce.ecommerce.entity.JwtToken;
 import com.ecommerce.ecommerce.entity.User;
+import com.ecommerce.ecommerce.exception.EmailException;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.ecommerce.mapper.LoginMapper;
 import com.ecommerce.ecommerce.mapper.UserMapper;
 import com.ecommerce.ecommerce.repository.JwtTokenRepository;
+import com.ecommerce.ecommerce.repository.UserRepository;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import com.ecommerce.ecommerce.service.JwtService;
 import com.ecommerce.ecommerce.service.UserService;
@@ -37,25 +39,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final JwtTokenRepository jwtRepository;
 
-    public AuthenticationServiceImpl(UserService userService, JwtService jwtService, AuthenticationManager authenticationManager, JwtTokenRepository jwtRepository){
+    private final UserRepository userRepository;
+
+    public AuthenticationServiceImpl(UserService userService, JwtService jwtService, AuthenticationManager authenticationManager, JwtTokenRepository jwtRepository, UserRepository userRepository){
         this.userService = userService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.jwtRepository = jwtRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public LoginResponseDTO registerCustomer(SaveUserDTO saveUserDTO){
+    public UserDTO registerCustomer(SaveUserDTO saveUserDTO){
+        userRepository.findByUsername(saveUserDTO.getUsername())
+                .ifPresent(u -> {
+                    throw new EmailException(
+                            "Ya existe un usuario registrado con el correo: " + saveUserDTO.getUsername()
+                    );
+                });
 
         User user = userService.registerCustomer(saveUserDTO);
-        String jwt = jwtService.generateToken(user, generateExtraClaims(user));
 
-        saveUserToken(user,jwt);
+        UserDTO userDto = new UserDTO();
+        userDto.setName(user.getName());
+        userDto.setUsername(user.getUsername());
 
-
-        return LoginMapper.toDto(user,jwt);
-
-        //return registeredUserDTO;
+        return userDto;
     }
 
     private Map<String, Object> generateExtraClaims(User user){
@@ -78,10 +87,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserDetails user = userService.findByUsername(loginRequestDTO.getUsername()).get();
 
-        String jwt = jwtService.generateToken(user,generateExtraClaims((User) user));
-        saveUserToken((User) user,jwt);
+        String jwt = jwtService.generateToken(user, generateExtraClaims((User) user));
+        saveUserToken((User) user, jwt);
 
-        return LoginMapper.toDto((User) user,jwt);
+        return LoginMapper.toDto((User) user, jwt);
     }
 
 
@@ -116,7 +125,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Optional<JwtToken> token = jwtRepository.findByToken(jwt);
 
-        if (token.isPresent() && token.get().isValid()){
+        if (token.isPresent() && token.get().isValid()) {
             token.get().setValid(false);
             jwtRepository.save(token.get());
         }
@@ -144,12 +153,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             String newJwt = jwtService.generateToken(user, generateExtraClaims(user));
 
-            saveUserToken(user,newJwt);
+            saveUserToken(user, newJwt);
 
             token.get().setValid(false);
             jwtRepository.save(token.get());
 
-            return LoginMapper.toDto((User) user,jwt);
+            return LoginMapper.toDto((User) user, jwt);
         }
 
         throw new ObjectNotFoundException("El token proporcionado no pertenece a un usuario o es invalido");

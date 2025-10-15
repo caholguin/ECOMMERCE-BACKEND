@@ -34,7 +34,8 @@ public class GlobalExceptionHandler {
             HttpRequestMethodNotSupportedException.class,
             HttpMediaTypeNotSupportedException.class,
             HttpMessageNotReadableException.class,
-            UsernameNotFoundException.class
+            UsernameNotFoundException.class,
+            EmailException.class
     })
 
     public ResponseEntity<ApiErrorDTO> handleAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
@@ -72,6 +73,10 @@ public class GlobalExceptionHandler {
 
         if (exception instanceof UsernameNotFoundException usernameNotFoundException) {
             return this.handleUsernameNotFoundException(usernameNotFoundException, request, response, timestamp);
+        }
+
+        if (exception instanceof EmailException emailException) {
+            return this.handleEmailException(emailException, request,response,timestamp);
         }
 
         return this.handleException(exception, request, response, timestamp);
@@ -236,6 +241,22 @@ public class GlobalExceptionHandler {
         apiErrorDto.setDetails(null);
 
         return ResponseEntity.status(httpStatus).body(apiErrorDto);
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleEmailException(EmailException emailException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+        int httpStatus = HttpStatus.CONFLICT.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Ya existe un registro con la información proporcionada");
+        apiErrorDto.setBackendMessage(emailException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
+
     }
 
 }

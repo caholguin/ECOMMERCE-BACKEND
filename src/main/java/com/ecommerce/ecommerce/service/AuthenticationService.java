@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 public interface AuthenticationService {
 
-    LoginResponseDTO registerCustomer(SaveUserDTO saveUserDTO);
+    UserDTO registerCustomer(SaveUserDTO saveUserDTO);
 
     LoginResponseDTO login(LoginRequestDTO loginRequestDTO);
 
@@ -22,4 +22,5 @@ public interface AuthenticationService {
     void logout(HttpServletRequest request);
 
     LoginResponseDTO refreshToken(String jwt);
+
 }
