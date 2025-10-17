@@ -12,9 +12,7 @@ import com.ecommerce.ecommerce.mapper.LoginMapper;
 import com.ecommerce.ecommerce.mapper.UserMapper;
 import com.ecommerce.ecommerce.repository.JwtTokenRepository;
 import com.ecommerce.ecommerce.repository.UserRepository;
-import com.ecommerce.ecommerce.service.AuthenticationService;
-import com.ecommerce.ecommerce.service.JwtService;
-import com.ecommerce.ecommerce.service.UserService;
+import com.ecommerce.ecommerce.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,12 +39,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
 
-    public AuthenticationServiceImpl(UserService userService, JwtService jwtService, AuthenticationManager authenticationManager, JwtTokenRepository jwtRepository, UserRepository userRepository){
+    private final TokenService tokenService;
+
+    private final EmailService emailService;
+
+    public AuthenticationServiceImpl(UserService userService, JwtService jwtService, AuthenticationManager authenticationManager, JwtTokenRepository jwtRepository, UserRepository userRepository, TokenService tokenService, EmailService emailService){
         this.userService = userService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.jwtRepository = jwtRepository;
         this.userRepository = userRepository;
+        this.tokenService = tokenService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -58,9 +62,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     );
                 });
 
+        // 1️⃣ Crear usuario
         User user = userService.registerCustomer(saveUserDTO);
 
+        // 2️⃣ Generar token de activación
+        String activationToken = tokenService.generateActivationToken(user);
+
+        // 3️⃣ Enviar correo de confirmación
+        emailService.sendActivationEmailAsync(user.getUsername(), activationToken);
+
         UserDTO userDto = new UserDTO();
+        userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setUsername(user.getUsername());
 
