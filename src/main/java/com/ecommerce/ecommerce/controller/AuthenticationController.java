@@ -5,7 +5,10 @@ import com.ecommerce.ecommerce.dto.request.RefreshTokenDTO;
 import com.ecommerce.ecommerce.dto.response.LoginResponseDTO;
 import com.ecommerce.ecommerce.dto.response.LogoutResponseDTO;
 import com.ecommerce.ecommerce.dto.response.UserDTO;
+import com.ecommerce.ecommerce.exception.InvalidTokenException;
+import com.ecommerce.ecommerce.exception.TokenExpiredException;
 import com.ecommerce.ecommerce.service.AuthenticationService;
+import com.ecommerce.ecommerce.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,9 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final TokenService tokenService;
 
-    public AuthenticationController(AuthenticationService authenticationService){
+    public AuthenticationController(AuthenticationService authenticationService, TokenService tokenService){
         this.authenticationService = authenticationService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
@@ -51,6 +56,23 @@ public class AuthenticationController {
     public ResponseEntity<UserDTO> findMyProfile(){
         UserDTO user = authenticationService.findLoggedInUser();
         return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/activate-account")
+    public ResponseEntity<String> activateAccount(@RequestParam String token) {
+        try {
+            tokenService.activateAccount(token);
+            return ResponseEntity.ok("Cuenta activada exitosamente");
+        } catch (InvalidTokenException | TokenExpiredException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/resend-activation")
+    public ResponseEntity<String> resendActivation(@RequestParam String email) {
+        // Implementar lógica para reenviar token
+        return ResponseEntity.ok("Email de activación reenviado");
     }
 
 }

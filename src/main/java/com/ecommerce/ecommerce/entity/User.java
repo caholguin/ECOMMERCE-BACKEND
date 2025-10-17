@@ -24,6 +24,9 @@ public class User implements UserDetails {
 
     private String password;
 
+    @Column(nullable = false)
+    private boolean enabled = false;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -80,6 +83,10 @@ public class User implements UserDetails {
 
     public void setOrders(List<Order> orders){
         this.orders = orders;
+    }
+
+    public void setEnabled(boolean enabled){
+        this.enabled = enabled;
     }
 
     @Override
