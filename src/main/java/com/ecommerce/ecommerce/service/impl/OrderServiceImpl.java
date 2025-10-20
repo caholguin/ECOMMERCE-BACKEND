@@ -106,9 +106,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findByUserId(Long id){
-        List<Order> orders = orderRepository.findByUserIdOrderByIdDesc(id);
-        return OrderMapper.toDtoList(orders);
+    public Page<OrderDTO> findByUserId(Long id, Pageable pageable){
+        Page<Order> orders = orderRepository.findByUserIdOrderByIdDesc(id,pageable);
+        return orders.map(OrderMapper::toDto);
     }
 
     @Override

@@ -28,8 +28,8 @@ public class OrderController {
 
         OrderSearchDTO orderSearchDTO = new OrderSearchDTO(id,status);
 
-        Page<OrderDTO> categories = orderService.findAll(orderSearchDTO,pageable);
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+        Page<OrderDTO> orders = orderService.findAll(orderSearchDTO,pageable);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -46,9 +46,9 @@ public class OrderController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<OrderDTO>> findByUserId(@PathVariable Long id){
-        List<OrderDTO> order = orderService.findByUserId(id);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+    public ResponseEntity<Page<OrderDTO>> findByUserId(Pageable pageable, @PathVariable Long id){
+        Page<OrderDTO> orders = orderService.findByUserId(id,pageable);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @PatchMapping("update-status/{id}")

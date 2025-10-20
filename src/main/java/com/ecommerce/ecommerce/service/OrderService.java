@@ -20,7 +20,7 @@ public interface OrderService {
 
     Order findByIdEntity(Long id);
 
-    List<OrderDTO> findByUserId(Long id);
+    Page<OrderDTO> findByUserId(Long id, Pageable pageable);
 
     Page<OrderDTO> findAll(OrderSearchDTO orderSearchDTO, Pageable pageable);
 
