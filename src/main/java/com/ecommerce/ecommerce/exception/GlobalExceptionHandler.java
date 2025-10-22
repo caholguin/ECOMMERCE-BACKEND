@@ -37,7 +37,8 @@ public class GlobalExceptionHandler {
             UsernameNotFoundException.class,
             EmailException.class,
             InvalidTokenException.class,
-            TokenExpiredException.class
+            TokenExpiredException.class,
+            UserDisabledException.class
     })
 
     public ResponseEntity<ApiErrorDTO> handleAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
@@ -89,6 +90,10 @@ public class GlobalExceptionHandler {
             return this.handleTokenExpiredException(tokenExpiredException, request, response, timestamp);
         }
 
+        if (exception instanceof UserDisabledException userDisabledException) {
+            return this.handleUserDisabledException(userDisabledException, request, response, timestamp);
+        }
+
         return this.handleException(exception, request, response, timestamp);
 
     }
@@ -117,7 +122,7 @@ public class GlobalExceptionHandler {
         apiErrorDto.setHttpCode(httpStatus);
         apiErrorDto.setUrl(request.getRequestURL().toString());
         apiErrorDto.setHttpMethod(request.getMethod());
-        apiErrorDto.setMessage("Opps! Something went wrong on our server. Please try again later ");
+        apiErrorDto.setMessage("Opps! Something went wrong on our server. Please try again later");
         apiErrorDto.setBackendMessage(exception.getMessage());
         apiErrorDto.setTimestamp(timestamp);
         apiErrorDto.setDetails(null);
@@ -293,6 +298,21 @@ public class GlobalExceptionHandler {
         apiErrorDto.setHttpMethod(request.getMethod());
         apiErrorDto.setMessage("Token inválido");
         apiErrorDto.setBackendMessage(invalidTokenException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleUserDisabledException(UserDisabledException userDisabledException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+        int httpStatus = HttpStatus.UNAUTHORIZED.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("La cuenta del usuario esta inactiva");
+        apiErrorDto.setBackendMessage(userDisabledException.getMessage());
         apiErrorDto.setTimestamp(timestamp);
         apiErrorDto.setDetails(null);
 

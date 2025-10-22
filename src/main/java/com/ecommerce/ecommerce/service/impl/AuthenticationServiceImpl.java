@@ -8,13 +8,17 @@ import com.ecommerce.ecommerce.entity.JwtToken;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.EmailException;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.exception.UserDisabledException;
 import com.ecommerce.ecommerce.mapper.LoginMapper;
 import com.ecommerce.ecommerce.mapper.UserMapper;
 import com.ecommerce.ecommerce.repository.JwtTokenRepository;
 import com.ecommerce.ecommerce.repository.UserRepository;
 import com.ecommerce.ecommerce.service.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,18 +95,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO){
+    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(),loginRequestDTO.getPassword()));
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
+            User user = (User) authentication.getPrincipal();
 
-        authenticationManager.authenticate(authentication);
+            String jwt = jwtService.generateToken(user, generateExtraClaims(user));
+            saveUserToken(user, jwt);
 
-        UserDetails user = userService.findByUsername(loginRequestDTO.getUsername()).get();
+            return LoginMapper.toDto(user, jwt);
 
-        String jwt = jwtService.generateToken(user, generateExtraClaims((User) user));
-        saveUserToken((User) user, jwt);
-
-        return LoginMapper.toDto((User) user, jwt);
+        } catch (DisabledException ex) {
+            throw new UserDisabledException("Su cuenta está inactiva");
+        }
     }
 
 
