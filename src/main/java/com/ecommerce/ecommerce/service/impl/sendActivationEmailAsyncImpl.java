@@ -27,7 +27,7 @@ public class sendActivationEmailAsyncImpl implements EmailService {
     @Async
     public void sendActivationEmailAsync(String toEmail, String activationToken){
         try {
-            String activationUrl = frontendUrl + "/activate-account?token=" + activationToken;
+            String activationUrl = frontendUrl + "/auth/activate-account?token=" + activationToken;
 
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -42,7 +42,6 @@ public class sendActivationEmailAsyncImpl implements EmailService {
             mailSender.send(message);
 
             // Log exitoso
-            System.out.println("Email de activación enviado a: {}"+ toEmail);
             //log.info("Email de activación enviado a: {}", toEmail);
 
         } catch (Exception e) {

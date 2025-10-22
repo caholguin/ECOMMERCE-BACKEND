@@ -2,11 +2,11 @@ package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.request.LoginRequestDTO;
 import com.ecommerce.ecommerce.dto.request.RefreshTokenDTO;
+import com.ecommerce.ecommerce.dto.request.ResendActivationDTO;
+import com.ecommerce.ecommerce.dto.response.ActivateAccountDTO;
 import com.ecommerce.ecommerce.dto.response.LoginResponseDTO;
 import com.ecommerce.ecommerce.dto.response.LogoutResponseDTO;
 import com.ecommerce.ecommerce.dto.response.UserDTO;
-import com.ecommerce.ecommerce.exception.InvalidTokenException;
-import com.ecommerce.ecommerce.exception.TokenExpiredException;
 import com.ecommerce.ecommerce.service.AuthenticationService;
 import com.ecommerce.ecommerce.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,21 +58,15 @@ public class AuthenticationController {
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-
     @GetMapping("/activate-account")
-    public ResponseEntity<String> activateAccount(@RequestParam String token) {
-        try {
-            tokenService.activateAccount(token);
-            return ResponseEntity.ok("Cuenta activada exitosamente");
-        } catch (InvalidTokenException | TokenExpiredException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ActivateAccountDTO> activateAccount(@RequestParam String token){
+        tokenService.activateAccount(token);
+        return new ResponseEntity<>(new ActivateAccountDTO("Cuenta activada exitosamente"), HttpStatus.OK);
     }
 
     @PostMapping("/resend-activation")
-    public ResponseEntity<String> resendActivation(@RequestParam String email) {
-        // Implementar lógica para reenviar token
-        return ResponseEntity.ok("Email de activación reenviado");
+    public ResponseEntity<ActivateAccountDTO> resendActivation(@RequestBody ResendActivationDTO resendActivationDTO) {
+        tokenService.resendActivation(resendActivationDTO);
+        return new ResponseEntity<>(new ActivateAccountDTO("Si el email está registrado y no está activado, recibirás un correo de activación."), HttpStatus.OK);
     }
-
 }

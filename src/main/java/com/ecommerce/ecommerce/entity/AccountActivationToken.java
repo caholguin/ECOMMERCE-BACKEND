@@ -30,6 +30,9 @@ public class AccountActivationToken {
     @Column(nullable = false)
     private boolean used = false;
 
+    public AccountActivationToken(){
+    }
+
     public AccountActivationToken(Long id, String token, User user, LocalDateTime createdAt, LocalDateTime expiresAt, LocalDateTime confirmedAt, boolean used){
         this.id = id;
         this.token = token;

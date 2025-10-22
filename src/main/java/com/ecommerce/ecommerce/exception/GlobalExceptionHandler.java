@@ -35,7 +35,9 @@ public class GlobalExceptionHandler {
             HttpMediaTypeNotSupportedException.class,
             HttpMessageNotReadableException.class,
             UsernameNotFoundException.class,
-            EmailException.class
+            EmailException.class,
+            InvalidTokenException.class,
+            TokenExpiredException.class
     })
 
     public ResponseEntity<ApiErrorDTO> handleAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
@@ -77,6 +79,14 @@ public class GlobalExceptionHandler {
 
         if (exception instanceof EmailException emailException) {
             return this.handleEmailException(emailException, request,response,timestamp);
+        }
+
+        if (exception instanceof InvalidTokenException invalidTokenException) {
+            return this.handleInvalidTokenException(invalidTokenException, request, response, timestamp);
+        }
+
+        if (exception instanceof TokenExpiredException tokenExpiredException) {
+            return this.handleTokenExpiredException(tokenExpiredException, request, response, timestamp);
         }
 
         return this.handleException(exception, request, response, timestamp);
@@ -257,6 +267,36 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(httpStatus).body(apiErrorDto);
 
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleTokenExpiredException(TokenExpiredException tokenExpiredException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+        int httpStatus = HttpStatus.GONE.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Token expirado");
+        apiErrorDto.setBackendMessage(tokenExpiredException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleInvalidTokenException(InvalidTokenException invalidTokenException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+        int httpStatus = HttpStatus.CONFLICT.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Token inválido");
+        apiErrorDto.setBackendMessage(invalidTokenException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
     }
 
 }
