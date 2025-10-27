@@ -1,10 +1,12 @@
 package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.dto.request.SaveUserDTO;
+import com.ecommerce.ecommerce.dto.response.UserDTO;
 import com.ecommerce.ecommerce.entity.Role;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exception.InvalidPasswordException;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
+import com.ecommerce.ecommerce.mapper.UserMapper;
 import com.ecommerce.ecommerce.repository.UserRepository;
 import com.ecommerce.ecommerce.service.RoleService;
 import com.ecommerce.ecommerce.service.UserService;
@@ -51,6 +53,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByIdEntity(Long id){
         return userRepository.findById(id) .orElseThrow(() -> new ObjectNotFoundException("Usuario con ID: " + id + " no encontrado"));
+    }
+
+    @Override
+    public UserDTO updatePasswordForRecovery(Long id, String newPassword){
+
+        User user = this.findByIdEntity(id);
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        return UserMapper.toDto(user);
     }
 
     private void validatePassword(SaveUserDTO saveUserDTO) {
