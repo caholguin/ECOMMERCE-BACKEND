@@ -38,7 +38,9 @@ public class GlobalExceptionHandler {
             EmailException.class,
             InvalidTokenException.class,
             TokenExpiredException.class,
-            UserDisabledException.class
+            UserDisabledException.class,
+            InvalidCodeException.class,
+            TooManyAttemptsException.class
     })
 
     public ResponseEntity<ApiErrorDTO> handleAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
@@ -92,6 +94,14 @@ public class GlobalExceptionHandler {
 
         if (exception instanceof UserDisabledException userDisabledException) {
             return this.handleUserDisabledException(userDisabledException, request, response, timestamp);
+        }
+
+        if (exception instanceof InvalidCodeException invalidCodeException) {
+            return this.handleInvalidCodeException(invalidCodeException, request, response, timestamp);
+        }
+
+        if (exception instanceof TooManyAttemptsException tooManyAttemptsException) {
+            return this.handleTooManyAttemptsException(tooManyAttemptsException, request, response, timestamp);
         }
 
         return this.handleException(exception, request, response, timestamp);
@@ -317,6 +327,37 @@ public class GlobalExceptionHandler {
         apiErrorDto.setDetails(null);
 
         return ResponseEntity.status(httpStatus).body(apiErrorDto);
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleTooManyAttemptsException(TooManyAttemptsException tooManyAttemptsException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+        int httpStatus = HttpStatus.TOO_MANY_REQUESTS.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Demasiados intentos.");
+        apiErrorDto.setBackendMessage(tooManyAttemptsException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
+    }
+
+    private ResponseEntity<ApiErrorDTO> handleInvalidCodeException(InvalidCodeException invalidCodeException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp){
+        int httpStatus = HttpStatus.BAD_REQUEST.value();
+
+        ApiErrorDTO apiErrorDto = new ApiErrorDTO();
+        apiErrorDto.setHttpCode(httpStatus);
+        apiErrorDto.setUrl(request.getRequestURL().toString());
+        apiErrorDto.setHttpMethod(request.getMethod());
+        apiErrorDto.setMessage("Código inválido o expirado.");
+        apiErrorDto.setBackendMessage(invalidCodeException.getMessage());
+        apiErrorDto.setTimestamp(timestamp);
+        apiErrorDto.setDetails(null);
+
+        return ResponseEntity.status(httpStatus).body(apiErrorDto);
+
     }
 
 }
