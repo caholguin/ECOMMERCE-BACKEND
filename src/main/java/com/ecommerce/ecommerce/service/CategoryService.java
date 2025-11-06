@@ -7,6 +7,8 @@ import com.ecommerce.ecommerce.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface CategoryService {
 
     Page<CategoryDTO> findAll(CategorySearchDTO categorySearchDTO, Pageable pageable);
@@ -19,6 +21,7 @@ public interface CategoryService {
 
     void delete(Long id);
 
-
     Category findByIdEntity(Long id);
+
+    List<CategoryDTO> findTopCategoriesBySales();
 }

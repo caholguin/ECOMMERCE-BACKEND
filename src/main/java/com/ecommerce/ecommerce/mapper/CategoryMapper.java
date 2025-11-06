@@ -4,11 +4,14 @@ import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
+import com.ecommerce.ecommerce.dto.response.VariantDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
+import com.ecommerce.ecommerce.entity.Variant;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
@@ -25,6 +28,12 @@ public class CategoryMapper {
         categoryDTO.setSubCategories(SubCategoryMapper.toSubCategoriesCategoriesDto(category.getSubCategories()));
 
         return categoryDTO;
+    }
+
+    public static  List<CategoryDTO> toDtoList(List<Category> categories){
+        if(categories == null) return null;
+
+        return categories.stream().map(CategoryMapper::toDto).collect(Collectors.toList());
     }
 
     public static Category toEntity(SaveCategoryDTO saveCategoryDTO, Family family){
