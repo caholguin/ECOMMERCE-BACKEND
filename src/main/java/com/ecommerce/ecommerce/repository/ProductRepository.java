@@ -29,6 +29,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     """, nativeQuery = true)
     List<Product> findTopProductsBySales();
 
-    @Query("SELECT p FROM Product p WHERE p.discount > 0 ORDER BY p.discount DESC LIMIT 10")
+    @Query("SELECT p FROM Product p WHERE p.discount > 0 ORDER BY p.discount DESC LIMIT 12")
     List<Product> productsWithDiscount();
 }
