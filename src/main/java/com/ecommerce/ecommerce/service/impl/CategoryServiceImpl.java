@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl  implements CategoryService {
 
@@ -71,6 +73,11 @@ public class CategoryServiceImpl  implements CategoryService {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Categoría con ID: " + id + " no encontrada"));
 
+    }
+
+    @Override
+    public List<CategoryDTO> findTopCategoriesBySales(){
+        return CategoryMapper.toDtoList(categoryRepository.findTopCategoriesBySales());
     }
 
 }

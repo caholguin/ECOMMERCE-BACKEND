@@ -28,4 +28,8 @@ public interface ProductService {
     List<List<Long>> triggerVariants(Long productId);
 
     List<ProductDTO> findBySubCategoryId(Long subCategoryId,int status);
+
+    List<ProductDTO> findTopProductsBySales();
+
+    List<ProductDTO> productsWithDiscount();
 }

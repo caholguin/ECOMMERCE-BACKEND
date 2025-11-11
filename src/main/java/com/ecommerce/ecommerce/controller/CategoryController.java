@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -53,5 +55,11 @@ public class CategoryController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         categoryService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/top-categories-by-sales")
+    public ResponseEntity<List<CategoryDTO>> findTopCategoriesBySales(){
+        List<CategoryDTO> categories = categoryService.findTopCategoriesBySales();
+        return new ResponseEntity<>(categories,HttpStatus.OK);
     }
 }
