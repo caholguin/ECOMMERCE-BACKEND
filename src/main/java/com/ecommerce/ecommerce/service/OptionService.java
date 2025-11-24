@@ -24,4 +24,6 @@ public interface OptionService {
     Option findByIdEntity(Long id);
 
     List<OptionDTO> findBySubcategory(Long subcategoryId);
+
+    List<OptionDTO> findByCategory(Long categoryId);
 }

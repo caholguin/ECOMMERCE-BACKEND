@@ -14,6 +14,5 @@ public interface OptionRepository extends JpaRepository<Option, Long>, JpaSpecif
 
     List<Option> findDistinctByOptionProductsProductSubCategoryId(Long subcategoryId);
 
-
-
+    List<Option> findDistinctByOptionProductsProductSubCategoryCategoryId(Long categoryId);
 }

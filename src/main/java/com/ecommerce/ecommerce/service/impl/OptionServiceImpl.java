@@ -71,4 +71,9 @@ public class OptionServiceImpl implements OptionService {
         List<Option> options = optionRepository.findDistinctByOptionProductsProductSubCategoryId(subcategoryId);
         return OptionMapper.toDtoList(options);
     }
+    @Override
+    public List<OptionDTO> findByCategory(Long categoryId){
+        List<Option> options = optionRepository.findDistinctByOptionProductsProductSubCategoryCategoryId(categoryId);
+        return OptionMapper.toDtoList(options);
+    }
 }

@@ -229,4 +229,9 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> productsWithDiscount(){
         return ProductMapper.toDtoList(productRepository.productsWithDiscount());
     }
+
+    @Override
+    public List<ProductDTO> findBySubCategoryCategoryIdAndStatus(Long categoryId){
+        return ProductMapper.toDtoList(productRepository.findBySubCategoryCategoryIdAndStatus(categoryId,1));
+    }
 }

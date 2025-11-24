@@ -79,5 +79,13 @@ public class ProductController {
     public ResponseEntity<List<ProductDTO>> productsWithDiscount(){
         List<ProductDTO> products = productService.productsWithDiscount();
         return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/by-category/{categoryId}")
+    public ResponseEntity<List<ProductDTO>> productsByCategory(@PathVariable Long categoryId){
+        List<ProductDTO> products = productService.findBySubCategoryCategoryIdAndStatus(categoryId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
     }
 }

@@ -31,4 +31,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     @Query("SELECT p FROM Product p WHERE p.discount > 0 ORDER BY p.discount DESC LIMIT 12")
     List<Product> productsWithDiscount();
+
+    List<Product> findBySubCategoryCategoryIdAndStatus(Long id, int status);
 }
