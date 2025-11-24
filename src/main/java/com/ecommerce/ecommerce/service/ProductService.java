@@ -33,5 +33,5 @@ public interface ProductService {
 
     List<ProductDTO> productsWithDiscount();
 
-    List<ProductDTO> findBySubCategoryCategoryIdAndStatus(Long categoryId);
+    List<ProductDTO> findBySubCategoryCategoryIdAndStatus(Long id);
 }

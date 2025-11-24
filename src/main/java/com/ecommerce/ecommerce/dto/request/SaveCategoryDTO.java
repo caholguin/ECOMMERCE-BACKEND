@@ -16,6 +16,9 @@ public class SaveCategoryDTO implements Serializable {
     @NotBlank(message = "El campo icono es obligatorio")
     private String icon;
 
+    @NotBlank(message = "El campo slug es obligatorio")
+    private String slug;
+
     @NotNull(message = "El campo familia es obligatorio")
     private Long familyId;
 
@@ -41,6 +44,14 @@ public class SaveCategoryDTO implements Serializable {
 
     public void setIcon(String icon){
         this.icon = icon;
+    }
+
+    public String getSlug(){
+        return slug;
+    }
+
+    public void setSlug(String slug){
+        this.slug = slug;
     }
 
     public Long getFamilyId(){

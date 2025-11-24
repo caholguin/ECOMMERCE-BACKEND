@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.service.impl;
 import com.ecommerce.ecommerce.dto.request.search.CategorySearchDTO;
 import com.ecommerce.ecommerce.dto.request.SaveCategoryDTO;
 import com.ecommerce.ecommerce.dto.response.CategoryDTO;
+import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.Family;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
@@ -78,6 +79,11 @@ public class CategoryServiceImpl  implements CategoryService {
     @Override
     public List<CategoryDTO> findTopCategoriesBySales(){
         return CategoryMapper.toDtoList(categoryRepository.findTopCategoriesBySales());
+    }
+
+    @Override
+    public CategoryDTO findBySlug(String slug){
+        return CategoryMapper.toDto(categoryRepository.findBySlug(slug).orElseThrow(() -> new ObjectNotFoundException("Categoría con Slug: " + slug + " no encontrada")));
     }
 
 }

@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "subcategories")
+@Table(name = "subcategories",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"slug", "category_id"})
+        }
+)
 public class SubCategory {
 
     @Id
@@ -17,6 +21,9 @@ public class SubCategory {
     @Column(length = 2048)
     private String icon;
 
+    @Column(length = 100, nullable = false)
+    private String slug;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -27,10 +34,11 @@ public class SubCategory {
     public SubCategory(){
     }
 
-    public SubCategory(Long id, String name, String icon, Category category, List<Product> products){
+    public SubCategory(Long id, String name, String icon, String slug, Category category, List<Product> products){
         this.id = id;
         this.name = name;
         this.icon = icon;
+        this.slug = slug;
         this.category = category;
         this.products = products;
     }
@@ -57,6 +65,14 @@ public class SubCategory {
 
     public void setIcon(String icon){
         this.icon = icon;
+    }
+
+    public String getSlug(){
+        return slug;
+    }
+
+    public void setSlug(String slug){
+        this.slug = slug;
     }
 
     public Category getCategory(){

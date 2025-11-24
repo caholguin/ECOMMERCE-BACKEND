@@ -82,10 +82,9 @@ public class ProductController {
 
     }
 
-    @GetMapping("/by-category/{categoryId}")
-    public ResponseEntity<List<ProductDTO>> productsByCategory(@PathVariable Long categoryId){
-        List<ProductDTO> products = productService.findBySubCategoryCategoryIdAndStatus(categoryId);
+    @GetMapping("/by-category/{id}")
+    public ResponseEntity<List<ProductDTO>> productsByCategory(@PathVariable Long id){
+        List<ProductDTO> products = productService.findBySubCategoryCategoryIdAndStatus(id);
         return new ResponseEntity<>(products, HttpStatus.OK);
-
     }
 }

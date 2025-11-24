@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "categories",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"slug", "family_id"})
+        })
 public class Category {
 
     @Id
@@ -16,6 +19,9 @@ public class Category {
 
     @Column(length = 2048)
     private String icon;
+
+    @Column(length = 100)
+    private String slug;
 
     @ManyToOne
     @JoinColumn(name = "family_id")
@@ -46,6 +52,14 @@ public class Category {
 
     public void setIcon(String icon){
         this.icon = icon;
+    }
+
+    public String getSlug(){
+        return slug;
+    }
+
+    public void setSlug(String slug){
+        this.slug = slug;
     }
 
     public Family getFamily(){

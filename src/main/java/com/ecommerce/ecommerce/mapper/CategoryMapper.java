@@ -24,6 +24,7 @@ public class CategoryMapper {
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
         categoryDTO.setIcon(category.getIcon());
+        categoryDTO.setSlug(category.getSlug());
         categoryDTO.setFamily(FamilyMapper.toGetFamilyDto(category.getFamily()));
         categoryDTO.setSubCategories(SubCategoryMapper.toSubCategoriesCategoriesDto(category.getSubCategories()));
 
@@ -43,6 +44,7 @@ public class CategoryMapper {
         Category category = new Category();
         category.setName(saveCategoryDTO.getName());
         category.setIcon(saveCategoryDTO.getIcon());
+        category.setSlug(saveCategoryDTO.getSlug());
         category.setFamily(family);
 
         return category;
@@ -53,6 +55,7 @@ public class CategoryMapper {
 
         category.setName(saveCategoryDTO.getName());
         category.setIcon(saveCategoryDTO.getIcon());
+        category.setSlug(saveCategoryDTO.getSlug());
         category.setFamily(family);
     }
 

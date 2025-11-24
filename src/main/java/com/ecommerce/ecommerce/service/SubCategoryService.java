@@ -7,6 +7,8 @@ import com.ecommerce.ecommerce.entity.SubCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface SubCategoryService {
 
     Page<SubcategoryDTO> findAll(SubcategorySearchDTO subcategorySearchDTO, Pageable pageable);
@@ -20,4 +22,6 @@ public interface SubCategoryService {
     void delete(Long id);
 
     SubCategory findByIdEntity(Long id);
+
+    SubcategoryDTO findBySlug(String slug);
 }

@@ -44,7 +44,6 @@ public class CategoryController {
         return new ResponseEntity<>(family, HttpStatus.OK);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody @Valid SaveCategoryDTO saveCategoryDTO){
         CategoryDTO category = categoryService.update(id, saveCategoryDTO);
@@ -61,5 +60,11 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> findTopCategoriesBySales(){
         List<CategoryDTO> categories = categoryService.findTopCategoriesBySales();
         return new ResponseEntity<>(categories,HttpStatus.OK);
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<CategoryDTO> findBySlug(@PathVariable String slug) {
+        CategoryDTO category = categoryService.findBySlug(slug);
+        return new ResponseEntity<>(category,HttpStatus.OK);
     }
 }
