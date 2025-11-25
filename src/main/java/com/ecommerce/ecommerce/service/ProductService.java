@@ -32,4 +32,6 @@ public interface ProductService {
     List<ProductDTO> findTopProductsBySales();
 
     List<ProductDTO> productsWithDiscount();
+
+    List<ProductDTO> findBySubCategoryCategoryIdAndStatus(Long id);
 }

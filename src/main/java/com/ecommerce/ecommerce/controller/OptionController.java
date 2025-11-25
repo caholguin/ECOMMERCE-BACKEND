@@ -62,4 +62,10 @@ public class OptionController {
         return new ResponseEntity<>(options, HttpStatus.OK);
     }
 
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<OptionDTO>> findByCategory(@PathVariable Long categoryId){
+        List<OptionDTO> options = optionService.findByCategory(categoryId);
+        return new ResponseEntity<>(options, HttpStatus.OK);
+    }
+
 }

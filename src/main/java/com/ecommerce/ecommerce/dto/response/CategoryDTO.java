@@ -11,6 +11,8 @@ public class CategoryDTO implements Serializable {
 
     private String icon;
 
+    private String slug;
+
     private FamilyDTO family;
 
     private List<SubcategoryDTO> subCategories;
@@ -37,6 +39,14 @@ public class CategoryDTO implements Serializable {
 
     public void setIcon(String icon){
         this.icon = icon;
+    }
+
+    public String getSlug(){
+        return slug;
+    }
+
+    public void setSlug(String slug){
+        this.slug = slug;
     }
 
     public FamilyDTO getFamily(){

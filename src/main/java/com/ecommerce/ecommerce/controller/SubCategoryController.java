@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.request.SaveSubcategoryDTO;
+import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SubcategorySearchDTO;
 import com.ecommerce.ecommerce.service.SubCategoryService;
@@ -52,5 +53,11 @@ public class SubCategoryController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         subCategoryService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<SubcategoryDTO> findBySlug(@PathVariable String slug) {
+        SubcategoryDTO category = subCategoryService.findBySlug(slug);
+        return new ResponseEntity<>(category,HttpStatus.OK);
     }
 }

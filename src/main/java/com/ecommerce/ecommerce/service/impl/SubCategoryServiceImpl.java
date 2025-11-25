@@ -76,4 +76,9 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     public SubCategory findByIdEntity(Long id){
         return subCategoryRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("SubCategoria con ID: " + id + " no encontrada"));
     }
+
+    @Override
+    public SubcategoryDTO findBySlug(String slug){
+        return subCategoryMapper.toDto(subCategoryRepository.findBySlug(slug).orElseThrow(() -> new ObjectNotFoundException("SubCategoria con ID: " + slug + " no encontrada")));
+    }
 }

@@ -16,6 +16,9 @@ public class SaveSubcategoryDTO implements Serializable {
     @NotNull(message = "El campo icono es obligatorio")
     private String icon;
 
+    @NotBlank(message = "El campo slug es obligatorio")
+    private String slug;
+
     public String getName(){
         return name;
     }
@@ -38,5 +41,13 @@ public class SaveSubcategoryDTO implements Serializable {
 
     public void setIcon(String icon){
         this.icon = icon;
+    }
+
+    public String getSlug(){
+        return slug;
+    }
+
+    public void setSlug(String slug){
+        this.slug = slug;
     }
 }
