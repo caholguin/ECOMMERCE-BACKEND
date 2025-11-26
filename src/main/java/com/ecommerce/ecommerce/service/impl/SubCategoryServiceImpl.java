@@ -6,13 +6,11 @@ import com.ecommerce.ecommerce.dto.request.SubcategorySearchDTO;
 import com.ecommerce.ecommerce.entity.Category;
 import com.ecommerce.ecommerce.entity.SubCategory;
 import com.ecommerce.ecommerce.exception.ObjectNotFoundException;
-import com.ecommerce.ecommerce.mapper.CategoryMapper;
 import com.ecommerce.ecommerce.mapper.SubCategoryMapper;
 import com.ecommerce.ecommerce.repository.SubCategoryRepository;
 import com.ecommerce.ecommerce.repository.epecification.SuCategorySearch;
 import com.ecommerce.ecommerce.service.CategoryService;
 import com.ecommerce.ecommerce.service.SubCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,15 +20,15 @@ import java.util.Optional;
 @Service
 public class SubCategoryServiceImpl implements SubCategoryService {
 
-    @Autowired
-    private SubCategoryRepository subCategoryRepository;
+    private final SubCategoryRepository subCategoryRepository;
+    private final SubCategoryMapper subCategoryMapper;
+    private final CategoryService categoryService;
 
-    @Autowired
-    private SubCategoryMapper subCategoryMapper;
-
-    @Autowired
-    private CategoryService categoryService;
-
+    public SubCategoryServiceImpl(SubCategoryRepository subCategoryRepository, SubCategoryMapper subCategoryMapper, CategoryService categoryService){
+        this.subCategoryRepository = subCategoryRepository;
+        this.subCategoryMapper = subCategoryMapper;
+        this.categoryService = categoryService;
+    }
 
     @Override
     public Page<SubcategoryDTO> findAll(SubcategorySearchDTO subcategorySearchDTO, Pageable pageable){

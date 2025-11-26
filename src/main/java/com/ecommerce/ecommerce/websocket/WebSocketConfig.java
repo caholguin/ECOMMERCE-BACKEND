@@ -9,8 +9,11 @@ import org.springframework.web.socket.config.annotation.*;
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    @Autowired
-    private PaymentWebSocketHandler paymentWebSocketHandler;
+    private final PaymentWebSocketHandler paymentWebSocketHandler;
+
+    public WebSocketConfig(PaymentWebSocketHandler paymentWebSocketHandler){
+        this.paymentWebSocketHandler = paymentWebSocketHandler;
+    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

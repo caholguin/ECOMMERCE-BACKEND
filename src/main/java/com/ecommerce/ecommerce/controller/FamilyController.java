@@ -6,7 +6,6 @@ import com.ecommerce.ecommerce.dto.response.FamilyDTO;
 
 import com.ecommerce.ecommerce.service.FamilyService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/families")
 public class FamilyController {
 
-    @Autowired
-    private FamilyService familyService;
+    private final FamilyService familyService;
+
+    public FamilyController(FamilyService familyService){
+        this.familyService = familyService;
+    }
 
     @GetMapping
     public ResponseEntity<Page<FamilyDTO>> findAll(Pageable pageable, @RequestParam(required = false) String name){

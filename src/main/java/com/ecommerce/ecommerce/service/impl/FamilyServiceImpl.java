@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class FamilyServiceImpl implements FamilyService {
 
-    @Autowired
-    private FamilyRepository familyRepository;
+    private final FamilyRepository familyRepository;
+
+    public FamilyServiceImpl(FamilyRepository familyRepository){
+        this.familyRepository = familyRepository;
+    }
 
     @Override
     public Page<FamilyDTO> findAll(FamilySearchDTO search,Pageable pageable){

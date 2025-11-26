@@ -1,12 +1,10 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.request.SaveSubcategoryDTO;
-import com.ecommerce.ecommerce.dto.response.CategoryDTO;
 import com.ecommerce.ecommerce.dto.response.SubcategoryDTO;
 import com.ecommerce.ecommerce.dto.request.SubcategorySearchDTO;
 import com.ecommerce.ecommerce.service.SubCategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/subcategories")
 public class SubCategoryController {
 
-    @Autowired
-    private SubCategoryService subCategoryService;
+    private final SubCategoryService subCategoryService;
+
+    public SubCategoryController(SubCategoryService subCategoryService){
+        this.subCategoryService = subCategoryService;
+    }
 
     @GetMapping()
     public ResponseEntity<Page<SubcategoryDTO>> findAll(Pageable pageable, @RequestParam(required = false) String name){
