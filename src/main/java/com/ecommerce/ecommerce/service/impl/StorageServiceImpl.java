@@ -26,16 +26,32 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @PostConstruct
-    public void createBuckets(){
-        //TODO aca se crean los buckets
+    public void createBuckets() {
         List<String> buckets = List.of("products", "subcategories");
 
         for (String bucket : buckets) {
-            if (!s3.doesBucketExistV2(bucket)) {
-                s3.createBucket(bucket);
-            }
+            waitForBucket(bucket);
         }
     }
+
+    private void waitForBucket(String bucket) {
+        int retries = 10;
+
+        while (retries-- > 0) {
+            try {
+                if (!s3.doesBucketExistV2(bucket)) {
+                    s3.createBucket(bucket);
+                }
+                return;
+            } catch (Exception e) {
+                System.out.println("Esperando a LocalStack... (" + retries + ")");
+                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
+            }
+        }
+
+        throw new RuntimeException("No se pudo crear/verificar bucket: " + bucket);
+    }
+
 
     public String uploadFile(MultipartFile file, String bucket, Long id) throws IOException {
 
