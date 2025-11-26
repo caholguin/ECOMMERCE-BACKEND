@@ -15,7 +15,7 @@ public class ImageVariantMapper {
         ImageVariantDTO imageVariantDTO = new ImageVariantDTO();
         imageVariantDTO.setId(imageVariant.getId());
         imageVariantDTO.setUrl(imageVariant.getUrl());
-        imageVariantDTO.setOrderItems(imageVariant.getOrderItems());
+        imageVariantDTO.getDefault(imageVariant.isDefault());
         imageVariantDTO.setVariant(VariantMapper.toImageVariantDto(imageVariant.getVariant()));
 
         return imageVariantDTO;
@@ -27,7 +27,7 @@ public class ImageVariantMapper {
         return new VariantDTO.ImageVariantDTO(
                 imageVariant.getId(),
                 imageVariant.getUrl(),
-                imageVariant.getOrderItems()
+                imageVariant.isDefault()
         );
     }
 
@@ -45,7 +45,7 @@ public class ImageVariantMapper {
         return new ProductDTO.ImageVariantDTO(
                 imageVariant.getId(),
                 imageVariant.getUrl(),
-                imageVariant.getOrderItems()
+                imageVariant.isDefault()
         );
     }
 

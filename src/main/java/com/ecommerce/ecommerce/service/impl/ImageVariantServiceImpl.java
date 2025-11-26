@@ -41,4 +41,15 @@ public class ImageVariantServiceImpl implements ImageVariantService {
 
         this.imageVariantRepository.save(imageVariant);
     }
+
+    @Override
+    public void setDefaultVariant(Long id){
+
+        ImageVariant imageVariant = imageVariantRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Imagen no encontrada"));
+
+        this.imageVariantRepository.clearDefaultForVariantId(imageVariant.getVariant().getId());
+
+        imageVariant.setDefault(true);
+        this.imageVariantRepository.save(imageVariant);
+    }
 }

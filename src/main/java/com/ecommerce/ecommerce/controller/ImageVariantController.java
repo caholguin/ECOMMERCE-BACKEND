@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/imagevariant")
+@RequestMapping("/image-variant")
 public class ImageVariantController {
 
     private final ImageVariantService imageVariantService;
@@ -21,4 +21,9 @@ public class ImageVariantController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PatchMapping("/default/{id}")
+    public ResponseEntity<Void> setDefault(@PathVariable Long id) {
+        imageVariantService.setDefaultVariant(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
