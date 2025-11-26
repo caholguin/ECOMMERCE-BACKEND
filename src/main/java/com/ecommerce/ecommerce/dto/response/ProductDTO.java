@@ -238,12 +238,12 @@ public class ProductDTO implements Serializable {
     public static class ImageVariantDTO implements Serializable {
         private Long id;
         private String url;
-        private Integer orderItems;
+        private Boolean isDefault;
 
-        public ImageVariantDTO(Long id, String url, Integer orderItems){
+        public ImageVariantDTO(Long id, String url, Boolean isDefault){
             this.id = id;
             this.url = url;
-            this.orderItems = orderItems;
+            this.isDefault = isDefault;
         }        
 
 
@@ -263,12 +263,12 @@ public class ProductDTO implements Serializable {
             this.url = url;
         }
 
-        public Integer getOrderItems(){
-            return orderItems;
+        public Boolean getDefault(){
+            return isDefault;
         }
 
-        public void setOrderItems(Integer orderItems){
-            this.orderItems = orderItems;
+        public void setDefault(Boolean aDefault){
+            isDefault = aDefault;
         }
     }
 

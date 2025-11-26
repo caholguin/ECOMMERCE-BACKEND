@@ -8,7 +8,7 @@ public class ImageVariantDTO implements Serializable {
 
     private String url;
 
-    private Integer orderItems;
+    private Boolean isDefault;
 
     private VariantDTO variant;
 
@@ -28,12 +28,11 @@ public class ImageVariantDTO implements Serializable {
         this.url = url;
     }
 
-    public Integer getOrderItems(){
-        return orderItems;
+    public void getDefault(boolean aDefault){
     }
 
-    public void setOrderItems(Integer orderItems){
-        this.orderItems = orderItems;
+    public void setDefault(Boolean aDefault){
+        isDefault = aDefault;
     }
 
     public VariantDTO getVariant(){

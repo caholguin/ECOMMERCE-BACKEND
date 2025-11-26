@@ -13,27 +13,28 @@ public class ImageVariant {
     @Column(length = 255)
     private String url;
 
-    @Column(nullable = true)
-    private Integer orderItems;
+    //@Column(name = "is_default")
+    private Boolean isDefault = false;
 
     @ManyToOne
     @JoinColumn(name = "variant_id", nullable = false)
     private Variant variant;
 
-    public ImageVariant(){
-    }
-
-    public ImageVariant(Long id, String url, Integer orderItems, Variant variant){
+    public ImageVariant(Long id, String url, Boolean isDefault, Variant variant){
         this.id = id;
         this.url = url;
-        this.orderItems = orderItems;
+        this.isDefault = isDefault;
         this.variant = variant;
     }
 
-    public ImageVariant(Long id, String url, Integer orderItems){
+    public ImageVariant(Long id, String url, Boolean isDefault){
         this.id = id;
         this.url = url;
-        this.orderItems = orderItems;
+        this.isDefault = isDefault;
+    }
+
+    public ImageVariant(){
+
     }
 
     public Long getId(){
@@ -52,12 +53,12 @@ public class ImageVariant {
         this.url = url;
     }
 
-    public Integer getOrderItems(){
-        return orderItems;
+    public boolean isDefault(){
+        return isDefault;
     }
 
-    public void setOrderItems(Integer orderItems){
-        this.orderItems = orderItems;
+    public void setDefault(boolean aDefault){
+        isDefault = aDefault;
     }
 
     public Variant getVariant(){

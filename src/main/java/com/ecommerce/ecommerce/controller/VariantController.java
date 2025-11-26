@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/variants")
 public class VariantController {
 
-    @Autowired
-    private VariantService variantService;
+    private final VariantService variantService;
+
+    public VariantController(VariantService variantService){
+        this.variantService = variantService;
+    }
 
     @GetMapping
     public ResponseEntity<List<VariantDTO>>  getAllVariants() {
