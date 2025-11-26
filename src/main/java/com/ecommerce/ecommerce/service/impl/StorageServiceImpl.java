@@ -1,155 +1,75 @@
 package com.ecommerce.ecommerce.service.impl;
 
-import com.ecommerce.ecommerce.service.ProductService;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.ecommerce.ecommerce.service.ImageVariantService;
 import com.ecommerce.ecommerce.service.StorageService;
-import com.ecommerce.ecommerce.service.VariantService;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    @Autowired
-    private HttpServletRequest request;
+    private final AmazonS3 s3;
+    private final ImageVariantService imageVariantService;
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private VariantService variantService;
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
-
-    @Value("${media.location}")
-    private String mediaLocation;
-
-    @Value("${media.locationProduct}")
-    private String mediaLocationProduct;
-
-
-
-    public String getBaseUrl() {
-        String requestUrl = request.getRequestURL().toString();
-        String requestUri = request.getRequestURI();
-        return requestUrl.replace(requestUri, "");
+    public StorageServiceImpl(AmazonS3 s3, ImageVariantService imageVariantService){
+        this.s3 = s3;
+        this.imageVariantService = imageVariantService;
     }
 
-    private Path generalPath;
-    private Path productPath;
-
-    @Override
     @PostConstruct
-    public void init() throws IOException{
-        generalPath = Paths.get(mediaLocation);
-        productPath = Paths.get(mediaLocationProduct);
+    public void createBuckets(){
+        //TODO aca se crean los buckets
+        List<String> buckets = List.of("products", "subcategories");
 
-        Files.createDirectories(generalPath);
-        Files.createDirectories(productPath);
-    }
-
-    @Override
-    public List<String> store(List<MultipartFile> files, String type, Long id) {
-        List<String> urls = new ArrayList<>();
-        System.out.println("urls = " + urls);
-        for (MultipartFile file : files) {
-            String url = store(file, type, id);
-            urls.add(url);
+        for (String bucket : buckets) {
+            if (!s3.doesBucketExistV2(bucket)) {
+                s3.createBucket(bucket);
+            }
         }
-        return urls;
     }
 
+    public String uploadFile(MultipartFile file, String bucket, Long id) throws IOException {
 
-    @Override
-   public String store(MultipartFile file, String type, Long id){
-       try {
-           if (file.isEmpty()) {
-               throw new RuntimeException("El archivo está vacío");
-           }
+        String key = UUID.randomUUID() + "-" + file.getOriginalFilename();
 
-           String fileName = file.getOriginalFilename().replace(" ", "-").toLowerCase();
-           Path destinationFile;
-           String basePath;
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(file.getSize());
+        metadata.setContentType(file.getContentType());
 
-           if ("products".equalsIgnoreCase(type)) {
-               basePath = "products";
-               destinationFile = productPath.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
-           } else {
-               basePath = "general";
-               destinationFile = generalPath.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
-           }
+        s3.putObject(new PutObjectRequest(bucket, key, file.getInputStream(), metadata));
 
-           try (InputStream inputStream = file.getInputStream()) {
-               Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
-           }
+        String url = s3.getUrl(bucket, key).toString();
 
-           return getUrlAndSave(basePath, fileName,id, type);
-
-       } catch (IOException e) {
-           throw new RuntimeException("Error al cargar el archivo", e);
-       }
-   }
-
-    public List<String> storeMultiple(List<MultipartFile> files, String type, Long id){
-        List<String> urls = new ArrayList<>();
-
-        for (MultipartFile file : files) {
-            String url = store(file, type, id);
-            urls.add(url);
-        }
-
-        return urls;
-    }
-
-
-    private String getUrlAndSave(String basePath, String fileName,Long id,String type){
-        String resultPath = basePath + "/" + fileName;
-
-        String host = this.getBaseUrl();
-        String url = host + contextPath + "/media/" + resultPath;
-
-        variantService.addMedia(id,url);
+        handlePersistence(bucket, id, url);
 
         return url;
     }
 
-    @Override
-    public Resource loadAsResource(String type,String filename){
-        try {
+    public List<String> uploadFiles(List<MultipartFile> files, String bucket, Long id) throws IOException {
+        List<String> urls = new ArrayList<>();
 
-            Path file;
+        for (MultipartFile file : files) {
+            urls.add(uploadFile(file, bucket, id));
+        }
 
-            if (type.equalsIgnoreCase("products")) {
-                file = productPath.resolve(filename);
-            }else{
-                file = generalPath.resolve(filename);
-            }
+        return urls;
+    }
 
-            Resource resource = new UrlResource((file.toUri()));
-
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Error al leer el archivo: " + filename);
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error al leer el archivo " + filename, e);
+    private void handlePersistence(String bucket, Long id, String url){
+        switch (bucket) {
+            case "products" -> imageVariantService.save(id, url);
+            //TODO queda pendiente crear los casos para los demás buckets de las otras imágenes
+            //case "subcategories" -> subcategoryService.addImageToSubcategory(id, url);
+            default -> throw new IllegalArgumentException("Tipo no soportado: " + bucket);
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class FileUploadDTO {
 
     private List<MultipartFile> files;
-    private String type;
+    private String bucket;
     private Long id;
 
     public List<MultipartFile> getFiles(){
@@ -18,12 +18,12 @@ public class FileUploadDTO {
         this.files = files;
     }
 
-    public String getType(){
-        return type;
+    public String getBucket(){
+        return bucket;
     }
 
-    public void setType(String type){
-        this.type = type;
+    public void setBucket(String bucket){
+        this.bucket = bucket;
     }
 
     public Long getId(){

@@ -8,11 +8,7 @@ import java.util.List;
 
 public interface StorageService {
 
-    void init() throws IOException;
+    String uploadFile(MultipartFile file, String bucket, Long id) throws IOException;
 
-    String store(MultipartFile file,String type, Long id);
-
-    List<String> store(List<MultipartFile> files, String type, Long id);
-
-    Resource loadAsResource(String type,String filename);
+    List<String> uploadFiles(List<MultipartFile> files, String bucket, Long id) throws IOException;
 }
